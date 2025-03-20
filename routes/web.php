@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/business/{id}/qr', [BusinessController::class, 'showQRPage'])->name('business.qr');
+    Route::get('/business/{id}/rating', [BusinessController::class, 'showRating'])->name('business.rating');
+    
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

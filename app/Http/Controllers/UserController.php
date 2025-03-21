@@ -4,16 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 // use Spatie\Permission\Contracts\Role;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:view users', only:['index']),
+            new Middleware('permission:edit users', only:['edit']),
+            new Middleware('permission:delete users', only:['delete']),
+            new Middleware('permission:create users', only:['create']),
+        ];
+    }
     public function index()
     {
-
-        $userData = User::all();
+        // Check if the logged-in user is a Super Admin
+        if (Auth::user()->hasRole('Super Admin')) {
+            $userData = User::all(); // Show all users
+        } else {
+            $userData = User::where('id', Auth::id())->get(); // Show only the logged-in user
+        }
+    
         return view('user.index', compact('userData'));
     }
 

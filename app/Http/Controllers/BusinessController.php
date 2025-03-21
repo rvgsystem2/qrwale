@@ -6,10 +6,22 @@ use App\Http\Requests\BusinessRequest;
 use App\Models\Business;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
 
-class BusinessController extends Controller
+class BusinessController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:view business', only:['index']),
+            new Middleware('permission:edit business', only:['edit']),
+            new Middleware('permission:delete business', only:['delete']),
+            new Middleware('permission:create business', only:['create']),
+        ];
+    }
 
     public function showQRPage($id)
     {

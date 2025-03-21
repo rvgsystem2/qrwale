@@ -4,10 +4,13 @@
             <h2 class="font-bold text-2xl text-gray-800">
                 {{ __('Permission Management') }}
             </h2>
+            @can('create permission')
             <a href="{{ route('permission.create') }}" 
                class="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
                 + Create Permission
-            </a>
+            </a>      
+            @endcan
+          
         </div>
     </x-slot>
 
@@ -54,16 +57,19 @@
                                     <td class="border border-gray-300 px-6 py-4 text-gray-900 font-medium">{{ $permission->id }}</td>
                                     <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $permission->name }}</td>
                                     <td class="border border-gray-300 px-6 py-4 text-center">
+                                        @can('edit permission')
                                         <a href="{{ route('permission.edit', $permission->id) }}" 
-                                           class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
-                                            Edit
-                                        </a>
-
+                                            class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
+                                             Edit
+                                         </a>     
+                                        @endcan
+                                       
+                                        @can('delete permission')
                                         <a href="{{ route('permission.delete', $permission->id) }}" 
                                             class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
                                              delete
                                          </a>
-                                        
+                                        @endcan
                                     </td>
                                 </tr>
                             @empty

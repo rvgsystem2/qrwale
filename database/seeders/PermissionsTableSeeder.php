@@ -30,6 +30,7 @@ class PermissionsTableSeeder extends Seeder
             'edit business',
             'delete business',
             'create business',
+            'rating business',
         ];
 
         foreach ($permissions as $permission) {

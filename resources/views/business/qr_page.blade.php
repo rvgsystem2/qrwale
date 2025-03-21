@@ -27,12 +27,31 @@
 
             <!-- Social Media Links -->
             <div class="flex justify-center space-x-4 mt-4">
-                <a href="{{ $business->fb_url }}" target="_blank" class="text-blue-600 text-2xl"><i class="fab fa-facebook"></i></a>
-                <a href="{{ $business->insta_url }}" target="_blank" class="text-pink-500 text-2xl"><i class="fab fa-instagram"></i></a>
-                <a href="{{ $business->twiter_url }}" target="_blank" class="text-blue-400 text-2xl"><i class="fab fa-twitter"></i></a>
-                <a href="{{ $business->linkden_url }}" target="_blank" class="text-blue-700 text-2xl"><i class="fab fa-linkedin"></i></a>
-                <a href="https://wa.me/{{ $business->watsapp_url }}" target="_blank" class="text-green-500 text-2xl"><i class="fab fa-whatsapp"></i></a>
+                @if(!empty($business->fb_url))
+                    <a href="{{ $business->fb_url }}" target="_blank" class="text-blue-600 text-2xl"><i class="fab fa-facebook"></i></a>
+                @endif
+            
+                @if(!empty($business->insta_url))
+                    <a href="{{ $business->insta_url }}" target="_blank" class="text-pink-500 text-2xl"><i class="fab fa-instagram"></i></a>
+                @endif
+            
+                @if(!empty($business->twiter_url))
+                    <a href="{{ $business->twiter_url }}" target="_blank" class="text-blue-400 text-2xl"><i class="fab fa-twitter"></i></a>
+                @endif
+            
+                @if(!empty($business->website_url))
+                    <a href="{{ $business->website_url }}" target="_blank" class="text-blue-400 text-2xl"><i class="fas fa-globe"></i></a>
+                @endif
+            
+                @if(!empty($business->linkden_url))
+                    <a href="{{ $business->linkden_url }}" target="_blank" class="text-blue-700 text-2xl"><i class="fab fa-linkedin"></i></a>
+                @endif
+            
+                @if(!empty($business->watsapp_url))
+                    <a href="https://wa.me/{{ $business->watsapp_url }}" target="_blank" class="text-green-500 text-2xl"><i class="fab fa-whatsapp"></i></a>
+                @endif
             </div>
+            
 
             <!-- Review Section -->
             <h3 class="text-lg font-medium mt-6">Leave a Review</h3>

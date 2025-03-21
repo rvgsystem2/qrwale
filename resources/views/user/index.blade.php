@@ -4,20 +4,23 @@
             <h2 class="font-bold text-2xl text-gray-800">
                 {{ __('User Management') }}
             </h2>
-            <a href="{{ route('user.create') }}" 
-               class="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
-                + Create 
-            </a>
+            @can('create users')
+                <a href="{{ route('user.create') }}"
+                    class="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+                    + Create
+                </a>
+            @endcan
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
+
             <!-- Success Message -->
             @if (session('success'))
                 <div class="flex items-center bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-4 shadow-md">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                     <span>{{ session('success') }}</span>
@@ -40,13 +43,15 @@
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($userData as $user)
                                 <tr class="hover:bg-gray-50 transition">
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900 font-medium">{{ $user->id }}</td>
+                                    <td class="border border-gray-300 px-6 py-4 text-gray-900 font-medium">
+                                        {{ $user->id }}</td>
                                     <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $user->name }}</td>
                                     <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $user->email }}</td>
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $user->roles->pluck('name')->implode(', ') }}</td>
-                                    
+                                    <td class="border border-gray-300 px-6 py-4 text-gray-900">
+                                        {{ $user->roles->pluck('name')->implode(', ') }}</td>
+
                                     {{-- <td class="border border-gray-300 px-6 py-4 text-gray-900">
-                                        @if($user->permissions->isNotEmpty())
+                                        @if ($user->permissions->isNotEmpty())
                                             <span class="text-sm text-gray-700">
                                                 {{ implode(', ', $user->permissions->pluck('name')->toArray()) }}
                                             </span>
@@ -55,26 +60,31 @@
                                         @endif
                                     </td> --}}
                                     <td class="border border-gray-300 px-6 py-4 text-center space-x-2">
-                                        <a href="{{ route('user.edit', $user->id) }}" 
-                                           class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
+                                        @can('edit users')
+                                        <a href="{{ route('user.edit', $user->id) }}"
+                                            class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
                                             Edit
                                         </a>
-                                        <a href="{{ route('user.delete', $user->id) }}" 
-                                           class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
+                                        @endcan
+                                        @can('delete users')
+                                        <a href="{{ route('user.delete', $user->id) }}"
+                                            class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
                                             Delete
                                         </a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center py-6 text-gray-500 text-lg">No users found.</td>
+                                    <td colspan="4" class="text-center py-6 text-gray-500 text-lg">No users found.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </x-app-layout>

@@ -4,10 +4,13 @@
             <h2 class="font-bold text-2xl text-gray-800">
                 {{ __('Business Management') }}
             </h2>
-            <a href="{{ route('business.create') }}"
-                class="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
-                + Create
-            </a>
+            @can('create business')
+                <a href="{{ route('business.create') }}"
+                    class="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+                    + Create
+                </a>
+            @endcan
+
         </div>
     </x-slot>
 
@@ -107,11 +110,14 @@
                                 <td>
                                     {!! QrCode::size(200)->generate(route('business.qr', $business->id)) !!}
                                 </td>
-                                
+
 
                                 <td class="py-3 px-4">
-                                   <a href="{{ route('business.edit', $business->id) }}"
-                                        class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
+                                    @can('edit business')
+                                        <a href="{{ route('business.edit', $business->id) }}"
+                                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
+                                    @endcan
+                                    @can('delete business')
                                     <form action="{{ route('business.delete', $business->id) }}" method="POST"
                                         class="inline">
                                         @csrf
@@ -120,9 +126,11 @@
                                             class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                                             onclick="return confirm('Are you sure?')">Delete</button>
                                     </form>
-
+                                    @endcan
+                                    @can('rating business')
                                     <a href="{{ route('business.rating', $business->id) }}"
                                         class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">rating</a>
+                                        @endcan
                                 </td>
                             </tr>
                         @endforeach

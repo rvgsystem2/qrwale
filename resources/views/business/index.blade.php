@@ -62,7 +62,7 @@
                     </thead>
                     <tbody>
                         @foreach ($businesses as $business)
-                            <tr class="border-b hover:bg-gray-100">
+                            <tr class="border-b hover:bg-gray-100 mb-4">
                                 <td class="py-3 px-4">{{$business->user->name ?? 'N/A'  }}</td>
                                 <td class="py-3 px-4">{{ $business->bussiness_name }}</td>
                                 <td class="py-3 px-4">{{ $business->mobile_number ?? 'N/A' }}</td>
@@ -110,7 +110,7 @@
                                 </td>
                                 <td class="py-3 px-4">{{ $business->rating ?? 'N/A' }}</td>
                                 {{-- <td class="py-3 px-4">{{ $business->address ?? 'N/A' }}</td> --}}
-                                <td>
+                                <td class="py-4 px-4">
                                     {!! QrCode::size(200)->generate(route('business.qr', $business->id)) !!}
                                 </td>
 

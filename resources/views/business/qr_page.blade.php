@@ -15,9 +15,12 @@
             
             <!-- Business Logo -->
             <div class="flex justify-center">
-                <img src="{{ asset('storage/' . $business->logo_img) }}" alt="Business Logo"
-                    class="h-24 w-24 rounded-full shadow-md">
+                <div class="relative">
+                    <img src="{{ asset('storage/' . $business->logo_img) }}" alt="Business Logo"
+                        class="h-32 w-32 rounded-full border-4 border-blue-500 p-2 bg-white shadow-lg transition duration-300 transform hover:scale-105">          
+                </div>
             </div>
+            
 
             <!-- Business Details -->
             <h2 class="text-3xl font-semibold text-gray-700 text-center mt-4">
@@ -26,35 +29,35 @@
             <p class="text-gray-600 text-center mt-2">{{ $business->address }}</p>
 
             <!-- Social Media Links -->
-            <div class="flex justify-center space-x-4 mt-4">
+            <div class="flex justify-center space-x-4 mt-4 ">
                 @if(!empty($business->fb_url))
-                    <a href="{{ $business->fb_url }}" target="_blank" class="text-blue-600 text-2xl"><i class="fab fa-facebook"></i></a>
+                    <a href="{{ $business->fb_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl"><i class="fab fa-facebook"></i></a>
                 @endif
             
                 @if(!empty($business->insta_url))
-                    <a href="{{ $business->insta_url }}" target="_blank" class="text-pink-500 text-2xl"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $business->insta_url }}" target="_blank" class="text-pink-500 hover:text-pink-700 text-2xl"><i class="fab fa-instagram"></i></a>
                 @endif
             
                 @if(!empty($business->twiter_url))
-                    <a href="{{ $business->twiter_url }}" target="_blank" class="text-blue-400 text-2xl"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $business->twiter_url }}" target="_blank" class="text-blue-400 hover:text-blue-600 text-2xl"><i class="fab fa-twitter"></i></a>
                 @endif
             
                 @if(!empty($business->website_url))
-                    <a href="{{ $business->website_url }}" target="_blank" class="text-blue-400 text-2xl"><i class="fas fa-globe"></i></a>
+                    <a href="{{ $business->website_url }}" target="_blank" class="text-blue-400 hover:text-blue-700 text-2xl"><i class="fas fa-globe"></i></a>
                 @endif
             
                 @if(!empty($business->linkden_url))
-                    <a href="{{ $business->linkden_url }}" target="_blank" class="text-blue-700 text-2xl"><i class="fab fa-linkedin"></i></a>
+                    <a href="{{ $business->linkden_url }}" target="_blank" class="text-blue-500 hover:text-blue-700 text-2xl"><i class="fab fa-linkedin"></i></a>
                 @endif
             
                 @if(!empty($business->watsapp_url))
-                    <a href="https://wa.me/{{ $business->watsapp_url }}" target="_blank" class="text-green-500 text-2xl"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://wa.me/{{ $business->watsapp_url }}" target="_blank" class="text-green-500 hover:text-green-700 text-2xl"><i class="fab fa-whatsapp"></i></a>
                 @endif
             </div>
             
 
             <!-- Review Section -->
-            <h3 class="text-lg font-medium mt-6">Leave a Review</h3>
+            <h3 class=" text-xl font-semibold text-gray-700 mt-6">Leave a Review</h3>
             <input type="hidden" id="current_rating" value="{{ $business->rating }}">
             <input type="hidden" id="review_url" value="{{ $business->review_url }}">
 
@@ -75,7 +78,7 @@
 
                 <div>
                     <label class="block text-gray-700 font-medium">Your Name</label>
-                    <input type="text" name="name" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your name">
+                    <input type="text" name="name" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 " placeholder="Enter your name">
                 </div>
 
                 <div>
@@ -89,9 +92,12 @@
                     <textarea name="review" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Write your review"></textarea>
                 </div>
 
-                <button type="submit" class="w-full px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                <button type="submit" class="w-full px-6 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition">
                     Submit Review
                 </button>
+                <div class="flex justify-center py-2">
+                    <span>Powered by: <strong>Real Victory Groups</strong></span>
+                </div>
             </form>
         </div>
     </div>

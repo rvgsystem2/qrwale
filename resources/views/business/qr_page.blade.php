@@ -53,7 +53,7 @@
                 @endif
 
                 @if(!empty($business->watsapp_url))
-                    <a href="{{ $business->watsapp_url  }}" target="_blank" class="text-green-500 hover:text-green-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://wa.me/+91{{ $business->watsapp_url  }}" target="_blank" class="text-green-500 hover:text-green-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
                 @endif
             </div>
 

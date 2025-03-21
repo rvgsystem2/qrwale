@@ -71,9 +71,9 @@
                   </div>
               
                   <div>
-                      <label class="block text-gray-700 font-medium mb-2">WhatsApp URL</label>
-                      <input type="url" name="watsapp_url" value="{{ old('watsapp_url', $business->watsapp_url ?? '') }}"
-                          class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                      <label class="block text-gray-700 font-medium mb-2">WhatsApp Number</label>
+                      <input type="number" name="watsapp_url" value="{{ old('watsapp_url', $business->watsapp_url ?? '') }}"
+                          class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200"  placeholder="enter your whatsApp number">
                   </div>
               
                   <div>

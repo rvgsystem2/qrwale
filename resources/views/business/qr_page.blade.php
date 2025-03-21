@@ -11,15 +11,18 @@
 </head>
 <body class="bg-gray-100">
     <div class="max-w-2xl mx-auto px-4 py-8">
-        <div class="bg-white p-6 shadow-lg rounded-lg">
+        <div class="p-1 bg-gradient-to-r from-red-500 to-black rounded-lg">
+        <div class="bg-white  p-6 shadow-lg shadow-slate-700 rounded-lg">
             
             <!-- Business Logo -->
             <div class="flex justify-center">
-                <div class="relative">
-                    <img src="{{ asset('storage/' . $business->logo_img) }}" alt="Business Logo"
-                        class="h-32 w-32 rounded-full border-4 border-blue-500 p-2 bg-white shadow-lg transition duration-300 transform hover:scale-105">          
+                <div class="relative w-36 h-36 rounded-full p-2 bg-gradient-to-r from-red-500 to-black">
+                    <img src="{{ asset('storage/' . $business->logo_img) }}" 
+                        alt="Business Logo"
+                        class="h-32 w-32 rounded-full bg-white p-1 shadow-lg transition duration-300 transform hover:scale-105">
                 </div>
             </div>
+            
 
             <!-- Business Details -->
             <h2 class="text-3xl font-semibold text-gray-700 text-center mt-4">
@@ -30,27 +33,27 @@
             <!-- Social Media Links -->
             <div class="flex justify-center space-x-4 mt-4">
                 @if(!empty($business->fb_url))
-                    <a href="{{ $business->fb_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl"><i class="fab fa-facebook"></i></a>
+                    <a href="{{ $business->fb_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-facebook"></i></a>
                 @endif
 
                 @if(!empty($business->insta_url))
-                    <a href="{{ $business->insta_url }}" target="_blank" class="text-pink-500 hover:text-pink-700 text-2xl"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $business->insta_url }}" target="_blank" class="text-pink-500 hover:text-pink-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-instagram"></i></a>
                 @endif
 
                 @if(!empty($business->twiter_url))
-                    <a href="{{ $business->twiter_url }}" target="_blank" class="text-blue-400 hover:text-blue-600 text-2xl"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $business->twiter_url }}" target="_blank" class="text-blue-400 hover:text-blue-600 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-twitter"></i></a>
                 @endif
 
                 @if(!empty($business->website_url))
-                    <a href="{{ $business->website_url }}" target="_blank" class="text-blue-400 hover:text-blue-700 text-2xl"><i class="fas fa-globe"></i></a>
+                    <a href="{{ $business->website_url }}" target="_blank" class="text-blue-400 hover:text-blue-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fas fa-globe"></i></a>
                 @endif
 
                 @if(!empty($business->linkden_url))
-                    <a href="{{ $business->linkden_url }}" target="_blank" class="text-blue-500 hover:text-blue-700 text-2xl"><i class="fab fa-linkedin"></i></a>
+                    <a href="{{ $business->linkden_url }}" target="_blank" class="text-blue-500 hover:text-blue-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-linkedin"></i></a>
                 @endif
 
                 @if(!empty($business->watsapp_url))
-                    <a href="{{ $business->watsapp_url  }}" target="_blank" class="text-green-500 hover:text-green-700 text-2xl"><i class="fab fa-whatsapp"></i></a>
+                    <a href="{{ $business->watsapp_url  }}" target="_blank" class="text-green-500 hover:text-green-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
                 @endif
             </div>
 
@@ -67,7 +70,7 @@
                     <label class="block text-gray-700 font-medium">Your Rating</label>
                     <div class="flex justify-center space-x-2 mt-2">
                         @for ($i = 1; $i <= 5; $i++)
-                            <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden">
+                            <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden ">
                             <label for="star{{ $i }}" class="cursor-pointer text-3xl text-gray-300 transition duration-300"
                                 onclick="setRating({{ $i }})">★</label>
                         @endfor
@@ -76,28 +79,30 @@
 
                 <div>
                     <label class="block text-gray-700 font-medium">Your Name</label>
-                    <input type="text" name="name" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your name">
+                    <input type="text" name="name" required class="w-full px-4 py-2 border shadow-md rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your name">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-medium">Your Email</label>
-                    <input type="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your email">
+                    <input type="email" name="email" required class="w-full px-4 py-2 border shadow-md rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your email">
                 </div>
 
                 <!-- Review Box -->
                 <div id="reviewBox">
                     <label class="block text-gray-700 font-medium">Your Review</label>
-                    <textarea name="review" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Write your review"></textarea>
+                    <textarea name="review" class="w-full px-4 py-2 border shadow-md rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Write your review"></textarea>
                 </div>
-
-                <button type="submit" class="w-full px-6 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition">
-                    Submit Review
-                </button>
+                <button type="submit" 
+                class="w-full px-6 py-2 text-white rounded-lg bg-gradient-to-r from-black to-red-500 transition-all duration-300 transform hover:scale-105 hover:from-red-700 hover:to-black">
+                Submit Review
+            </button>
+            
 
                 <div class="flex justify-center py-2">
-                    <span>Powered by: <strong>Real Victory Groups</strong></span>
+                    <span class="font-bold">Powered by: <strong class="text-red-500">Real Victory Groups</strong></span>
                 </div>
             </form>
+        </div>
         </div>
     </div>
 

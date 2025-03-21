@@ -28,7 +28,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full border border-gray-300 rounded-lg shadow-md">
                         <thead>
-                            <tr class="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
+                            <tr class="bg-gray-100 text-gray-800 uppercase text-sm font-bold">
                                 <th class="border border-gray-300 px-6 py-3 text-left">ID</th>
                                 <th class="border border-gray-300 px-6 py-3 text-left">Role Name</th>
                                 <th class="border border-gray-300 px-6 py-3 text-left">Permissions</th>
@@ -51,11 +51,11 @@
                                     </td>
                                     <td class="border border-gray-300 px-6 py-4 text-center space-x-2">
                                         <a href="{{ route('role.edit', $role->id) }}" 
-                                           class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
+                                           class="px-4 md:py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
                                             Edit
                                         </a>
                                         <a href="{{ route('role.delete', $role->id) }}" 
-                                           class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
+                                           class="px-4 md:py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
                                             Delete
                                         </a>
                                     </td>

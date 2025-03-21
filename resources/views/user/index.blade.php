@@ -62,13 +62,13 @@
                                     <td class="border border-gray-300 px-6 py-4 text-center space-x-2">
                                         @can('edit users')
                                         <a href="{{ route('user.edit', $user->id) }}"
-                                            class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
+                                            class="px-4 md:py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
                                             Edit
                                         </a>
                                         @endcan
                                         @can('delete users')
                                         <a href="{{ route('user.delete', $user->id) }}"
-                                            class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
+                                            class="px-4 md:py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
                                             Delete
                                         </a>
                                         @endcan

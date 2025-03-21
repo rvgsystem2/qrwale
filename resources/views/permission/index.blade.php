@@ -41,12 +41,12 @@
                 </div>
             @endif
 
-            <div class="bg-white shadow-lg rounded-lg p-6">
+            <div class="bg-white shadow-lg rounded-xl p-6">
                 <div class="overflow-x-auto">
                     <table class="w-full border border-gray-300 rounded-lg shadow-md">
                         <thead>
-                            <tr class="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
-                                <th class="border border-gray-300 px-6 py-3 text-left">ID</th>
+                            <tr class="bg-gray-100 text-gray-800 uppercase text-sm font-bold">
+                                <th class="border border-gray-300 px-6 py-3 text-left ">ID</th>
                                 <th class="border border-gray-300 px-6 py-3 text-left">Name</th>
                                 <th class="border border-gray-300 px-6 py-3 text-center">Actions</th>
                             </tr>
@@ -56,17 +56,17 @@
                                 <tr class="hover:bg-gray-50 transition">
                                     <td class="border border-gray-300 px-6 py-4 text-gray-900 font-medium">{{ $permission->id }}</td>
                                     <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $permission->name }}</td>
-                                    <td class="border border-gray-300 px-6 py-4 text-center">
+                                    <td class="border border-gray-300 px-6 py-4 text-center md:space-x-4 ">
                                         @can('edit permission')
                                         <a href="{{ route('permission.edit', $permission->id) }}" 
-                                            class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
+                                            class="px-4 md:py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
                                              Edit
                                          </a>     
                                         @endcan
                                        
                                         @can('delete permission')
                                         <a href="{{ route('permission.delete', $permission->id) }}" 
-                                            class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
+                                            class="px-4 md:py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
                                              delete
                                          </a>
                                         @endcan

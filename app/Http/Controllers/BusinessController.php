@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BusinessRequest;
 use App\Models\Business;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class BusinessController extends Controller implements HasMiddleware
@@ -65,21 +67,56 @@ class BusinessController extends Controller implements HasMiddleware
     }
 
     public function index() {
-        $businesses = Business::all();
+        if (auth()->user()->hasRole('Super Admin')) {
+            $businesses = Business::all(); // Show all businesses for Super Admin
+        } else {
+            $businesses = Business::where('user_id', auth()->id())->get(); // Show only the user's businesses
+        }
+    
         return view('business.index', compact('businesses'));
     }
+    
+    
 
 
 
-    public function create(){
-        return view('business.create');
+    public function create() {
+        $users = User::all(); // Fetch all users
+        return view('business.create', compact('users'));
     }
+    
+    public function edit(Business $business) {
+        $users = User::all();
+        return view('business.create', compact('business', 'users'));
+    }
+    
+
+
+    // public function store(BusinessRequest $request) {
+    //     $data = $request->validated();
+    
+    //     // Assign the business to the logged-in user
+    //     $data['user_id'] = Auth::id();
+    
+    //     // Handle Logo Upload
+    //     if ($request->hasFile('logo_img')) {
+    //         $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
+    //     }
+    
+    //     Business::create($data);
+    
+    //     return redirect()->route('business.index')->with('success', 'Business created successfully.');
+    // }
+    
+
 
 
     public function store(BusinessRequest $request) {
         $data = $request->validated();
     
-        // Handle Logo Upload
+        // If user is selected, assign the selected user; otherwise, assign the logged-in user
+        $data['user_id'] = $request->user_id ?? auth()->id();
+    
         if ($request->hasFile('logo_img')) {
             $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
         }
@@ -88,21 +125,21 @@ class BusinessController extends Controller implements HasMiddleware
     
         return redirect()->route('business.index')->with('success', 'Business created successfully.');
     }
-
-
-
-    public function edit(Business $business) {
-        return view('business.create', compact('business'));
-    }
+    
+    
 
 
 
     public function update(BusinessRequest $request, Business $business) {
+        // Ensure users can only update their own businesses
+        if (!Auth::user()->hasRole('Super Admin') && $business->user_id !== Auth::id()) {
+            return redirect()->route('business.index')->with('error', 'Unauthorized action.');
+        }
+    
         $data = $request->validated();
     
         // Handle Logo Update
         if ($request->hasFile('logo_img')) {
-            // Delete old image if exists
             if ($business->logo_img) {
                 Storage::disk('public')->delete($business->logo_img);
             }
@@ -114,5 +151,21 @@ class BusinessController extends Controller implements HasMiddleware
         return redirect()->route('business.index')->with('success', 'Business updated successfully.');
     }
     
+    
+    public function delete(Business $business) {
+        // Allow Super Admin to delete any business, but regular users can only delete their own
+        if (!Auth::user()->hasRole('Super Admin') && $business->user_id !== Auth::id()) {
+            return redirect()->route('business.index')->with('error', 'Unauthorized action.');
+        }
+    
+        // Delete logo if exists
+        if ($business->logo_img) {
+            Storage::disk('public')->delete($business->logo_img);
+        }
+    
+        $business->delete();
+    
+        return redirect()->route('business.index')->with('success', 'Business deleted successfully.');
+    }
     
 }

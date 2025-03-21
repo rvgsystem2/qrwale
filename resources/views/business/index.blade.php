@@ -48,12 +48,14 @@
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-200">
+                            <th class="py-3 px-4 text-left">UserName</th>
                             <th class="py-3 px-4 text-left">Business Name</th>
                             <th class="py-3 px-4 text-left">Mobile</th>
                             <th class="py-3 px-4 text-left">Website</th>
                             <th class="py-3 px-4 text-left">Social Links</th>
                             <th class="py-3 px-4 text-left">Rating</th>
                             <th class="py-3 px-4 text-left">QR</th>
+                           
 
                             <th class="py-3 px-4 text-left">Actions</th>
                         </tr>
@@ -61,6 +63,7 @@
                     <tbody>
                         @foreach ($businesses as $business)
                             <tr class="border-b hover:bg-gray-100">
+                                <td class="py-3 px-4">{{$business->user->name ?? 'N/A'  }}</td>
                                 <td class="py-3 px-4">{{ $business->bussiness_name }}</td>
                                 <td class="py-3 px-4">{{ $business->mobile_number ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">
@@ -118,7 +121,7 @@
                                             class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
                                     @endcan
                                     @can('delete business')
-                                    <form action="{{ route('business.delete', $business->id) }}" method="POST"
+                                    <form action="{{ route('business.delete', $business->id) }}" method="get"
                                         class="inline">
                                         @csrf
                                         {{-- @method('DELETE') --}}

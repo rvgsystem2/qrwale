@@ -30,7 +30,7 @@ class BusinessRequest extends FormRequest
         'fb_url' => 'nullable|url',
         'insta_url' => 'nullable|url',
         'linkden_url' => 'nullable|url',
-        'watsapp_url' => 'nullable|url',
+        'watsapp_url' => 'nullable',
         'twiter_url' => 'nullable|url',
         'review_url' => 'nullable|url',
         'custum_url' => [

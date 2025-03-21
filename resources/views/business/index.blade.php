@@ -44,7 +44,7 @@
                 </div>
             @endif
 
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg ">
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-200">
@@ -55,15 +55,15 @@
                             <th class="py-3 px-4 text-left">Social Links</th>
                             <th class="py-3 px-4 text-left">Rating</th>
                             <th class="py-3 px-4 text-left">QR</th>
-                           
+
 
                             <th class="py-3 px-4 text-left">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="">
                         @foreach ($businesses as $business)
                             <tr class="border-b hover:bg-gray-100">
-                                <td class="py-3 px-4">{{$business->user->name ?? 'N/A'  }}</td>
+                                <td class="py-3 px-4">{{ $business->user->name ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">{{ $business->bussiness_name }}</td>
                                 <td class="py-3 px-4">{{ $business->mobile_number ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">
@@ -110,9 +110,38 @@
                                 </td>
                                 <td class="py-3 px-4">{{ $business->rating ?? 'N/A' }}</td>
                                 {{-- <td class="py-3 px-4">{{ $business->address ?? 'N/A' }}</td> --}}
-                                <td>
+                                {{-- <td>
                                     {!! QrCode::size(200)->generate(route('business.qr', $business->id)) !!}
+                                </td> --}}
+                                {{-- <td>
+                                    {!! QrCode::size(200)->backgroundColor(255, 255, 255)->gradient(255, 0, 0, 0, 0, 255, 'diagonal')->generate(url(route('business.qr', $business->id))) !!}
+
+                                </td> --}}
+
+                                <td>
+                                    {!! QrCode::size(200)
+                                        ->backgroundColor(255, 255, 255)
+                                        ->gradient(255, 0, 0, 0, 0, 255, 'diagonal')
+                                        ->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
                                 </td>
+                                
+                                
+                                {{-- <td>
+                                    {!! QrCode::size(200)
+                                        ->backgroundColor(255, 255, 255)
+                                        ->gradient(255, 0, 0, 0, 0, 255, 'diagonal') // Multicolor gradient
+                                        ->merge('https://attendance.realvictorygroups.com/asset/img/logo%20(2).png', .3, true) // Adding logo
+                                        ->generate(url(route('business.qr', $business->id))) !!}
+                                    
+                                </td> --}}
+                                {{-- <td>
+                                    {!! QrCode::size(200)
+                                        ->merge(public_path('logo.png'), .3, true) // Ensure logo loads properly
+                                        ->generate(route('business.qr', $business->id)) !!}
+                                </td>
+                                 --}}
+                                
+
 
 
                                 <td class="py-3 px-4">
@@ -121,19 +150,19 @@
                                             class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
                                     @endcan
                                     @can('delete business')
-                                    <form action="{{ route('business.delete', $business->id) }}" method="get"
-                                        class="inline">
-                                        @csrf
-                                        {{-- @method('DELETE') --}}
-                                        <button type="submit"
-                                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                                            onclick="return confirm('Are you sure?')">Delete</button>
-                                    </form>
+                                        <form action="{{ route('business.delete', $business->id) }}" method="get"
+                                            class="inline">
+                                            @csrf
+                                            {{-- @method('DELETE') --}}
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                                                onclick="return confirm('Are you sure?')">Delete</button>
+                                        </form>
                                     @endcan
                                     @can('rating business')
-                                    <a href="{{ route('business.rating', $business->id) }}"
-                                        class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">rating</a>
-                                        @endcan
+                                        <a href="{{ route('business.rating', $business->id) }}"
+                                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">rating</a>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

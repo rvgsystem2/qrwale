@@ -12,7 +12,11 @@ Route::get('/', function () {
 });
 
 // Public routes (accessible without login)
-Route::get('/business/{id}/qr', [BusinessController::class, 'showQRPage'])->name('business.qr');
+Route::get('/business/{identifier}/qr', [BusinessController::class, 'showQRPage'])
+    ->where('identifier', '[A-Za-z0-9-_]+') // Accepts only alphanumeric, dashes, and underscores
+    ->name('business.qr');
+
+// Route::get('/business/{id}/qr', [BusinessController::class, 'showQRPage'])->name('business.qr');
 Route::get('/business/{id}/rating', [BusinessController::class, 'showRating'])->name('business.rating');
 Route::post('/business/{id}/review', [BusinessController::class, 'submitReview'])->name('business.review');
 

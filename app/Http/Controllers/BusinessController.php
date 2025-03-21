@@ -25,11 +25,7 @@ class BusinessController extends Controller implements HasMiddleware
         ];
     }
 
-    public function showQRPage($id)
-    {
-        $business = Business::findOrFail($id);
-        return view('business.qr_page', compact('business'));
-    }
+ 
 
     public function showRating($id)
 {
@@ -66,6 +62,20 @@ class BusinessController extends Controller implements HasMiddleware
         return redirect()->route('business.qr', $id)->with('success', 'Review submitted successfully!');
     }
 
+    // public function showQRPage($id)
+    // {
+    //     $business = Business::findOrFail($id);
+    //     return view('business.qr_page', compact('business'));
+    // }
+    public function showQRPage($identifier)
+    {
+        $business = Business::where('custum_url', $identifier)
+            ->orWhere('id', $identifier)
+            ->firstOrFail();
+    
+        return view('business.qr_page', compact('business'));
+    }
+    
     public function index() {
         if (auth()->user()->hasRole('Super Admin')) {
             $businesses = Business::all(); // Show all businesses for Super Admin
@@ -111,12 +121,29 @@ class BusinessController extends Controller implements HasMiddleware
 
 
 
+    // public function store(BusinessRequest $request) {
+    //     $data = $request->validated();
+    
+    //     // If user is selected, assign the selected user; otherwise, assign the logged-in user
+    //     $data['user_id'] = $request->user_id ?? auth()->id();
+    
+    //     if ($request->hasFile('logo_img')) {
+    //         $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
+    //     }
+    
+    //     Business::create($data);
+    
+    //     return redirect()->route('business.index')->with('success', 'Business created successfully.');
+    // }
+    
+
     public function store(BusinessRequest $request) {
         $data = $request->validated();
-    
-        // If user is selected, assign the selected user; otherwise, assign the logged-in user
+        
+        // Assign user (selected user or logged-in user)
         $data['user_id'] = $request->user_id ?? auth()->id();
-    
+        
+        // Handle Logo Upload
         if ($request->hasFile('logo_img')) {
             $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
         }
@@ -126,12 +153,7 @@ class BusinessController extends Controller implements HasMiddleware
         return redirect()->route('business.index')->with('success', 'Business created successfully.');
     }
     
-    
-
-
-
     public function update(BusinessRequest $request, Business $business) {
-        // Ensure users can only update their own businesses
         if (!Auth::user()->hasRole('Super Admin') && $business->user_id !== Auth::id()) {
             return redirect()->route('business.index')->with('error', 'Unauthorized action.');
         }
@@ -150,6 +172,30 @@ class BusinessController extends Controller implements HasMiddleware
     
         return redirect()->route('business.index')->with('success', 'Business updated successfully.');
     }
+    
+
+
+
+    // public function update(BusinessRequest $request, Business $business) {
+    //     // Ensure users can only update their own businesses
+    //     if (!Auth::user()->hasRole('Super Admin') && $business->user_id !== Auth::id()) {
+    //         return redirect()->route('business.index')->with('error', 'Unauthorized action.');
+    //     }
+    
+    //     $data = $request->validated();
+    
+    //     // Handle Logo Update
+    //     if ($request->hasFile('logo_img')) {
+    //         if ($business->logo_img) {
+    //             Storage::disk('public')->delete($business->logo_img);
+    //         }
+    //         $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
+    //     }
+    
+    //     $business->update($data);
+    
+    //     return redirect()->route('business.index')->with('success', 'Business updated successfully.');
+    // }
     
     
     public function delete(Business $business) {

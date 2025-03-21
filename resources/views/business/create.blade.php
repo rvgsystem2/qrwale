@@ -28,7 +28,12 @@
                   {{-- @if(isset($business))
                       @method('PUT')
                   @endif --}}
-              
+                  <div>
+                    <label class="block text-gray-700 font-medium mb-2">Custom URL</label>
+                    <input type="text" name="custum_url" value="{{ old('custum_url', $business->custum_url ?? '') }}"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                </div>
+                
                   <div>
                       <label class="block text-gray-700 font-medium mb-2">Business Name</label>
                       <input type="text" name="bussiness_name" value="{{ old('bussiness_name', $business->bussiness_name ?? '') }}"
@@ -107,10 +112,12 @@
                     <select name="user_id" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
                         <option value="">Select User (Optional)</option>
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                            <option value="{{ $user->id }}" 
+                                {{ old('user_id', $business->user_id ?? '') == $user->id ? 'selected' : '' }}>
                                 {{ $user->name }}
                             </option>
                         @endforeach
+                        
                     </select>
                 </div>
                 

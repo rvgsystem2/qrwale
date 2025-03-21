@@ -62,8 +62,13 @@
                     </thead>
                     <tbody class="">
                         @foreach ($businesses as $business)
+<<<<<<< HEAD
                             <tr class="border-b hover:bg-gray-100">
                                 <td class="py-3 px-4">{{ $business->user->name ?? 'N/A' }}</td>
+=======
+                            <tr class="border-b hover:bg-gray-100 mb-4">
+                                <td class="py-3 px-4">{{$business->user->name ?? 'N/A'  }}</td>
+>>>>>>> b68f8c186885de8592ba2be4e1ae70f37f61f9ef
                                 <td class="py-3 px-4">{{ $business->bussiness_name }}</td>
                                 <td class="py-3 px-4">{{ $business->mobile_number ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">
@@ -111,6 +116,9 @@
                                 <td class="py-3 px-4">{{ $business->rating ?? 'N/A' }}</td>
                                 {{-- <td class="py-3 px-4">{{ $business->address ?? 'N/A' }}</td> --}}
                                 {{-- <td>
+
+                                <td class="py-4 px-4">
+
                                     {!! QrCode::size(200)->generate(route('business.qr', $business->id)) !!}
                                 </td> --}}
                                 {{-- <td>
@@ -126,20 +134,8 @@
                                 </td>
                                 
                                 
-                                {{-- <td>
-                                    {!! QrCode::size(200)
-                                        ->backgroundColor(255, 255, 255)
-                                        ->gradient(255, 0, 0, 0, 0, 255, 'diagonal') // Multicolor gradient
-                                        ->merge('https://attendance.realvictorygroups.com/asset/img/logo%20(2).png', .3, true) // Adding logo
-                                        ->generate(url(route('business.qr', $business->id))) !!}
-                                    
-                                </td> --}}
-                                {{-- <td>
-                                    {!! QrCode::size(200)
-                                        ->merge(public_path('logo.png'), .3, true) // Ensure logo loads properly
-                                        ->generate(route('business.qr', $business->id)) !!}
-                                </td>
-                                 --}}
+                               
+                               
                                 
 
 

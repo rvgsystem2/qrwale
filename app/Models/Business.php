@@ -12,5 +12,9 @@ class Business extends Model
     {
         return $this->hasMany(Review::class); // Assuming your review model is named "Review"
     }
-    
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
 }

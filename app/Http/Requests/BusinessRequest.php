@@ -34,7 +34,7 @@ class BusinessRequest extends FormRequest
             'address' => 'nullable|string|max:500',
             'rating' => 'nullable|numeric|min:0|max:5',
             'logo_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-
+            'user_id' => 'nullable|exists:users,id', 
         ];
     }
 }

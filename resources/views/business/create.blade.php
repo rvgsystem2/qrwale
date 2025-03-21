@@ -103,6 +103,19 @@
                   </div>
               
                   <div>
+                    <label class="block text-gray-700 font-medium mb-2">Select User</label>
+                    <select name="user_id" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200">
+                        <option value="">Select User (Optional)</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                
+                  <div>
                       <button type="submit" class="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">
                           {{ isset($business) ? 'Update' : 'Submit' }}
                       </button>

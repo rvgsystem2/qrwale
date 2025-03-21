@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('rating')->nullable();
             $table->string('logo_img')->nullable();
-
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

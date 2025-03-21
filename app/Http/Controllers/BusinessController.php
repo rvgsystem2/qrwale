@@ -66,7 +66,16 @@ class BusinessController extends Controller implements HasMiddleware
     // {
     //     $business = Business::findOrFail($id);
     //     return view('business.qr_page', compact('business'));
+    // // }
+    // public function showQRPage($identifier)
+    // {
+    //     $business = Business::where('custum_url', $identifier)
+    //         ->orWhere('id', $identifier)
+    //         ->firstOrFail();
+    
+    //     return view('business.qr_page', compact('business'));
     // }
+
     public function showQRPage($identifier)
     {
         $business = Business::where('custum_url', $identifier)
@@ -75,6 +84,8 @@ class BusinessController extends Controller implements HasMiddleware
     
         return view('business.qr_page', compact('business'));
     }
+    
+
     
     public function index() {
         if (auth()->user()->hasRole('Super Admin')) {

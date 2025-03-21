@@ -62,13 +62,8 @@
                     </thead>
                     <tbody class="">
                         @foreach ($businesses as $business)
-<<<<<<< HEAD
-                            <tr class="border-b hover:bg-gray-100">
-                                <td class="py-3 px-4">{{ $business->user->name ?? 'N/A' }}</td>
-=======
                             <tr class="border-b hover:bg-gray-100 mb-4">
                                 <td class="py-3 px-4">{{$business->user->name ?? 'N/A'  }}</td>
->>>>>>> b68f8c186885de8592ba2be4e1ae70f37f61f9ef
                                 <td class="py-3 px-4">{{ $business->bussiness_name }}</td>
                                 <td class="py-3 px-4">{{ $business->mobile_number ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">

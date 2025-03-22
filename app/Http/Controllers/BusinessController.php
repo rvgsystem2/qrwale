@@ -11,6 +11,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BusinessController extends Controller implements HasMiddleware
 {
@@ -62,19 +63,7 @@ class BusinessController extends Controller implements HasMiddleware
         return redirect()->route('business.qr', $id)->with('success', 'Review submitted successfully!');
     }
 
-    // public function showQRPage($id)
-    // {
-    //     $business = Business::findOrFail($id);
-    //     return view('business.qr_page', compact('business'));
-    // // }
-    // public function showQRPage($identifier)
-    // {
-    //     $business = Business::where('custum_url', $identifier)
-    //         ->orWhere('id', $identifier)
-    //         ->firstOrFail();
     
-    //     return view('business.qr_page', compact('business'));
-    // }
 
     public function showQRPage($identifier)
     {
@@ -85,7 +74,47 @@ class BusinessController extends Controller implements HasMiddleware
         return view('business.qr_page', compact('business'));
     }
     
+    public function showQr($identifier)
+{
+    $business = Business::where(function ($query) use ($identifier) {
+            $query->where('custum_url', $identifier)
+                  ->orWhere('id', $identifier);
+        })
+        ->firstOrFail();
 
+    // Agar `custum_url` available hai toh use karein, warna `id` ka QR bane
+    $qrIdentifier = $business->custum_url ?? $business->id;
+    
+    // QR Code URL Generate Karein
+    $qrCodeUrl = route('business.qr', ['identifier' => $qrIdentifier]);
+
+    // QR Code Generate Karein
+    $qrCode = QrCode::size(250)
+                    ->backgroundColor(255, 255, 255)
+                    ->gradient(255, 0, 0, 0, 0, 255, 'diagonal')
+                    ->generate($qrCodeUrl);
+
+    return view('business.qr', compact('business', 'qrCode', 'qrCodeUrl'));
+}
+
+    public function downloadQr($identifier)
+    {
+        $business = Business::where('custum_url', $identifier)
+                            ->orWhere('id', $identifier)
+                            ->firstOrFail();
+    
+        // QR Code URL Generate Karein
+        $qrCodeUrl = route('business.qr_download', ['identifier' => $business->custum_url ?? $business->id]);
+    
+        // QR Code Generate Karein
+        $qrCode = QrCode::size(250)
+                        ->backgroundColor(255, 255, 255)
+                        ->gradient(255, 0, 0, 0, 0, 255, 'diagonal')
+                        ->generate($qrCodeUrl);
+    
+        return view('business.qr_download', compact('business', 'qrCode', 'qrCodeUrl'));
+    }
+    
     
     public function index() {
         if (auth()->user()->hasRole('Super Admin')) {
@@ -97,8 +126,6 @@ class BusinessController extends Controller implements HasMiddleware
         return view('business.index', compact('businesses'));
     }
     
-    
-
 
 
     public function create() {
@@ -112,41 +139,6 @@ class BusinessController extends Controller implements HasMiddleware
     }
     
 
-
-    // public function store(BusinessRequest $request) {
-    //     $data = $request->validated();
-    
-    //     // Assign the business to the logged-in user
-    //     $data['user_id'] = Auth::id();
-    
-    //     // Handle Logo Upload
-    //     if ($request->hasFile('logo_img')) {
-    //         $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
-    //     }
-    
-    //     Business::create($data);
-    
-    //     return redirect()->route('business.index')->with('success', 'Business created successfully.');
-    // }
-    
-
-
-
-    // public function store(BusinessRequest $request) {
-    //     $data = $request->validated();
-    
-    //     // If user is selected, assign the selected user; otherwise, assign the logged-in user
-    //     $data['user_id'] = $request->user_id ?? auth()->id();
-    
-    //     if ($request->hasFile('logo_img')) {
-    //         $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
-    //     }
-    
-    //     Business::create($data);
-    
-    //     return redirect()->route('business.index')->with('success', 'Business created successfully.');
-    // }
-    
 
     public function store(BusinessRequest $request) {
         $data = $request->validated();
@@ -187,26 +179,7 @@ class BusinessController extends Controller implements HasMiddleware
 
 
 
-    // public function update(BusinessRequest $request, Business $business) {
-    //     // Ensure users can only update their own businesses
-    //     if (!Auth::user()->hasRole('Super Admin') && $business->user_id !== Auth::id()) {
-    //         return redirect()->route('business.index')->with('error', 'Unauthorized action.');
-    //     }
     
-    //     $data = $request->validated();
-    
-    //     // Handle Logo Update
-    //     if ($request->hasFile('logo_img')) {
-    //         if ($business->logo_img) {
-    //             Storage::disk('public')->delete($business->logo_img);
-    //         }
-    //         $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
-    //     }
-    
-    //     $business->update($data);
-    
-    //     return redirect()->route('business.index')->with('success', 'Business updated successfully.');
-    // }
     
     
     public function delete(Business $business) {

@@ -5,7 +5,10 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\Business;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('/', function () {
     return view('front.index');
@@ -13,6 +16,16 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('front.contact');
 });
+
+// Route::get('/business/{identifier}/qr/download', [BusinessController::class, 'downloadQr'])
+//     ->name('business.qr_download');
+
+
+    // Route::get('/business/{identifier}/qr', [BusinessController::class, 'showQr'])
+    // ->name('business.qr');
+
+
+
 
 // Public routes (accessible without login)
 Route::get('/business/{identifier}/qr', [BusinessController::class, 'showQRPage'])

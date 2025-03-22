@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BusinessRequest;
+use App\Mail\AdminReviewNotification;
+use App\Mail\BusinessReviewNotification;
+use App\Mail\ThankYouMail;
 use App\Models\Business;
 use App\Models\Review;
 use App\Models\User;
@@ -10,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -41,26 +45,39 @@ class BusinessController extends Controller implements HasMiddleware
         // Validate input
         $request->validate([
             'name' => 'required|string|max:255',
+            'number' => 'required|digits:10', // Ensure it's exactly 10 digits
             'email' => 'required|email',
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string',
         ]);
     
         // If rating is 2 or 5, redirect to review_url
-        if ($request->rating == 2 || $request->rating == 5) {
-            return redirect()->to($business->review_url);
-        }
+        // if ($request->rating == 2 || $request->rating == 5) {
+        //     return redirect()->to($business->review_url);
+        // }
     
         // Save review in database
-        Review::create([
+        $review = Review::create([
             'business_id' => $id,
             'name' => $request->name,
+            'number' => $request->number,
             'email' => $request->email,
             'rating' => $request->rating,
             'review' => $request->review,
         ]);
+
+        Mail::to($review->email)->send(new ThankYouMail($review));
+
+         // ✅ Send email to Business User
+    if ($business->user && $business->user->email) {
+        Mail::to($business->user->email)->send(new BusinessReviewNotification($review, $business));
+    }
     
-        return redirect()->route('business.qr', $id)->with('success', 'Review submitted successfully!');
+        // Send Notification email to Super Admin
+        Mail::to('superadmin@example.com')->send(new AdminReviewNotification($review, $business));
+        return redirect()->back()->with('success', 'Review submitted successfully!');
+    
+        // return redirect()->route('business.qr', $id)->with('success', 'Review submitted successfully!');
     }
 
     

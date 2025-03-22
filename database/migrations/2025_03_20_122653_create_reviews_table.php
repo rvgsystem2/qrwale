@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('business_id')->constrained()->onDelete('cascade'); // Connect to businesses table
             $table->string('name');
-            $table->string('email');
+            $table->string('number')->nullable();
+            $table->string('email')->nullable();
             $table->integer('rating'); // Store rating (1 to 5)
             $table->text('review')->nullable(); // Optional review text
+
 
             $table->timestamps();
         });

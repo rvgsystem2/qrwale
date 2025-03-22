@@ -12,7 +12,10 @@
 <body class="bg-gray-100">
 
  {{-- nav --}}
-@include('front.header')
+ @include('front.header')
+
+
+
     <!-- Hero Section -->
     <section class="w-full py-16">
         <div

@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.index');
+});
+Route::get('/contact', function () {
+    return view('front.contact');
 });
 
 // Route::get('/business/{identifier}/qr/download', [BusinessController::class, 'downloadQr'])

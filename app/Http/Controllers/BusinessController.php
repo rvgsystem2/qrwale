@@ -74,7 +74,7 @@ class BusinessController extends Controller implements HasMiddleware
     }
     
         // Send Notification email to Super Admin
-        Mail::to('superadmin@example.com')->send(new AdminReviewNotification($review, $business));
+        Mail::to('realvictorygroups@gmail.com')->send(new AdminReviewNotification($review, $business));
         return redirect()->back()->with('success', 'Review submitted successfully!');
     
         // return redirect()->route('business.qr', $id)->with('success', 'Review submitted successfully!');

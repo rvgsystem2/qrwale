@@ -70,7 +70,8 @@ class BusinessController extends Controller implements HasMiddleware
         $business = Business::where('custum_url', $identifier)
             ->orWhere('id', $identifier)
             ->firstOrFail();
-    
+        // Increment scan count
+        $business->increment('qr_scan_count');
         return view('business.qr_page', compact('business'));
     }
     

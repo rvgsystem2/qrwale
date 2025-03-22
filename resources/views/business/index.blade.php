@@ -48,6 +48,7 @@
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-200">
+                            <th class="py-3 px-4 text-left">QrCount</th>
                             <th class="py-3 px-4 text-left">UserName</th>
                             <th class="py-3 px-4 text-left">Business Name</th>
                             <th class="py-3 px-4 text-left">Mobile</th>
@@ -63,6 +64,8 @@
                     <tbody>
                         @foreach ($businesses as $business)
                             <tr class="border-b hover:bg-gray-100 mb-4">
+                                <td class="py-3 px-4">Scans: {{ $business->qr_scan_count }}</td>
+
                                 <td class="py-3 px-4">{{ $business->user->name ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">{{ $business->bussiness_name }}</td>
                                 <td class="py-3 px-4">{{ $business->mobile_number ?? 'N/A' }}</td>

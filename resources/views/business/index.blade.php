@@ -134,14 +134,27 @@
                                 <td class="py-3 px-4">{{ $business->rating ?? 'N/A' }}</td>
 
                                 <!-- Unique QR Code -->
-                                <td class="">
+                                <td class="text-center">
+                                    <!-- QR Code -->
                                     <div id="qr-code-{{ $business->id }}" class="mt-2 mb-2">
                                         {!! QrCode::size(200)->backgroundColor(255, 255, 255)->gradient(255, 0, 0, 0, 0, 255, 'diagonal')->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
                                     </div>
+
+                                    <!-- Print QR Code Button -->
                                     <button onclick="printQRCode({{ $business->id }})"
-                                        class="mt-2 mb-2 px-3 py-1 text-white bg-gradient-to-r from-red-500 to-blue-500 hover:from-blue-500 hover:to-red-500 w-full">Print
-                                        QR Code</button>
+                                        class="mt-2 mb-2 px-3 py-1 text-white bg-gradient-to-r from-red-500 to-blue-500 hover:from-blue-500 hover:to-red-500 w-full">
+                                        Print QR Code
+                                    </button>
+
+                                    <!-- QR Code Image (For Download) -->
+                                    <img id="qrCodeImage-{{ $business->id }}"
+                                        src="{{ asset('storage/qrcodes/' . $business->qr_code) }}" alt="QR Code"
+                                        class="w-32 h-32 mx-auto border border-gray-300 shadow-md p-2 hidden">
+
+                                
+                                   
                                 </td>
+
 
                                 <td class="py-3 px-4">
                                     @can('edit business')
@@ -184,6 +197,34 @@
                             }, 500); // Delay of 500ms
                         }
                     </script>
+
+                    <script>
+                        // Function to Print QR Code
+                        function printQRCode(businessId) {
+                            let qrCodeDiv = document.getElementById(`qr-code-${businessId}`);
+
+                            let qrWindow = window.open('', '_blank');
+                            qrWindow.document.write('<html><head><title>Print QR Code</title></head><body>');
+                            qrWindow.document.write(qrCodeDiv.innerHTML);
+                            qrWindow.document.write('</body></html>');
+                            qrWindow.document.close();
+                            qrWindow.print();
+                        }
+
+                        // Function to Download QR Code
+                        function downloadQRCode(businessId) {
+                            let qrImage = document.getElementById(`qrCodeImage-${businessId}`);
+                            let qrSrc = qrImage.src;
+
+                            let link = document.createElement("a");
+                            link.href = qrSrc;
+                            link.download = `qr_code_${businessId}.png`; // Dynamic File Name
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    </script>
+
 
                 </table>
             </div>

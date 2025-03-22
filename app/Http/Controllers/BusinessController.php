@@ -77,6 +77,7 @@ class BusinessController extends Controller implements HasMiddleware
     
 
 
+
   
     
 
@@ -96,6 +97,7 @@ class BusinessController extends Controller implements HasMiddleware
 
     return response()->json(['success' => true, 'clicks' => $clicks]);
 }
+
 
     
     public function index() {

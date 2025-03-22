@@ -45,7 +45,7 @@
             @auth
                 <a
                     href="{{ url('/dashboard') }}"
-                    class="inline-block px-5 py-1.5 dark:text-[#0a0a00] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                    class="inline-block px-5 py-1.5 dark:text-[#0a0a00] border-[#ff555535] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
                 >
                     Dashboard
                 </a>

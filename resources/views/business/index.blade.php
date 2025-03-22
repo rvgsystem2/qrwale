@@ -48,6 +48,7 @@
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-200">
+                            <th class="py-3 px-4 text-left">QrCount</th>
                             <th class="py-3 px-4 text-left">UserName</th>
                             <th class="py-3 px-4 text-left">Business Name</th>
                             <th class="py-3 px-4 text-left">Mobile</th>
@@ -63,95 +64,127 @@
                     <tbody>
                         @foreach ($businesses as $business)
                             <tr class="border-b hover:bg-gray-100 mb-4">
+                                <td class="py-3 px-4">Scans: {{ $business->qr_scan_count }}</td>
+
                                 <td class="py-3 px-4">{{ $business->user->name ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">{{ $business->bussiness_name }}</td>
                                 <td class="py-3 px-4">{{ $business->mobile_number ?? 'N/A' }}</td>
                                 <td class="py-3 px-4">
                                     @if ($business->website_url)
-                                        <a href="{{ $business->website_url }}" class="text-blue-500 hover:underline" target="_blank">Visit</a>
+                                        <a href="{{ $business->website_url }}" class="text-blue-500 hover:underline"
+                                            target="_blank">Visit</a>
                                     @else
                                         N/A
                                     @endif
                                 </td>
+                                @php
+                                    $clicks = json_decode($business->social_clicks, true);
+                                @endphp
                                 <td class="py-3 px-4">
                                     <div class="flex space-x-3 text-lg">
                                         @if ($business->fb_url)
-                                            <a href="{{ $business->fb_url }}" class="text-blue-600 hover:text-blue-800" target="_blank">
+                                            <a href="{{ $business->fb_url }}" class="text-blue-600 hover:text-blue-800"
+                                                target="_blank" onclick="trackClick({{ $business->id }}, 'fb_url')">
                                                 <i class="fab fa-facebook"></i>
                                             </a>
+                                            <span class="text-sm text-gray-500">({{ $clicks['fb_url'] ?? 0 }})</span>
                                         @endif
+
                                         @if ($business->insta_url)
-                                            <a href="{{ $business->insta_url }}" class="text-pink-600 hover:text-pink-800" target="_blank">
+                                            <a href="{{ $business->insta_url }}"
+                                                class="text-pink-600 hover:text-pink-800" target="_blank"
+                                                onclick="trackClick({{ $business->id }}, 'insta_url')">
                                                 <i class="fab fa-instagram"></i>
                                             </a>
+                                            <span
+                                                class="text-sm text-gray-500">({{ $clicks['insta_url'] ?? 0 }})</span>
                                         @endif
+
                                         @if ($business->linkden_url)
-                                            <a href="{{ $business->linkden_url }}" class="text-blue-700 hover:text-blue-900" target="_blank">
+                                            <a href="{{ $business->linkden_url }}"
+                                                class="text-blue-700 hover:text-blue-900" target="_blank"
+                                                onclick="trackClick({{ $business->id }}, 'linkden_url')">
                                                 <i class="fab fa-linkedin"></i>
                                             </a>
+                                            <span
+                                                class="text-sm text-gray-500">({{ $clicks['linkden_url'] ?? 0 }})</span>
                                         @endif
+
                                         @if ($business->twiter_url)
-                                            <a href="{{ $business->twiter_url }}" class="text-blue-400 hover:text-blue-600" target="_blank">
+                                            <a href="{{ $business->twiter_url }}"
+                                                class="text-blue-400 hover:text-blue-600" target="_blank"
+                                                onclick="trackClick({{ $business->id }}, 'twiter_url')">
                                                 <i class="fab fa-twitter"></i>
                                             </a>
+                                            <span
+                                                class="text-sm text-gray-500">({{ $clicks['twiter_url'] ?? 0 }})</span>
                                         @endif
+
                                         @if ($business->watsapp_url)
-                                            <a href="{{ $business->watsapp_url }}" class="text-green-500 hover:text-green-700" target="_blank">
+                                            <a href="{{ $business->watsapp_url }}"
+                                                class="text-green-500 hover:text-green-700" target="_blank"
+                                                onclick="trackClick({{ $business->id }}, 'watsapp_url')">
                                                 <i class="fab fa-whatsapp"></i>
                                             </a>
+                                            <span
+                                                class="text-sm text-gray-500">({{ $clicks['watsapp_url'] ?? 0 }})</span>
                                         @endif
                                     </div>
                                 </td>
                                 <td class="py-3 px-4">{{ $business->rating ?? 'N/A' }}</td>
-                    
+
                                 <!-- Unique QR Code -->
                                 <td class="">
                                     <div id="qr-code-{{ $business->id }}" class="mt-2 mb-2">
-                                        {!! QrCode::size(200)
-                                            ->backgroundColor(255, 255, 255)
-                                            ->gradient(255, 0, 0, 0, 0, 255, 'diagonal')
-                                            ->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
+                                        {!! QrCode::size(200)->backgroundColor(255, 255, 255)->gradient(255, 0, 0, 0, 0, 255, 'diagonal')->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
                                     </div>
-                                    <button onclick="printQRCode({{ $business->id }})" class="mt-2 mb-2 px-3 py-1 text-white bg-gradient-to-r from-red-500 to-blue-500 hover:from-blue-500 hover:to-red-500 w-full">Print QR Code</button>
+                                    <button onclick="printQRCode({{ $business->id }})"
+                                        class="mt-2 mb-2 px-3 py-1 text-white bg-gradient-to-r from-red-500 to-blue-500 hover:from-blue-500 hover:to-red-500 w-full">Print
+                                        QR Code</button>
                                 </td>
-                    
+
                                 <td class="py-3 px-4">
                                     @can('edit business')
-                                        <a href="{{ route('business.edit', $business->id) }}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
+                                        <a href="{{ route('business.edit', $business->id) }}"
+                                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
                                     @endcan
                                     @can('delete business')
-                                        <form action="{{ route('business.delete', $business->id) }}" method="get" class="inline">
+                                        <form action="{{ route('business.delete', $business->id) }}" method="get"
+                                            class="inline">
                                             @csrf
-                                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600" onclick="return confirm('Are you sure?')">Delete</button>
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                                                onclick="return confirm('Are you sure?')">Delete</button>
                                         </form>
                                     @endcan
                                     @can('rating business')
-                                        <a href="{{ route('business.rating', $business->id) }}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Rating</a>
+                                        <a href="{{ route('business.rating', $business->id) }}"
+                                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Rating</a>
                                     @endcan
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-                    
+
                     <!-- JavaScript to Print the QR Code -->
                     <script>
                         function printQRCode(id) {
                             var qrCodeContent = document.getElementById('qr-code-' + id).innerHTML;
                             var printWindow = window.open('', '_blank');
-                    
+
                             printWindow.document.write('<html><head><title>Print QR Code</title></head><body>');
                             printWindow.document.write(qrCodeContent);
                             printWindow.document.write('</body></html>');
                             printWindow.document.close();
-                    
+
                             // Ensure the QR code is fully loaded before printing
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 printWindow.print();
                                 printWindow.close();
                             }, 500); // Delay of 500ms
                         }
                     </script>
-                    
+
                 </table>
             </div>
 

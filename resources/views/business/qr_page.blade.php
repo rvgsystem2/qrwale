@@ -31,7 +31,7 @@
             <p class="text-gray-600 text-center mt-2">{{ $business->address }}</p>
 
             <!-- Social Media Links -->
-            <div class="flex justify-center space-x-4 mt-4">
+            {{-- <div class="flex justify-center space-x-4 mt-4">
                 @if(!empty($business->fb_url))
                     <a href="{{ $business->fb_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-facebook"></i></a>
                 @endif
@@ -55,7 +55,57 @@
                 @if(!empty($business->watsapp_url))
                     <a href="https://wa.me/+91{{ $business->watsapp_url  }}" target="_blank" class="text-green-500 hover:text-green-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
                 @endif
+            </div> --}}
+
+            <div class="flex justify-center space-x-4 mt-4">
+                @if(!empty($business->fb_url))
+                    <a href="{{ $business->fb_url }}" target="_blank"
+                        class="text-blue-600 hover:text-blue-800 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"
+                        onclick="trackClick({{ $business->id }}, 'fb_url')">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                @endif
+            
+                @if(!empty($business->insta_url))
+                    <a href="{{ $business->insta_url }}" target="_blank"
+                        class="text-pink-500 hover:text-pink-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"
+                        onclick="trackClick({{ $business->id }}, 'insta_url')">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                @endif
+                @if(!empty($business->website_url))
+                <a href="{{ $business->website_url }}" target="_blank"
+                    class="text-blue-400 hover:text-blue-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"
+                    onclick="trackClick({{ $business->id }}, 'website_url')">
+                    <i class="fas fa-globe"></i>
+                </a>
+            @endif
+            
+            @if(!empty($business->linkden_url))
+                <a href="{{ $business->linkden_url }}" target="_blank"
+                    class="text-blue-500 hover:text-blue-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"
+                    onclick="trackClick({{ $business->id }}, 'linkden_url')">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            @endif
+            
+                @if(!empty($business->twiter_url))
+                    <a href="{{ $business->twiter_url }}" target="_blank"
+                        class="text-blue-400 hover:text-blue-600 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"
+                        onclick="trackClick({{ $business->id }}, 'twiter_url')">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                @endif
+            
+                @if(!empty($business->watsapp_url))
+                    <a href="https://wa.me/+91{{ $business->watsapp_url }}" target="_blank"
+                        class="text-green-500 hover:text-green-700 text-2xl transition-transform duration-300 ease-in-out transform hover:scale-110"
+                        onclick="trackClick({{ $business->id }}, 'watsapp_url')">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                @endif
             </div>
+            
 
             <!-- Review Section -->
             <h3 class="text-xl font-semibold text-gray-700 mt-6">Leave a Review</h3>
@@ -129,6 +179,24 @@
             }
         }
     </script>
+
+
+<script>
+    function trackClick(businessId, platform) {
+        fetch(`/business/${businessId}/track-click`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ platform: platform })
+        })
+        .then(response => response.json())
+        .then(data => console.log(`Updated clicks for ${platform}:`, data.clicks))
+        .catch(error => console.error('Error tracking click:', error));
+    }
+    </script>
+    
 </body>
 
 

@@ -54,15 +54,15 @@
     <!-- Navigation Bar -->
     <nav class="w-full border-b flex justify-center">
         <div class="max-w-full mx-auto px-4 flex items-center justify-between py-4">
-            <div class="flex space-x-12 ">
+            <div class="flex md:space-x-12 space-x-1 ">
                 <a href="#reviews"
-                    class="flex items-center space-x-2 text-rose-600 font-semibold border-b-2 border-rose-600 pb-1">
+                    class="flex items-center md:space-x-2 text-rose-600 font-semibold border-b-2 border-rose-600 pb-1">
                     📅 Reviews & Feedbacks QR
                 </a>
-                <a href="#automation" class="flex items-center space-x-2 text-gray-600 hover:text-rose-600 transition">
+                <a href="#automation" class="flex items-center md:space-x-2 text-gray-600 hover:text-rose-600 transition">
                     👥 Automation QR <span class="text-xs bg-rose-200 text-rose-800 px-2 py-1 rounded-full">NEW</span>
                 </a>
-                <a href="#ordering"  class="flex items-center space-x-2 text-gray-600 hover:text-rose-600 transition">
+                <a href="#ordering"  class="flex items-center md:space-x-2 text-gray-600 hover:text-rose-600 transition">
                     🏪 Self Ordering QR
                 </a>
             </div>
@@ -119,21 +119,20 @@
 
     {{-- automation --}}
 
-
     <section id="automation" class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         <!-- Left Content: Customer Table & Balance Card -->
         <div>
-            <div class="bg-white shadow rounded-lg p-6">
+            <div class="bg-white shadow rounded-lg p-6 overflow-x-auto">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-semibold">Customer</h2>
                     <a href="#" class="text-green-600 font-medium hover:underline flex items-center">
                         View All →
                     </a>
                 </div>
-                <table class="w-full border-collapse">
+                <table class="w-full border-collapse text-sm min-w-[600px]">
                     <thead>
-                        <tr class="text-gray-500 text-sm border-b">
+                        <tr class="text-gray-500 text-xs sm:text-sm border-b">
                             <th class="text-left py-2">NAME</th>
                             <th class="text-left py-2">TOP ORDER</th>
                             <th class="text-left py-2">ORDER</th>
@@ -142,7 +141,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b text-sm">
+                        <tr class="border-b text-xs sm:text-sm">
                             <td class="py-2 flex items-center space-x-3">
                                 <img src="https://i.pravatar.cc/40" class="w-8 h-8 rounded-full" />
                                 <span>Lucia Prichett</span>
@@ -152,7 +151,7 @@
                             <td>3,290</td>
                             <td>12 Dec 2023</td>
                         </tr>
-                        <tr class="border-b text-sm">
+                        <tr class="border-b text-xs sm:text-sm">
                             <td class="py-2 flex items-center space-x-3">
                                 <img src="https://i.pravatar.cc/41" class="w-8 h-8 rounded-full" />
                                 <span>Jake Adams</span>
@@ -164,71 +163,66 @@
                         </tr>
                     </tbody>
                 </table>
-
+    
                 <!-- Pagination -->
-                <div class="mt-4 flex justify-between items-center text-sm text-gray-600">
+                <div class="mt-4 flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm text-gray-600 space-y-2 sm:space-y-0">
                     <span>Showing 1 - 2 of 8</span>
-                    <div class="flex items-center space-x-2">
-                        <button class="px-3 py-1 border rounded-md">◀</button>
-                        <button class="px-3 py-1 border rounded-md bg-green-500 text-white">1</button>
-                        <button class="px-3 py-1 border rounded-md">2</button>
-                        <button class="px-3 py-1 border rounded-md">...</button>
-                        <button class="px-3 py-1 border rounded-md">8</button>
-                        <button class="px-3 py-1 border rounded-md">▶</button>
+                    <div class="flex items-center space-x-1 sm:space-x-2">
+                        <button class="px-2 py-1 border rounded-md">◀</button>
+                        <button class="px-2 py-1 border rounded-md bg-green-500 text-white">1</button>
+                        <button class="px-2 py-1 border rounded-md">2</button>
+                        <button class="px-2 py-1 border rounded-md">...</button>
+                        <button class="px-2 py-1 border rounded-md">8</button>
+                        <button class="px-2 py-1 border rounded-md">▶</button>
                     </div>
                 </div>
             </div>
-
+    
             <!-- Balance Card -->
             <div class="mt-6 bg-white shadow-lg rounded-lg p-6">
-                <p class="text-sm text-gray-500">Your Balance</p>
+                <p class="text-xs sm:text-sm text-gray-500">Your Balance</p>
                 <div class="flex justify-between items-center mt-2">
-                    <h3 class="text-2xl font-semibold">$6,650.05</h3>
-                    <span class="text-gray-400">💳 **** 9090</span>
+                    <h3 class="text-xl sm:text-2xl font-semibold">$6,650.05</h3>
+                    <span class="text-gray-400 text-xs sm:text-sm">💳 **** 9090</span>
                 </div>
-                <div class="mt-4 flex space-x-4">
-                    <button class="w-1/2 bg-green-500 text-white py-2 rounded-lg">Transfer</button>
-                    <button class="w-1/2 bg-green-100 text-green-700 py-2 rounded-lg">Request</button>
+                <div class="mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <button class="w-full sm:w-1/2 bg-green-500 text-white py-2 rounded-lg">Transfer</button>
+                    <button class="w-full sm:w-1/2 bg-green-100 text-green-700 py-2 rounded-lg">Request</button>
                 </div>
             </div>
         </div>
-
+    
         <!-- Right Content: Whatsapp QR Info -->
         <div>
-            <span
-                class="text-xs uppercase tracking-wide font-semibold bg-rose-100 text-rose-700 px-3 py-1 rounded">Automation
-                QR</span>
-            <h1 class="mt-4 text-4xl font-bold text-gray-900">
+            <span class="text-xs uppercase tracking-wide font-semibold bg-rose-100 text-rose-700 px-3 py-1 rounded">Automation QR</span>
+            <h1 class="mt-4 text-3xl sm:text-4xl font-bold text-gray-900">
                 <span class="underline decoration-rose-500">Whatsapp</span> Automation QR
             </h1>
-            <p class="mt-4 text-gray-600 text-lg">
+            <p class="mt-4 text-gray-600 text-base sm:text-lg">
                 Build strong client relationships with efficient communication and valuable feedback.
             </p>
-
+    
             <!-- Features List -->
-            <ul class="mt-6 space-y-3">
-                <li class="flex items-center space-x-3 text-gray-700">
+            <ul class="mt-6 space-y-2 sm:space-y-3">
+                <li class="flex items-center space-x-2 sm:space-x-3 text-gray-700">
                     ✅ Increase client loyalty
                 </li>
-                <li class="flex items-center space-x-3 text-gray-700">
+                <li class="flex items-center space-x-2 sm:space-x-3 text-gray-700">
                     ✅ Enhance task management
                 </li>
-                <li class="flex items-center space-x-3 text-gray-700">
+                <li class="flex items-center space-x-2 sm:space-x-3 text-gray-700">
                     ✅ Improve client feedback
                 </li>
             </ul>
-
+    
             <!-- Button -->
             <div class="mt-6">
-                <a href="#"
-                    class="inline-block px-6 py-3 rounded-full bg-rose-600 text-white font-semibold hover:bg-rose-700 transition">
+                <a href="#" class="inline-block px-5 sm:px-6 py-2 sm:py-3 rounded-full bg-rose-600 text-white font-semibold hover:bg-rose-700 transition">
                     Learn More →
                 </a>
             </div>
         </div>
-
     </section>
-
     {{-- ordering --}}
 
     <section  id="ordering" class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">

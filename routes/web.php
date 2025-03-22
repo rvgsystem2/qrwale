@@ -25,6 +25,8 @@ Route::get('/contact', function () {
     // ->name('business.qr');
 
 
+    Route::post('/business/{id}/track-click', [BusinessController::class, 'trackSocialClick'])
+    ->name('business.trackClick');
 
 
 // Public routes (accessible without login)

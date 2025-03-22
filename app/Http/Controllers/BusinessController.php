@@ -75,47 +75,28 @@ class BusinessController extends Controller implements HasMiddleware
         return view('business.qr_page', compact('business'));
     }
     
-    public function showQr($identifier)
-{
-    $business = Business::where(function ($query) use ($identifier) {
-            $query->where('custum_url', $identifier)
-                  ->orWhere('id', $identifier);
-        })
-        ->firstOrFail();
 
-    // Agar `custum_url` available hai toh use karein, warna `id` ka QR bane
-    $qrIdentifier = $business->custum_url ?? $business->id;
+
+  
     
-    // QR Code URL Generate Karein
-    $qrCodeUrl = route('business.qr', ['identifier' => $qrIdentifier]);
 
-    // QR Code Generate Karein
-    $qrCode = QrCode::size(250)
-                    ->backgroundColor(255, 255, 255)
-                    ->gradient(255, 0, 0, 0, 0, 255, 'diagonal')
-                    ->generate($qrCodeUrl);
+    public function trackSocialClick(Request $request, $id)
+{
+    $business = Business::findOrFail($id);
+    $platform = $request->platform; // Get platform name (fb_url, insta_url, etc.)
 
-    return view('business.qr', compact('business', 'qrCode', 'qrCodeUrl'));
+    // Get existing click data
+    $clicks = $business->social_clicks ? json_decode($business->social_clicks, true) : [];
+
+    // Increment the count for the selected platform
+    $clicks[$platform] = isset($clicks[$platform]) ? $clicks[$platform] + 1 : 1;
+
+    // Update the database
+    $business->update(['social_clicks' => json_encode($clicks)]);
+
+    return response()->json(['success' => true, 'clicks' => $clicks]);
 }
 
-    public function downloadQr($identifier)
-    {
-        $business = Business::where('custum_url', $identifier)
-                            ->orWhere('id', $identifier)
-                            ->firstOrFail();
-    
-        // QR Code URL Generate Karein
-        $qrCodeUrl = route('business.qr_download', ['identifier' => $business->custum_url ?? $business->id]);
-    
-        // QR Code Generate Karein
-        $qrCode = QrCode::size(250)
-                        ->backgroundColor(255, 255, 255)
-                        ->gradient(255, 0, 0, 0, 0, 255, 'diagonal')
-                        ->generate($qrCodeUrl);
-    
-        return view('business.qr_download', compact('business', 'qrCode', 'qrCodeUrl'));
-    }
-    
     
     public function index() {
         if (auth()->user()->hasRole('Super Admin')) {

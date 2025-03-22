@@ -8,7 +8,10 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.index');
+});
+Route::get('/contact', function () {
+    return view('front.contact');
 });
 
 // Public routes (accessible without login)

@@ -17,72 +17,84 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
+    
             <!-- Success Message -->
             @if (session('success'))
-                <div class="flex items-center bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-4 shadow-md">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                <div class="flex items-center bg-green-100 text-green-800 px-4 py-3 rounded-lg mb-6 shadow-md">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 13l4 4L19 7" />
                     </svg>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
-
+    
             <!-- Error Messages -->
             @if ($errors->any())
-                <div class="flex items-center bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-4 shadow-md">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                <div class="flex items-start bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-6 shadow-md">
+                    <svg class="w-6 h-6 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    <ul>
+                    <ul class="text-sm">
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li class="mb-1">• {{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
-
-            <div class="bg-white shadow-lg rounded-xl p-6">
+    
+            <!-- Permission Table -->
+            <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">🔐 Permission Management</h2>
+    
                 <div class="overflow-x-auto">
-                    <table class="w-full border border-gray-300 rounded-lg shadow-md">
-                        <thead>
-                            <tr class="bg-gray-100 text-gray-800 uppercase text-sm font-bold">
-                                <th class="border border-gray-300 px-6 py-3 text-left ">ID</th>
-                                <th class="border border-gray-300 px-6 py-3 text-left">Name</th>
-                                <th class="border border-gray-300 px-6 py-3 text-center">Actions</th>
+                    <table class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
+                        <thead class="bg-gradient-to-r from-indigo-50 to-indigo-100 text-gray-700 uppercase font-semibold text-xs">
+                            <tr>
+                                <th class="px-6 py-4">ID</th>
+                                <th class="px-6 py-4">Permission Name</th>
+                                <th class="px-6 py-4 text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-gray-100">
                             @forelse ($permissionData as $permission)
                                 <tr class="hover:bg-gray-50 transition">
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900 font-medium">{{ $permission->id }}</td>
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $permission->name }}</td>
-                                    <td class="border border-gray-300 px-6 py-4 text-center md:space-x-4 ">
-                                        @can('edit permission')
-                                        <a href="{{ route('permission.edit', $permission->id) }}" 
-                                            class="px-4 md:py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
-                                             Edit
-                                         </a>     
-                                        @endcan
-                                       
-                                        @can('delete permission')
-                                        <a href="{{ route('permission.delete', $permission->id) }}" 
-                                            class="px-4 md:py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
-                                             delete
-                                         </a>
-                                        @endcan
+                                    <td class="px-6 py-4 font-medium text-gray-800">{{ $permission->id }}</td>
+                                    <td class="px-6 py-4 text-gray-700">{{ $permission->name }}</td>
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex justify-center gap-3">
+                                            @can('edit permission')
+                                                <a href="{{ route('permission.edit', $permission->id) }}"
+                                                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-semibold transition shadow">
+                                                    ✏️ Edit
+                                                </a>
+                                            @endcan
+    
+                                            @can('delete permission')
+                                                <a href="{{ route('permission.delete', $permission->id) }}"
+                                                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold transition shadow">
+                                                    🗑️ Delete
+                                                </a>
+                                            @endcan
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="text-center py-6 text-gray-500 text-lg">No permissions found.</td>
+                                    <td colspan="3" class="text-center py-6 text-gray-400 text-base">
+                                        No permissions found.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
-            
+    
         </div>
     </div>
+    
 </x-app-layout>

@@ -92,7 +92,7 @@
                 </div>
     
                 <!-- Social Media Links -->
-                <div class="flex items-center space-x-4 mt-8">
+                <div class="flex items-center space-x-4 mt-8 mb-8">
                     <!-- Email -->
                     <a href="mailto:realvictorygroups@gmail.com"
                         class="group p-3 rounded-full bg-white shadow-md hover:bg-[#CA0300] transition duration-300">

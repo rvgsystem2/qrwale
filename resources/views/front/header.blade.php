@@ -19,7 +19,7 @@
                 <!-- Logo -->
                 <div class="flex items-center ">
                     <a href="#" class="shrink-0">
-                        <img src="{{ asset('asset/img/logo-w.png') }}" alt="Logo" class="w-full h-32 md:h-56 md:p-4">
+                        <img src="{{ asset('asset/img/logo-w.png') }}" alt="Logo" class="w-full h-32 md:h-56 md:p-8 ">
                     </a>
                 </div>
     

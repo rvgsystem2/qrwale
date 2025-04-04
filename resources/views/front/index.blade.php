@@ -36,7 +36,7 @@
     <link rel="canonical" href="https://qrwale.com/">
 
     <!-- Styles (Optional SEO boost) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" /> --}}
 
     <!-- Structured Data for Google (Optional) -->
     <script type="application/ld+json">
@@ -63,12 +63,16 @@
 
 
     <!-- Hero Section -->
-    <section class="w-full ">
-        <div
-            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">
-
-            <!-- Left Content -->
-            <div class="md:w-1/2">
+    <section class="w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">
+            
+            <!-- Image: Show first on mobile, second on desktop -->
+            <div class="md:order-2 md:w-1/2">
+                <img src="{{ asset('asset/img/hero.gif') }}" alt="QR visual" class="w-full" />
+            </div>
+    
+            <!-- Text Content: Show second on mobile, first on desktop -->
+            <div class="md:order-1 md:w-1/2">
                 <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight">
                     <span class="text-gray-700">QR Wale for</span><br />
                     <span id="changing-text" class="text-[#CA0300]">Ordering</span>
@@ -86,61 +90,46 @@
                         Connect With Us →
                     </a>
                 </div>
-
+    
                 <!-- Social Media Links -->
                 <div class="flex items-center space-x-4 mt-8">
-
                     <!-- Email -->
                     <a href="mailto:realvictorygroups@gmail.com"
                         class="group p-3 rounded-full bg-white shadow-md hover:bg-[#CA0300] transition duration-300">
-                        <svg class="w-6 h-6 text-[#CA0300] group-hover:text-white" fill="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-[#CA0300] group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
                         </svg>
                     </a>
-
                     <!-- Facebook -->
                     <a href="https://www.facebook.com/realvictorygroups/"
                         class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-600 transition duration-300">
-                        <svg class="w-6 h-6 text-blue-600 group-hover:text-white" fill="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-blue-600 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M22 12.07C22 6.49 17.52 2 12 2S2 6.49 2 12.07c0 5.02 3.66 9.18 8.44 9.88v-6.99H7.9v-2.89h2.54V9.79c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.62.77-1.62 1.56v1.87h2.76l-.44 2.89h-2.32v6.99C18.34 21.25 22 17.09 22 12.07z" />
                         </svg>
                     </a>
-
-                    
-
                     <!-- Instagram -->
                     <a href="https://www.instagram.com/realvictorygroups/"
                         class="group p-3 rounded-full bg-white shadow-md hover:bg-pink-500 transition duration-300">
-                        <svg class="w-6 h-6 text-pink-500 group-hover:text-white" fill="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-500 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
                         </svg>
                     </a>
-
                     <!-- LinkedIn -->
                     <a href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all"
                         class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-700 transition duration-300">
-                        <svg class="w-6 h-6 text-blue-700 group-hover:text-white" fill="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-blue-700 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 5 2.12 5 3.5zM0 8h5v16H0V8zm7.5 0h4.7v2.2h.07c.66-1.25 2.28-2.57 4.7-2.57C20.2 7.63 22 9.52 22 13.14V24h-5v-9.6c0-2.3-.82-3.87-2.9-3.87-1.58 0-2.52 1.06-2.94 2.08-.15.36-.2.87-.2 1.37V24h-5V8z" />
                         </svg>
                     </a>
                 </div>
             </div>
-
-            <!-- Right Image -->
-            <div class="md:w-1/2">
-                <img src="{{ asset('asset/img/hero.gif') }}" alt="QR visual" class="w-full" />
-            </div>
-
         </div>
     </section>
+    
 
 
 

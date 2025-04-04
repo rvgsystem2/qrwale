@@ -18,7 +18,7 @@
     </x-slot>
 
     <div class="mt-10bg-red-400 px-32">
-        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">📊 Business-wise Analytics</h3>
+        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center my-12">📊 Business-wise Analytics</h3>
     
         @foreach ($businesses as $business)
             @php

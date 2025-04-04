@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="mt-10">
+    <div class="mt-10bg-red-400 px-32">
         <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">📊 Business-wise Analytics</h3>
     
         @foreach ($businesses as $business)
@@ -13,7 +13,7 @@
                 $clicks = json_decode($business->social_clicks, true) ?? [];
             @endphp
     
-            <div class="bg-white rounded-2xl shadow-md p-6 mb-6 border border-gray-100 w-full">
+            <div class="bg-white  rounded-2xl shadow-md p-6 mb-6 border border-gray-100 w-full">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
                       <!-- Go to QR Link -->
         <a href="{{ route('business.qr', $business->custum_url ?? $business->id) }}"

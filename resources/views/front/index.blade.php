@@ -9,50 +9,97 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-white">
 
- {{-- nav --}}
- @include('front.header')
+    {{-- nav --}}
+    @include('front.header')
 
 
 
     <!-- Hero Section -->
-    <section class="w-full py-16">
+    <section class="w-full ">
         <div
-            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-10">
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">
 
             <!-- Left Content -->
             <div class="md:w-1/2">
-                <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">
-                    <span class="text-gray-600"> QR Wale for</span><br />
-                    <span id="changing-text" class="text-rose-600">Ordering</span>
+                <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight">
+                    <span class="text-gray-700">QR Wale for</span><br />
+                    <span id="changing-text" class="text-[#CA0300]">Ordering</span>
                 </h1>
-                <h2 class="mt-6 text-2xl font-bold text-gray-900">
-                    Engage & Grow By <span class="underline decoration-rose-500">QR Wale</span>
+                <h2 class="mt-6 text-2xl font-semibold text-gray-900">
+                    Engage & Grow with <span class="underline decoration-[#CA0300]">QR Wale</span>
                 </h2>
-                <p class="mt-4 text-gray-600 text-lg">
-                    Transform your business with our intelligent QR solutions.
-                    Drive more sales, track leads, automate tasks, enhance service,
-                    boost efficiency & links — all in one.
+                <p class="mt-4 text-gray-600 text-lg leading-relaxed">
+                    Transform your business with our intelligent QR solutions. Drive more sales, track leads,
+                    automate tasks, enhance service, boost efficiency, and manage links — all in one platform.
                 </p>
-                <div class="mt-6">
+                <div class="mt-8">
                     <a href="#"
-                        class="inline-flex items-center px-6 py-3 rounded-full bg-rose-600 text-white font-semibold hover:bg-rose-700 transition duration-300">
-                        Free Signup →
+                        class="inline-flex items-center px-6 py-3 rounded-full bg-[#CA0300] text-white font-semibold shadow hover:bg-[#b00200] transition duration-300">
+                        Connect With Us →
+                    </a>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="flex items-center space-x-4 mt-8">
+
+                    <!-- Email -->
+                    <a href="mailto:realvictorygroups@gmail.com"
+                        class="group p-3 rounded-full bg-white shadow-md hover:bg-[#CA0300] transition duration-300">
+                        <svg class="w-6 h-6 text-[#CA0300] group-hover:text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+                        </svg>
+                    </a>
+
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/realvictorygroups/"
+                        class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-600 transition duration-300">
+                        <svg class="w-6 h-6 text-blue-600 group-hover:text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M22 12.07C22 6.49 17.52 2 12 2S2 6.49 2 12.07c0 5.02 3.66 9.18 8.44 9.88v-6.99H7.9v-2.89h2.54V9.79c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.62.77-1.62 1.56v1.87h2.76l-.44 2.89h-2.32v6.99C18.34 21.25 22 17.09 22 12.07z" />
+                        </svg>
+                    </a>
+
+                    
+
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/realvictorygroups/"
+                        class="group p-3 rounded-full bg-white shadow-md hover:bg-pink-500 transition duration-300">
+                        <svg class="w-6 h-6 text-pink-500 group-hover:text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+                        </svg>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all"
+                        class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-700 transition duration-300">
+                        <svg class="w-6 h-6 text-blue-700 group-hover:text-white" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 5 2.12 5 3.5zM0 8h5v16H0V8zm7.5 0h4.7v2.2h.07c.66-1.25 2.28-2.57 4.7-2.57C20.2 7.63 22 9.52 22 13.14V24h-5v-9.6c0-2.3-.82-3.87-2.9-3.87-1.58 0-2.52 1.06-2.94 2.08-.15.36-.2.87-.2 1.37V24h-5V8z" />
+                        </svg>
                     </a>
                 </div>
             </div>
 
             <!-- Right Image -->
             <div class="md:w-1/2">
-                <img src="{{ asset('asset/img/hero.gif') }}" alt=" QR visual" class="w-full " />
+                <img src="{{ asset('asset/img/hero.gif') }}" alt="QR visual" class="w-full" />
             </div>
+
         </div>
     </section>
 
 
+
     <!-- Navigation Bar -->
-    <nav class="w-full border-b flex justify-center">
+    {{-- <nav class="w-full border-b flex justify-center">
         <div class="max-w-full mx-auto px-4 flex items-center justify-between py-4">
             <div class="flex md:space-x-12 space-x-1 ">
                 <a href="#reviews"
@@ -67,10 +114,10 @@
                 </a>
             </div>
         </div>
-    </nav>
+    </nav> --}}
 
     <!-- Hero Section -->
-    <section  id="reviews" class="w-full py-16 flex justify-center">
+    {{-- <section  id="reviews" class="w-full py-16 flex justify-center">
         <div class=" max-w-4xl px-2 flex flex-col md:flex-row items-center justify-between gap-1">
 
             <!-- Left Content -->
@@ -114,12 +161,12 @@
             </div>
 
         </div>
-    </section>
+    </section> --}}
 
 
     {{-- automation --}}
 
-    <section id="automation" class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    {{-- <section id="automation" class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         <!-- Left Content: Customer Table & Balance Card -->
         <div>
@@ -222,10 +269,10 @@
                 </a>
             </div>
         </div>
-    </section>
+    </section> --}}
     {{-- ordering --}}
 
-    <section  id="ordering" class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    {{-- <section  id="ordering" class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         <!-- Left Content -->
         <div>
@@ -281,11 +328,11 @@
             </div>
         </div>
 
-    </section>
+    </section> --}}
 
 
 
-    <section class="max-w-full bg-rose-400 mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    {{-- <section class="max-w-full bg-rose-400 mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         <!-- Left Content -->
         <div>
@@ -311,137 +358,116 @@
             <img src="{{asset('asset/img/crm-mockup-cta.png')}}" alt="Business Dashboard" class="w-full ">
         </div>
 
-    </section>
+    </section> --}}
 
 
     {{-- footer --}}
-    <div class="bg-gray-100">
-        <div class="max-w-screen-lg px-4 sm:px-6 text-gray-800 sm:grid md:grid-cols-4 sm:grid-cols-2 mx-auto">
-            <div class="p-5">
-                <h3 class="font-bold text-xl text-red-600">QR Wale</h3>
-                <img src="{{asset('logo.png')}}" alt="">
+    <footer class="bg-gray-100 py-12 text-gray-800">
+        <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            
+            <!-- Branding -->
+            <div>
+                <h3 class="text-2xl font-extrabold text-red-600 mb-4">QR Wale</h3>
+                <img src="{{ asset('logo.png') }}" alt="QR Wale Logo" class="w-32">
             </div>
-            <div class="p-5">
-                <div class="text-sm uppercase text-red-600 font-bold">Resources</div>
-                <a class="my-3 block" href="/#">Documentation <span class="text-teal-600 text-xs p-1"></span></a><a
-                    class="my-3 block" href="/#">Tutorials <span class="text-teal-600 text-xs p-1"></span></a><a
-                    class="my-3 block" href="/#">Support <span class="text-teal-600 text-xs p-1">New</span></a>
-            </div>
-            <div class="p-5">
-                <div class="text-sm uppercase text-red-600 font-bold">Support</div>
-                <a class="my-3 block" href="/#">Help Center <span class="text-teal-600 text-xs p-1"></span></a><a
-                    class="my-3 block" href="/#">Privacy Policy <span class="text-teal-600 text-xs p-1"></span></a><a
-                    class="my-3 block" href="/#">Conditions <span class="text-teal-600 text-xs p-1"></span></a>
-            </div>
-            <div class="p-5">
-                <div class="text-sm uppercase text-red-600 font-bold">Contact us</div>
-                <a class="my-3 block" href="/#">XXX XXXX, Floor 4 San Francisco, CA
-                    <span class="text-teal-600 text-xs p-1"></span></a><a class="my-3 block" href="/#">contact@company.com
-                    <span class="text-teal-600 text-xs p-1"></span></a>
-            </div>
-        </div>
-    </div>
     
+            <!-- Resources -->
+            <div>
+                <h4 class="text-sm font-semibold uppercase text-red-600 mb-4">Connect</h4>
+                <ul class="space-y-2 text-base">
+                    <li><a href="mailto:realvictorygroups@gmail.com" class="hover:text-red-600 transition">Email</a></li>
+                    <li><a href="https://www.facebook.com/realvictorygroups/" class="hover:text-red-600 transition">Facebook</a></li>
+                    <li><a href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all" class="hover:text-red-600 transition">Linkedin</a></li>
+                    <li><a href="https://www.instagram.com/realvictorygroups/" class="hover:text-red-600 transition">instagram</a></li>
+                </ul>
+            </div>
+    
+            <!-- Contact -->
+            <div>
+                <h4 class="text-sm font-semibold uppercase text-red-600 mb-4">Contact Us</h4>
+                <ul class="space-y-2 text-base">
+                    
+                        <li>73 Basement, Ekta Enclave Society, Lakhanpur, Khyora, Kanpur, Uttar Pradesh 208024</li>
+                    <li><a href="mailto:realvictorygroups@gmail.com " class="hover:text-red-600 transition">realvictorygroups@gmail.com </a></li>
+                    <li>+ 91 77538 00444</li>
+                </ul>
+            </div>
+    
+            
+           <!-- Support with Google Map -->
+<div>
+    <h4 class="text-sm font-semibold uppercase text-red-600 mb-4">Our Location</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3570.795247124584!2d80.27712277488058!3d26.494536677937603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c3826d4ebf859%3A0xe9e2ed37cc371552!2sReal%20Victory%20Groups!5e0!3m2!1sen!2sin!4v1743753208287!5m2!1sen!2sin" 
+            class="w-full h-full border-0" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</div>
+
+    
+        </div>
+
+         {{-- bottom socail media icon --}}
     <div class="bg-gray-100 pt-2">
-        <div class="flex pb-5 px-3 m-auto pt-5 border-t text-gray-800 text-sm flex-col
+        <div
+            class="flex  px-3 m-auto border-t text-gray-800 text-sm flex-col
           max-w-screen-lg items-center">
-            <div class="md:flex-auto md:flex-row-reverse mt-2 flex-row flex">
-                <a href="/#" class="w-6 mx-1">
-                    <svg class="fill-current cursor-pointer text-gray-500 hover:text-red-600" width="100%" height="100%"
-                        viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
-                        style="fill-rule: evenodd; clip-rule: evenodd; stroke-linejoin: round; stroke-miterlimit: 2;">
-                        <path id="Twitter" d="M24,12c0,6.627 -5.373,12 -12,12c-6.627,0 -12,-5.373 -12,-12c0,-6.627
-                      5.373,-12 12,-12c6.627,0 12,5.373 12,12Zm-6.465,-3.192c-0.379,0.168
-                      -0.786,0.281 -1.213,0.333c0.436,-0.262 0.771,-0.676
-                      0.929,-1.169c-0.408,0.242 -0.86,0.418 -1.341,0.513c-0.385,-0.411
-                      -0.934,-0.667 -1.541,-0.667c-1.167,0 -2.112,0.945 -2.112,2.111c0,0.166
-                      0.018,0.327 0.054,0.482c-1.754,-0.088 -3.31,-0.929
-                      -4.352,-2.206c-0.181,0.311 -0.286,0.674 -0.286,1.061c0,0.733 0.373,1.379
-                      0.94,1.757c-0.346,-0.01 -0.672,-0.106 -0.956,-0.264c-0.001,0.009
-                      -0.001,0.018 -0.001,0.027c0,1.023 0.728,1.877 1.694,2.07c-0.177,0.049
-                      -0.364,0.075 -0.556,0.075c-0.137,0 -0.269,-0.014 -0.397,-0.038c0.268,0.838
-                      1.048,1.449 1.972,1.466c-0.723,0.566 -1.633,0.904 -2.622,0.904c-0.171,0
-                      -0.339,-0.01 -0.504,-0.03c0.934,0.599 2.044,0.949 3.237,0.949c3.883,0
-                      6.007,-3.217 6.007,-6.008c0,-0.091 -0.002,-0.183 -0.006,-0.273c0.413,-0.298
-                      0.771,-0.67 1.054,-1.093Z"></path>
-                    </svg>
-                </a>
-                <a href="/#" class="w-6 mx-1">
-                    <svg class="fill-current cursor-pointer text-gray-500 hover:text-red-600" width="100%" height="100%"
-                        viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
-                        style="fill-rule: evenodd; clip-rule: evenodd; stroke-linejoin: round; stroke-miterlimit: 2;">
-                        <path id="Facebook" d="M24,12c0,6.627 -5.373,12 -12,12c-6.627,0 -12,-5.373 -12,-12c0,-6.627
-                      5.373,-12 12,-12c6.627,0 12,5.373
-                      12,12Zm-11.278,0l1.294,0l0.172,-1.617l-1.466,0l0.002,-0.808c0,-0.422
-                      0.04,-0.648 0.646,-0.648l0.809,0l0,-1.616l-1.295,0c-1.555,0 -2.103,0.784
-                      -2.103,2.102l0,0.97l-0.969,0l0,1.617l0.969,0l0,4.689l1.941,0l0,-4.689Z"></path>
-                    </svg>
-                </a>
-                <a href="/#" class="w-6 mx-1">
-                    <svg class="fill-current cursor-pointer text-gray-500 hover:text-red-600" width="100%" height="100%"
-                        viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
-                        style="fill-rule: evenodd; clip-rule: evenodd; stroke-linejoin: round; stroke-miterlimit: 2;">
-                        <g id="Layer_1">
-                            <circle id="Oval" cx="12" cy="12" r="12"></circle>
-                            <path id="Shape" d="M19.05,8.362c0,-0.062 0,-0.125 -0.063,-0.187l0,-0.063c-0.187,-0.562
-                         -0.687,-0.937 -1.312,-0.937l0.125,0c0,0 -2.438,-0.375 -5.75,-0.375c-3.25,0
-                         -5.75,0.375 -5.75,0.375l0.125,0c-0.625,0 -1.125,0.375
-                         -1.313,0.937l0,0.063c0,0.062 0,0.125 -0.062,0.187c-0.063,0.625 -0.25,1.938
-                         -0.25,3.438c0,1.5 0.187,2.812 0.25,3.437c0,0.063 0,0.125
-                         0.062,0.188l0,0.062c0.188,0.563 0.688,0.938 1.313,0.938l-0.125,0c0,0
-                         2.437,0.375 5.75,0.375c3.25,0 5.75,-0.375 5.75,-0.375l-0.125,0c0.625,0
-                         1.125,-0.375 1.312,-0.938l0,-0.062c0,-0.063 0,-0.125
-                         0.063,-0.188c0.062,-0.625 0.25,-1.937 0.25,-3.437c0,-1.5 -0.125,-2.813
-                         -0.25,-3.438Zm-4.634,3.927l-3.201,2.315c-0.068,0.068 -0.137,0.068
-                         -0.205,0.068c-0.068,0 -0.136,0 -0.204,-0.068c-0.136,-0.068 -0.204,-0.204
-                         -0.204,-0.34l0,-4.631c0,-0.136 0.068,-0.273 0.204,-0.341c0.136,-0.068
-                         0.272,-0.068 0.409,0l3.201,2.316c0.068,0.068 0.136,0.204
-                         0.136,0.34c0.068,0.136 0,0.273 -0.136,0.341Z" style="fill: rgb(255, 255, 255);"></path>
-                        </g>
-                    </svg>
-                </a>
-                <a href="/#" class="w-6 mx-1">
-                    <svg class="fill-current cursor-pointer text-gray-500 hover:text-red-600" width="100%" height="100%"
-                        viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
-                        style="fill-rule: evenodd; clip-rule: evenodd; stroke-linejoin: round; stroke-miterlimit: 2;">
-                        <path id="Shape" d="M7.3,0.9c1.5,-0.6 3.1,-0.9 4.7,-0.9c1.6,0 3.2,0.3 4.7,0.9c1.5,0.6 2.8,1.5
-                      3.8,2.6c1,1.1 1.9,2.3 2.6,3.8c0.7,1.5 0.9,3 0.9,4.7c0,1.7 -0.3,3.2
-                      -0.9,4.7c-0.6,1.5 -1.5,2.8 -2.6,3.8c-1.1,1 -2.3,1.9 -3.8,2.6c-1.5,0.7
-                      -3.1,0.9 -4.7,0.9c-1.6,0 -3.2,-0.3 -4.7,-0.9c-1.5,-0.6 -2.8,-1.5
-                      -3.8,-2.6c-1,-1.1 -1.9,-2.3 -2.6,-3.8c-0.7,-1.5 -0.9,-3.1 -0.9,-4.7c0,-1.6
-                      0.3,-3.2 0.9,-4.7c0.6,-1.5 1.5,-2.8 2.6,-3.8c1.1,-1 2.3,-1.9
-                      3.8,-2.6Zm-0.3,7.1c0.6,0 1.1,-0.2 1.5,-0.5c0.4,-0.3 0.5,-0.8 0.5,-1.3c0,-0.5
-                      -0.2,-0.9 -0.6,-1.2c-0.4,-0.3 -0.8,-0.5 -1.4,-0.5c-0.6,0 -1.1,0.2
-                      -1.4,0.5c-0.3,0.3 -0.6,0.7 -0.6,1.2c0,0.5 0.2,0.9 0.5,1.3c0.3,0.4 0.9,0.5
-                      1.5,0.5Zm1.5,10l0,-8.5l-3,0l0,8.5l3,0Zm11,0l0,-4.5c0,-1.4 -0.3,-2.5
-                      -0.9,-3.3c-0.6,-0.8 -1.5,-1.2 -2.6,-1.2c-0.6,0 -1.1,0.2 -1.5,0.5c-0.4,0.3
-                      -0.8,0.8 -0.9,1.3l-0.1,-1.3l-3,0l0.1,2l0,6.5l3,0l0,-4.5c0,-0.6 0.1,-1.1
-                      0.4,-1.5c0.3,-0.4 0.6,-0.5 1.1,-0.5c0.5,0 0.9,0.2 1.1,0.5c0.2,0.3 0.4,0.8
-                      0.4,1.5l0,4.5l2.9,0Z"></path>
-                    </svg>
-                </a>
-                <a href="/#" class="w-6 mx-1">
-                    <svg class="fill-current cursor-pointer text-gray-500 hover:text-red-600" width="100%" height="100%"
-                        viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
-                        style="fill-rule: evenodd; clip-rule: evenodd; stroke-linejoin: round; stroke-miterlimit: 2;">
-                        <path id="Combined-Shape" d="M12,24c6.627,0 12,-5.373 12,-12c0,-6.627 -5.373,-12 -12,-12c-6.627,0
-                      -12,5.373 -12,12c0,6.627 5.373,12 12,12Zm6.591,-15.556l-0.722,0c-0.189,0
-                      -0.681,0.208 -0.681,0.385l0,6.422c0,0.178 0.492,0.323
-                      0.681,0.323l0.722,0l0,1.426l-4.675,0l0,-1.426l0.935,0l0,-6.655l-0.163,0l-2.251,8.081l-1.742,0l-2.222,-8.081l-0.168,0l0,6.655l0.935,0l0,1.426l-3.74,0l0,-1.426l0.519,0c0.203,0
-                      0.416,-0.145 0.416,-0.323l0,-6.422c0,-0.177 -0.213,-0.385
-                      -0.416,-0.385l-0.519,0l0,-1.426l4.847,0l1.583,5.704l0.042,0l1.598,-5.704l5.021,0l0,1.426Z"></path>
-                    </svg>
-                </a>
-            </div>
-            <div class="my-5">© Copyright 2025. All Rights Reserved.</div>
+          <div class="flex items-center space-x-4 mt-8">
+
+            <!-- Email -->
+            <a href="mailto:realvictorygroups@gmail.com"
+                class="group p-3 rounded-full bg-white shadow-md hover:bg-[#CA0300] transition duration-300">
+                <svg class="w-6 h-6 text-[#CA0300] group-hover:text-white" fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+                </svg>
+            </a>
+
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/realvictorygroups/"
+                class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-600 transition duration-300">
+                <svg class="w-6 h-6 text-blue-600 group-hover:text-white" fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M22 12.07C22 6.49 17.52 2 12 2S2 6.49 2 12.07c0 5.02 3.66 9.18 8.44 9.88v-6.99H7.9v-2.89h2.54V9.79c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.62.77-1.62 1.56v1.87h2.76l-.44 2.89h-2.32v6.99C18.34 21.25 22 17.09 22 12.07z" />
+                </svg>
+            </a>
+
+            
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/realvictorygroups/"
+                class="group p-3 rounded-full bg-white shadow-md hover:bg-pink-500 transition duration-300">
+                <svg class="w-6 h-6 text-pink-500 group-hover:text-white" fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+                </svg>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all"
+                class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-700 transition duration-300">
+                <svg class="w-6 h-6 text-blue-700 group-hover:text-white" fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 5 2.12 5 3.5zM0 8h5v16H0V8zm7.5 0h4.7v2.2h.07c.66-1.25 2.28-2.57 4.7-2.57C20.2 7.63 22 9.52 22 13.14V24h-5v-9.6c0-2.3-.82-3.87-2.9-3.87-1.58 0-2.52 1.06-2.94 2.08-.15.36-.2.87-.2 1.37V24h-5V8z" />
+                </svg>
+            </a>
+        </div>
+            <div class="my-5">© Real <span class="text-[#CA0300]">Victroy</span> Groups 2025. All Rights Reserved.</div>
         </div>
     </div>
+    </footer>
     
+
+   
+
 
 
     <script>
@@ -474,7 +500,7 @@
 
 
 
-  
+
 </body>
 
 </html>

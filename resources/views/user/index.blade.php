@@ -27,63 +27,73 @@
                 </div>
             @endif
 
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <div class="overflow-x-auto">
-                    <table class="w-full border border-gray-300 rounded-lg shadow-md">
-                        <thead>
-                            <tr class="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
-                                <th class="border border-gray-300 px-6 py-3 text-left">ID</th>
-                                <th class="border border-gray-300 px-6 py-3 text-left"> Name</th>
-                                <th class="border border-gray-300 px-6 py-3 text-left">Email</th>
-                                <th class="border border-gray-300 px-6 py-3 text-left">Roles</th>
-
-                                <th class="border border-gray-300 px-6 py-3 text-center">Actions</th>
+            <div class="bg-white shadow-xl rounded-xl p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">User Management</h2>
+            
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="w-full text-sm text-left text-gray-700">
+                        <thead class="bg-gray-100 text-gray-800 uppercase text-sm font-semibold">
+                            <tr>
+                                <th class="px-6 py-3 border-b">ID</th>
+                                <th class="px-6 py-3 border-b">Name</th>
+                                <th class="px-6 py-3 border-b">Email</th>
+                                <th class="px-6 py-3 border-b">Roles</th>
+                                <th class="px-6 py-3 border-b">Permissions</th>
+                                <th class="px-6 py-3 border-b text-center">Actions</th>
                             </tr>
                         </thead>
+            
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($userData as $user)
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900 font-medium">
-                                        {{ $user->id }}</td>
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $user->name }}</td>
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900">{{ $user->email }}</td>
-                                    <td class="border border-gray-300 px-6 py-4 text-gray-900">
-                                        {{ $user->roles->pluck('name')->implode(', ') }}</td>
-
-                                    {{-- <td class="border border-gray-300 px-6 py-4 text-gray-900">
+                                <tr class="hover:bg-gray-50 transition-all">
+                                    <td class="px-6 py-4">{{ $user->id }}</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">{{ $user->name }}</td>
+                                    <td class="px-6 py-4">{{ $user->email }}</td>
+                                    <td class="px-6 py-4">{{ $user->roles->pluck('name')->implode(', ') }}</td>
+                                    <td class="px-6 py-4">
                                         @if ($user->permissions->isNotEmpty())
-                                            <span class="text-sm text-gray-700">
-                                                {{ implode(', ', $user->permissions->pluck('name')->toArray()) }}
+                                            <span class="text-gray-700 text-sm">
+                                                {{ $user->permissions->pluck('name')->implode(', ') }}
                                             </span>
                                         @else
-                                            <span class="text-gray-400">No Permissions Assigned</span>
+                                            <span class="text-gray-400 italic">No Permissions</span>
                                         @endif
-                                    </td> --}}
-                                    <td class="border border-gray-300 px-6 py-4 text-center space-x-2">
-                                        @can('edit users')
-                                        <a href="{{ route('user.edit', $user->id) }}"
-                                            class="px-4 md:py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
-                                            Edit
-                                        </a>
-                                        @endcan
-                                        @can('delete users')
-                                        <a href="{{ route('user.delete', $user->id) }}"
-                                            class="px-4 md:py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
-                                            Delete
-                                        </a>
-                                        @endcan
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex justify-center gap-2 flex-wrap">
+                                            @can('edit users')
+                                                <a href="{{ route('user.edit', $user->id) }}"
+                                                   class="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-4 py-2 rounded shadow transition">
+                                                    Edit
+                                                </a>
+                                            @endcan
+            
+                                            @can('delete users')
+                                                <a href="{{ route('user.delete', $user->id) }}"
+                                                   class="bg-red-500 hover:bg-red-600 text-white text-xs px-4 py-2 rounded shadow transition">
+                                                    Delete
+                                                </a>
+                                            @endcan
+            
+                                            @can('assign permissions user')
+                                                <a href="{{ route('user.permission.form', $user->id) }}"
+                                                   class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-4 py-2 rounded shadow transition">
+                                                    Assign Permissions
+                                                </a>
+                                            @endcan
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center py-6 text-gray-500 text-lg">No users found.
-                                    </td>
+                                    <td colspan="6" class="text-center py-6 text-gray-500 text-base">No users found.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
+            
 
         </div>
     </div>

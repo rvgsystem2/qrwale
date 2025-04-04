@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -90,5 +91,7 @@ class RoleController extends Controller implements HasMiddleware
     
         return redirect()->route('role.index')->with('success', 'Role deleted successfully.');
     }
+
+   
     
 }

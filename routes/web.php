@@ -73,6 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::get('user/edit/{user}',[UserController::class,'edit'])->name('user.edit');
     Route::post('user/update/{user}',[UserController::class,'update'])->name('user.update');
     Route::get('user/delete/{user}',[UserController::class,'delete'])->name('user.delete');
+    Route::get('/user/permissions/{user}', [UserController::class, 'assignPermissionForm'])->name('user.permission.form');
+    Route::post('/user/permissions/{user}', [UserController::class, 'assignPermissionToUser'])->name('user.assign-permission');
 
     // Business Routes
     Route::get('businesses/index',[BusinessController::class,'index'])->name('business.index');
@@ -81,6 +83,10 @@ Route::middleware('auth')->group(function () {
     Route::get('businesses/edit/{business}',[BusinessController::class,'edit'])->name('business.edit');
     Route::post('businesses/update/{business}',[BusinessController::class,'update'])->name('business.update');
     Route::get('businesses/delete/{business}',[BusinessController::class,'delete'])->name('business.delete');
+   
+
+
+    
 });
 
 require __DIR__.'/auth.php';

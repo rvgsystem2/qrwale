@@ -32,6 +32,7 @@ class PermissionsTableSeeder extends Seeder
             'create business',
             'rating business',
             'show qr',
+            'assign permissions user'
         ];
 
         foreach ($permissions as $permission) {

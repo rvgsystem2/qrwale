@@ -130,14 +130,23 @@ class BusinessController extends Controller implements HasMiddleware
 
 
     public function create() {
-        $users = User::all(); // Fetch all users
+        if (auth()->user()->hasRole('Super Admin')) {
+            $users = User::all(); // Super Admin sees all users
+        } else {
+            $users = User::where('id', auth()->id())->get(); // Normal users only see themselves
+        }
         return view('business.create', compact('users'));
     }
     
     public function edit(Business $business) {
-        $users = User::all();
+        if (auth()->user()->hasRole('Super Admin')) {
+            $users = User::all(); // Super Admin sees all users
+        } else {
+            $users = User::where('id', auth()->id())->get(); // Normal users only see themselves
+        }
         return view('business.create', compact('business', 'users'));
     }
+    
     
 
 
@@ -199,4 +208,29 @@ class BusinessController extends Controller implements HasMiddleware
         return redirect()->route('business.index')->with('success', 'Business deleted successfully.');
     }
     
+
+    public function dashboard()
+{
+    if (auth()->user()->hasRole('Super Admin')) {
+        $businesses = Business::all();
+    } else {
+        $businesses = Business::where('user_id', auth()->id())->get();
+    }
+
+    $totalBusinesses = $businesses->count();
+
+    $totalScans = $businesses->sum('qr_scan_count');
+
+    // Sum all social clicks
+    $totalSocialClicks = 0;
+    foreach ($businesses as $business) {
+        $clicks = json_decode($business->social_clicks, true);
+        if (is_array($clicks)) {
+            $totalSocialClicks += array_sum($clicks);
+        }
+    }
+
+    return view('dashboard', compact('totalBusinesses', 'totalScans', 'totalSocialClicks','businesses'));
+}
+
 }

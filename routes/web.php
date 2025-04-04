@@ -38,9 +38,11 @@ Route::get('/business/{identifier}/qr', [BusinessController::class, 'showQRPage'
 Route::get('/business/{id}/rating', [BusinessController::class, 'showRating'])->name('business.rating');
 Route::post('/business/{id}/review', [BusinessController::class, 'submitReview'])->name('business.review');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [BusinessController::class, 'dashboard'])->middleware(['auth','verified'])->name('dashboard');
+
 
 // Routes that require authentication
 Route::middleware('auth')->group(function () {

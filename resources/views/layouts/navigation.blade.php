@@ -2,52 +2,47 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between ">
-            <div class="flex">
+            <div class="flex items-center space-x-6">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-
+            
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden sm:flex space-x-6 text-sm font-medium text-gray-700">
+                    <!-- Dashboard -->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
                     </x-nav-link>
-                </div>
-                @can('view permission ')
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
-                            {{ __('permission') }}
-                        </x-nav-link>
-                    </div>
-                @endcan
-                @can('view roles')
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+            
+                    @can('view permission')
+                    <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
+                        <i class="fas fa-key mr-1"></i> Permissions
+                    </x-nav-link>
+                    @endcan
+            
+                    @can('view roles')
                     <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
-                        {{ __('role') }}
+                        <i class="fas fa-user-shield mr-1"></i> Roles
                     </x-nav-link>
-                </div>     
-                @endcan
-               
-
-                @can('view users')
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @endcan
+            
+                    @can('view users')
                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
-                        {{ __('user') }}
+                        <i class="fas fa-users mr-1"></i> Users
                     </x-nav-link>
-                </div>
-                @endcan
-              
-                @can('view business')
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @endcan
+            
+                    @can('view business')
                     <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
-                        {{ __('business') }}
+                        <i class="fas fa-building mr-1"></i> Businesses
                     </x-nav-link>
+                    @endcan
                 </div>
-                @endcan
             </div>
+            
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">

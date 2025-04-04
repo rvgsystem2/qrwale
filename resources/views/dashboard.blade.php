@@ -15,6 +15,12 @@
     
             <div class="bg-white rounded-2xl shadow-md p-6 mb-6 border border-gray-100 w-full">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                      <!-- Go to QR Link -->
+        <a href="{{ route('business.qr', $business->custum_url ?? $business->id) }}"
+            target="_blank"
+            class="inline-block bg-gradient-to-r from-red-600 to-blue-800 text-white px-4 py-2 rounded-md shadow hover:opacity-90 transition duration-200">
+             🔗 Go to QR Page
+         </a>
                     <h4 class="text-2xl font-semibold text-gray-800">{{ $business->bussiness_name }}</h4>
                     <div class="mt-2 md:mt-0 text-sm text-gray-500">Business ID: #{{ $business->bussiness_name }}</div>
                 </div>

@@ -7,7 +7,8 @@
         <title>Real Victoy Groups</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
+        {{-- <link rel="preconnect" href="https://fonts.bunny.net"> --}}
+        <link rel="icon" href="{{ asset('logo.png') }}" type="image/x-icon">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
         <!-- Styles / Scripts -->

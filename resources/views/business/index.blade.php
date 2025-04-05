@@ -119,7 +119,7 @@
                                     @php
                                         $qrCodeImage = base64_encode(
                                             QrCode::format('png')
-                                                ->size(200)
+                                                ->size(250)
                                                 ->generate(
                                                     route('business.qr', $business->custum_url ?? $business->id),
                                                 ),

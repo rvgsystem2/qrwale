@@ -4,7 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business QR</title>
+    <title>QRwale – Free & Custom QR Code Generator for Business, Events & Products</title>
+    
+    <meta name="description" content="Generate stylish, scannable QR codes for business, events, products & more. Free & secure QR code generator with tracking & logo options.">
+    
+    <meta name="keywords" content="QR code generator, free QR code, custom QR, business QR code, trackable QR codes, QR with logo, qrwale, qr wale">
+    
+    <meta name="author" content="QRwale Team">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qrwale.com/">
+    <meta property="og:title" content="QRwale – Free & Stylish QR Code Generator">
+    <meta property="og:description" content="Create free, custom QR codes for your business, product, or event. Add logos, colors, and track performance.">
+    <meta property="og:image" content="https://qrwale.com/logo.png"> <!-- Replace with actual preview image -->
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://qrwale.com/">
+    <meta name="twitter:title" content="QRwale – Free QR Code Generator with Tracking & Customization">
+    <meta name="twitter:description" content="Make your own free QR codes in seconds. Customize with logo, colors, and more. Ideal for business & marketing.">
+    <meta name="twitter:image" content="https://qrwale.com/logo.png"> <!-- Replace with actual preview image -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}"> <!-- Replace with your favicon -->
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://qrwale.com/">
+
+    <!-- Styles (Optional SEO boost) -->
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" /> --}}
+
+    <!-- Structured Data for Google (Optional) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "QRwale",
+      "url": "https://qrwale.com/",
+      "description": "Free & custom QR code generator with logo, colors, and tracking for business, events, and more.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "QRwale"
+      }
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">

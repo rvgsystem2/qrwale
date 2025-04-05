@@ -153,4 +153,20 @@ class UserController extends Controller implements HasMiddleware
 
         return redirect()->back()->with('success', 'Permissions updated successfully.');
     }
+
+
+    public function delete($id)
+{
+    $user = User::findOrFail($id);
+
+    // Optional: prevent deletion of currently logged-in user
+    if (auth()->id() === $user->id) {
+        return redirect()->back()->withErrors(['You cannot delete your own account.']);
+    }
+
+    $user->delete();
+
+    return redirect()->route('user.index')->with('success', 'User deleted successfully.');
+}
+
 }

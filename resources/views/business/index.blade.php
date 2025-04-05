@@ -57,7 +57,7 @@
                             <th class="px-4 py-3">Social Links</th>
                             <th class="px-4 py-3">Rating</th>
                             <th class="px-4 py-3">QR Code</th>
-                            <th class="px-4 py-3">QR download</th>
+                            {{-- <th class="px-4 py-3">QR download</th> --}}
                             <th class="px-4 py-3">Created At</th>
                             <th class="px-4 py-3">Actions</th>
                         </tr>
@@ -103,7 +103,7 @@
                                 <td class="px-4 py-3">{{ $business->rating ?? 'N/A' }}</td>
 
                                 <!-- ✅ QR Code -->
-                                <td class="px-4 py-3 text-center">
+                                {{-- <td class="px-4 py-3 text-center">
                                     @can('show qr')
                                         <div id="qr-code-{{ $business->id }}" class="mb-2">
                                             {!! QrCode::size(200)->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
@@ -114,7 +114,7 @@
                                             Print QR
                                         </button>
                                     @endcan
-                                </td>
+                                </td> --}}
                                 <td>
                                     @php
                                         $qrCodeImage = base64_encode(

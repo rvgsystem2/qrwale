@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-200 h-24">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-200 h-24 z-50 relative">
     <!-- Container -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 bg-white">
         <div class="flex justify-between h-16">
             <!-- Left: Logo & Main Nav -->
             <div class="flex">
@@ -96,7 +96,7 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="sm:hidden hidden" id="mobile-menu">
+    <div :class="{ 'block': open, 'hidden': !open }" class="sm:hidden hidden bg-white z-50" id="mobile-menu">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 <i class="fas fa-tachometer-alt mr-1"></i> {{ __('Dashboard') }}

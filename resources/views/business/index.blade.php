@@ -16,19 +16,18 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-    
+
             <!-- ✅ Success Message -->
             @if (session('success'))
                 <div class="flex items-center bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-6 shadow-md">
                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 13l4 4L19 7"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
-    
+
             <!-- ✅ Error Messages -->
             @if ($errors->any())
                 <div class="flex items-start bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-6 shadow-md">
@@ -44,7 +43,7 @@
                     </ul>
                 </div>
             @endif
-    
+
             <!-- ✅ Business Table -->
             <div class="overflow-x-auto bg-white shadow-xl rounded-xl p-6 border border-gray-200">
                 <table class="w-full text-sm text-left text-gray-800">
@@ -58,6 +57,7 @@
                             <th class="px-4 py-3">Social Links</th>
                             <th class="px-4 py-3">Rating</th>
                             <th class="px-4 py-3">QR Code</th>
+                            <th class="px-4 py-3">QR download</th>
                             <th class="px-4 py-3">Created At</th>
                             <th class="px-4 py-3">Actions</th>
                         </tr>
@@ -74,12 +74,13 @@
                                 <td class="px-4 py-3">{{ $business->mobile_number ?? 'N/A' }}</td>
                                 <td class="px-4 py-3">
                                     @if ($business->website_url)
-                                        <a href="{{ $business->website_url }}" class="text-blue-500 hover:underline" target="_blank">Visit</a>
+                                        <a href="{{ $business->website_url }}" class="text-blue-500 hover:underline"
+                                            target="_blank">Visit</a>
                                     @else
                                         <span class="text-gray-400">N/A</span>
                                     @endif
                                 </td>
-    
+
                                 <!-- ✅ Social Clicks -->
                                 <td class="px-4 py-3">
                                     <div class="flex flex-wrap gap-2 text-lg">
@@ -88,36 +89,61 @@
                                                 <a href="{{ $business->$key }}" target="_blank"
                                                     class="hover:scale-110 transition transform"
                                                     onclick="trackClick({{ $business->id }}, '{{ $key }}')">
-                                                    <i class="fab fa-{{ $platform }} text-{{ $platform === 'whatsapp' ? 'green' : ($platform === 'instagram' ? 'pink' : ($platform === 'linkedin' ? 'blue-800' : 'blue-600')) }}"></i>
-                                                    <span class="text-sm text-gray-500">({{ $clicks[$key] ?? 0 }})</span>
+                                                    <i
+                                                        class="fab fa-{{ $platform }} text-{{ $platform === 'whatsapp' ? 'green' : ($platform === 'instagram' ? 'pink' : ($platform === 'linkedin' ? 'blue-800' : 'blue-600')) }}"></i>
+                                                    <span
+                                                        class="text-sm text-gray-500">({{ $clicks[$key] ?? 0 }})</span>
                                                 </a>
                                             @endif
                                         @endforeach
                                     </div>
                                 </td>
-    
+
                                 <!-- ✅ Rating -->
                                 <td class="px-4 py-3">{{ $business->rating ?? 'N/A' }}</td>
-    
+
                                 <!-- ✅ QR Code -->
                                 <td class="px-4 py-3 text-center">
                                     @can('show qr')
                                         <div id="qr-code-{{ $business->id }}" class="mb-2">
                                             {!! QrCode::size(200)->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
                                         </div>
-    
+
                                         <button onclick="printQRCode({{ $business->id }})"
                                             class="px-3 py-1 text-white bg-gradient-to-r from-red-500 to-blue-500 hover:from-blue-600 hover:to-red-600 rounded w-full text-xs">
                                             Print QR
                                         </button>
                                     @endcan
                                 </td>
-    
+                                <td>
+                                    @php
+                                        $qrCodeImage = base64_encode(
+                                            QrCode::format('png')
+                                                ->size(200)
+                                                ->generate(
+                                                    route('business.qr', $business->custum_url ?? $business->id),
+                                                ),
+                                        );
+                                    @endphp
+
+                                    <div id="qr-code-img-{{ $business->id }}" class="mb-2 text-center">
+                                        <img src="data:image/png;base64,{{ $qrCodeImage }}" alt="QR Code"
+                                            id="qr-img-{{ $business->id }}">
+                                    </div>
+
+                                    <button onclick="downloadQRImage({{ $business->id }})"
+                                        class="px-3 py-1 text-white bg-gradient-to-r from-red-500 to-blue-500 hover:from-blue-600 hover:to-red-600 rounded w-full text-xs">
+                                        Download QR Image
+                                    </button>
+                                    
+
+                                </td>
+
                                 <!-- ✅ Created At -->
                                 <td class="px-4 py-3 text-gray-600 text-sm">
                                     {{ $business->created_at->format('d M Y, h:i A') }}
                                 </td>
-    
+
                                 <!-- ✅ Actions -->
                                 <td class="px-4 py-3 text-center">
                                     <div class="flex flex-wrap justify-center gap-2">
@@ -128,7 +154,8 @@
                                             </a>
                                         @endcan
                                         @can('delete business')
-                                            <form action="{{ route('business.delete', $business->id) }}" method="get" class="inline">
+                                            <form action="{{ route('business.delete', $business->id) }}" method="get"
+                                                class="inline">
                                                 @csrf
                                                 <button type="submit"
                                                     class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded shadow"
@@ -150,9 +177,9 @@
                     </tbody>
                 </table>
             </div>
-    
+
             <!-- ✅ QR Print Script -->
-            <script>
+            {{-- <script>
                 function printQRCode(id) {
                     var qrCodeContent = document.getElementById('qr-code-' + id).innerHTML;
                     var printWindow = window.open('', '_blank');
@@ -165,8 +192,82 @@
                         printWindow.close();
                     }, 500);
                 }
+            </script> --}}
+
+            <script>
+                function printQRCode(id) {
+                    var qrCodeContent = document.getElementById('qr-code-' + id).innerHTML;
+                    var printWindow = window.open('', '_blank');
+                    printWindow.document.write(`
+                        <html>
+                            <head>
+                                <title>Print QR Code</title>
+                                <style>
+                                    body {
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        height: 100vh;
+                                        margin: 0;
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                ${qrCodeContent}
+                            </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
+                    setTimeout(() => {
+                        printWindow.print();
+                        printWindow.close();
+                    }, 500);
+                }
             </script>
+
+<script>
+    function printQRImage(id) {
+        const imgSrc = document.getElementById('qr-img-' + id).src;
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print QR Image</title>
+                    <style>
+                        body {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <img src="${imgSrc}" alt="QR Code">
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+        setTimeout(() => {
+            printWindow.print();
+            printWindow.close();
+        }, 500);
+    }
+
+    function downloadQRImage(id) {
+        const image = document.getElementById('qr-img-' + id);
+        const link = document.createElement('a');
+        link.href = image.src;
+        link.download = 'qr-code-' + id + '.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+
+
         </div>
     </div>
-    
+
 </x-app-layout>

@@ -215,8 +215,8 @@
 
 
                     <div class="flex justify-center py-2">
-                        <span class="font-bold">Powered by: <strong class="text-red-500">Real Victory
-                                Groups</strong></span>
+                        <span class="font-bold">Powered by: <strong class="text-red-500"> <a href="https://realvictorygroups.com/">Real Victory
+                            Groups</a> </strong></span>
                     </div>
                 </form>
             </div>

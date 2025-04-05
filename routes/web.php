@@ -17,6 +17,15 @@ Route::get('/contact', function () {
     return view('front.contact');
 });
 
+Route::get('/imagick-check', function () {
+    if (extension_loaded('imagick')) {
+        return 'Imagick is working in Laravel!';
+    } else {
+        return 'Imagick is NOT loaded in Laravel.';
+    }
+});
+
+
 // Route::get('/business/{identifier}/qr/download', [BusinessController::class, 'downloadQr'])
 //     ->name('business.qr_download');
 

@@ -103,7 +103,7 @@
                                 <td class="px-4 py-3 text-center">
                                     @can('show qr')
                                         <div id="qr-code-{{ $business->id }}" class="mb-2">
-                                            {!! QrCode::size(150)->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
+                                            {!! QrCode::size(200)->generate(route('business.qr', $business->custum_url ?? $business->id)) !!}
                                         </div>
     
                                         <button onclick="printQRCode({{ $business->id }})"

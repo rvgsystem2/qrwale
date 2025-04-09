@@ -79,6 +79,13 @@
                              class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200" 
                              placeholder="Enter user name" required>
                   </div>
+
+                  <div>
+                    <label class="block text-gray-700 font-medium mb-2">UserPhoneNumber</label>
+                    <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number ?? '') }}" 
+                           class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200" 
+                           placeholder="Enter user phone_number" required>
+                </div>
               
                   <div>
                       <label class="block text-gray-700 font-medium mb-2">User Email</label>

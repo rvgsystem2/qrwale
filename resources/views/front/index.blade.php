@@ -186,7 +186,7 @@
                             <!-- Download Options -->
                             <div class="flex-1">
                                 <div class="border border-gray-200 rounded-lg p-4 bg-white">
-                                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Download Qr</h2>
+                                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Download Options</h2>
                                     <div class="space-y-4">
                                         <div>
                                             <label for="size-select"

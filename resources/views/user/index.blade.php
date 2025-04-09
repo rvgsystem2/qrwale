@@ -39,6 +39,7 @@
                                 <th class="px-6 py-4 border-b">ID</th>
                                 <th class="px-6 py-4 border-b">Name</th>
                                 <th class="px-6 py-4 border-b">Email</th>
+                                <th class="px-6 py-4 border-b">PhoneNumber</th>
                                 <th class="px-6 py-4 border-b">Roles</th>
                                 <th class="px-6 py-4 border-b">Permissions</th>
                                 <th class="px-6 py-4 border-b text-center">Actions</th>
@@ -51,6 +52,7 @@
                                     <td class="px-6 py-4">{{ $user->id }}</td>
                                     <td class="px-6 py-4 font-medium text-gray-900">{{ $user->name }}</td>
                                     <td class="px-6 py-4">{{ $user->email }}</td>
+                                    <td class="px-6 py-4">{{ $user->phone_number ?? "N/A" }}</td>
                                     <td class="px-6 py-4">
                                         <span class="text-indigo-700 text-sm">
                                             {{ $user->roles->pluck('name')->implode(', ') ?: '—' }}

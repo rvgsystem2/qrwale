@@ -50,6 +50,7 @@ class UserController extends Controller implements HasMiddleware
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'phone_number' => ['nullable', 'string', 'regex:/^\+?[0-9]{7,15}$/'],
             'password' => 'required|min:6',
             'roles' => 'array|required',
             'roles.*' => 'exists:roles,id',
@@ -59,6 +60,7 @@ class UserController extends Controller implements HasMiddleware
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone_number'=>$request->phone_number,
             'password' => Hash::make($request->password), // Hash the password
         ]);
 
@@ -83,6 +85,7 @@ class UserController extends Controller implements HasMiddleware
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone_number' => ['nullable', 'string', 'regex:/^\+?[0-9]{7,15}$/'],
             'roles' => 'array|required',
             'roles.*' => 'exists:roles,id',
             'password' => 'nullable|min:6', // Password is optional when updating
@@ -92,6 +95,7 @@ class UserController extends Controller implements HasMiddleware
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'phone_number'=>$request->phone_number,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 

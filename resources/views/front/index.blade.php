@@ -186,26 +186,26 @@
                             </div>
                         </div>
 
-                        <!-- Download Options -->
-                        <div class="flex-1">
-                            <div class="border border-gray-200 rounded-lg p-4 bg-white">
-                                <h2 class="text-lg font-semibold text-gray-800 mb-4">Download Options</h2>
-                                <div class="space-y-4">
-                        
-                                    <button id="download-pdf-btn"
-                                        class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-gray-600 hover:bg-red-600 transition">
-                                        Download as PDF
-                                    </button>
-                        
-                                    <button id="download-img-btn"
-                                        class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition">
-                                        Download as Image
-                                    </button>
+                            <!-- Download Options -->
+                            <div class="flex-1">
+                                <div class="border border-gray-200 rounded-lg p-4 bg-white">
+                                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Download Options</h2>
+                                    <div class="space-y-4">
+                            
+                                        <button id="download-pdf-btn"
+                                            class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-gray-600 hover:bg-red-600 transition">
+                                            Download as PDF
+                                        </button>
+                            
+                                        <button id="download-img-btn"
+                                            class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition">
+                                            Download as Image
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <!-- Empty State -->
                 <div id="empty-state" class="text-center py-12">

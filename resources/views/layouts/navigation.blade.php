@@ -40,6 +40,12 @@
                         <i class="fas fa-building mr-1"></i> Businesses
                     </x-nav-link>
                     @endcan
+
+                    @can('view qrcodes')
+                    <x-nav-link :href="route('qrcodes.index')" :active="request()->routeIs('qrcodes.index')">
+                        <i class="fas fa-building mr-1"></i> QrCode
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

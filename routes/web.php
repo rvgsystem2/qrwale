@@ -3,6 +3,7 @@
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\Business;
@@ -16,7 +17,10 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('front.contact');
 });
-
+// routes/web.php
+Route::post('/save-qr', [QrCodeController::class, 'store'])->middleware('auth');
+Route::get('/my-qr-codes', [QrCodeController::class, 'index'])->middleware('auth')->name('qrcodes.index');
+Route::delete('/qrcodes/{id}', [QrCodeController::class, 'destroy'])->name('qrcodes.destroy');
 Route::get('/imagick-check', function () {
     if (extension_loaded('imagick')) {
         return 'Imagick is working in Laravel!';

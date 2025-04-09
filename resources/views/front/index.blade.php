@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ asset('logo.png') }}" type="image/x-icon">
     <title>QRwale – Free & Custom QR Code Generator for Business, Events & Products</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta name="description"
         content="Generate stylish, scannable QR codes for business, events, products & more. Free & secure QR code generator with tracking & logo options.">
@@ -57,6 +58,9 @@
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="bg-white">
@@ -142,220 +146,250 @@
 
 
 
-    <div class="bg-gray-50 min-h-screen">
-        <div class="container mx-auto px-4 py-12">
-            <div class="max-w-3xl mx-auto bg-white shadow-md shadow-red-500 rounded-xl shadow-md overflow-hidden">
-                <!-- Header -->
-                <div class="bg-gradient-to-r from-red-600 to-gray-700 p-6 ">
-                    <h1 class="text-2xl font-bold text-white text-center">QR Code Generator</h1>
-                    <p class="text-blue-100 mt-1 text-center">Create, preview, and download QR codes in PDF format</p>
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-3xl mx-auto bg-white shadow-md rounded-xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-red-600 to-gray-700 p-6">
+                <h1 class="text-2xl font-bold text-white text-center">QR Code Generator</h1>
+                <p class="text-blue-100 mt-1 text-center">Create, preview, and download QR codes in PDF or Image format
+                </p>
+            </div>
+
+            <!-- Main Content -->
+            <div class="p-6">
+                <!-- Input Section -->
+                <div class="mb-8">
+                    <label for="url-input" class="block text-sm font-medium text-gray-700 mb-2">Enter URL</label>
+                    <div class="w-full max-w-2xl mx-auto px-4">
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <input type="text" id="url-input" name="url-input" placeholder="https://example.com"
+                                class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition w-full">
+                            <button id="generate-btn"
+                                class="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition w-full sm:w-auto">
+                                Generate
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Main Content -->
-                <div class="p-6">
-                    <!-- Input Section -->
-                    <div class="mb-8">
-                        <label for="url-input" class="block text-sm font-medium text-gray-700 mb-2">Enter URL </label>
-                        <div class="w-full max-w-2xl mx-auto px-4">
-                            <div class="flex flex-col sm:flex-row gap-2">
-                                <input type="text" id="url-input" placeholder="https://example.com "
-                                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition w-full">
-                                <button id="generate-btn"
-                                    class="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition w-full sm:w-auto">
-                                    Generate
-                                </button>
+                <!-- Preview Section -->
+                <div id="preview-section" class="hidden mb-8">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- QR Code Display -->
+                        <div class="flex-1">
+                            <div class="border border-gray-200 rounded-lg p-4 bg-white">
+                                <h2 class="text-lg font-semibold text-gray-800 mb-4">QR Code Preview</h2>
+                                <div id="qrcode" class="flex justify-center p-4 bg-white rounded"></div>
+                                <div class="mt-4 text-center">
+                                    <p id="qr-content" class="text-sm text-gray-600 break-all"></p>
+                                </div>
                             </div>
                         </div>
 
-                    </div>
-
-                    <!-- Preview Section -->
-                    <div id="preview-section" class="hidden mb-8">
-                        <div class="flex flex-col md:flex-row gap-8">
-                            <!-- QR Code Display -->
-                            <div class="flex-1">
-                                <div class="border border-gray-200 rounded-lg p-4 bg-white">
-                                    <h2 class="text-lg font-semibold text-gray-800 mb-4">QR Code Preview</h2>
-                                    <div id="qrcode" class="flex justify-center p-4 bg-white rounded"></div>
-                                    <div class="mt-4 text-center">
-                                        <p id="qr-content" class="text-sm text-gray-600 break-all"></p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Download Options -->
-                            <div class="flex-1">
-                                <div class="border border-gray-200 rounded-lg p-4 bg-white">
-                                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Download Qr</h2>
-                                    <div class="space-y-4">
-                                        <div>
-                                            <label for="size-select"
-                                                class="block text-sm font-medium text-gray-700 mb-1">Size</label>
-                                            <select id="size-select"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-red-500 focus:border-red-500">
-                                                <option value="200">200x200 px</option>
-                                                <option value="300" selected>300x300 px</option>
-                                                <option value="400">400x400 px</option>
-                                                <option value="500">500x500 px</option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label for="color-select"
-                                                class="block text-sm font-medium text-gray-700 mb-1">Color</label>
-                                            <select id="color-select"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-red-500 focus:border-red-500">
-                                                <option value="#000000">Black</option>
-                                                <option value="#1E40AF">Blue</option>
-                                                <option value="#B91C1C">Red</option>
-                                                <option value="#047857">Green</option>
-                                                <option value="#7C3AED">Purple</option>
-                                            </select>
-                                        </div>
-
-                                        <button id="download-pdf-btn"
-                                            class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
-                                            Download as PDF
-                                        </button>
-                                    </div>
+                        <!-- Download Options -->
+                        <div class="flex-1">
+                            <div class="border border-gray-200 rounded-lg p-4 bg-white">
+                                <h2 class="text-lg font-semibold text-gray-800 mb-4">Download Options</h2>
+                                <div class="space-y-4">
+                        
+                                    <button id="download-pdf-btn"
+                                        class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-gray-600 hover:bg-red-600 transition">
+                                        Download as PDF
+                                    </button>
+                        
+                                    <button id="download-img-btn"
+                                        class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition">
+                                        Download as Image
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Empty State -->
-                    <div id="empty-state" class="text-center py-12">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M12 4v16m8-8H4" />
-                        </svg>
-                        <h3 class="mt-4 text-lg font-medium text-gray-900">No QR Code Generated</h3>
-                        <p class="mt-1 text-sm text-gray-500">Enter a URL or text and click "Generate" to create your
-                            QR code.</p>
-                    </div>
                 </div>
 
-                <!-- Footer -->
-                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-                    <p class="text-xs text-gray-500 text-center">QR codes can be scanned with any smartphone camera or
-                        QR code reader app.</p>
+                <!-- Empty State -->
+                <div id="empty-state" class="text-center py-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <h3 class="mt-4 text-lg font-medium text-gray-900">No QR Code Generated</h3>
+                    <p class="mt-1 text-sm text-gray-500">Enter a URL and click "Generate" to create your QR code.</p>
                 </div>
             </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                <p class="text-xs text-gray-500 text-center">QR codes can be scanned with any smartphone camera or QR
+                    reader app.</p>
+            </div>
         </div>
+    </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const urlInput = document.getElementById('url-input');
-                const generateBtn = document.getElementById('generate-btn');
-                const previewSection = document.getElementById('preview-section');
-                const emptyState = document.getElementById('empty-state');
-                const qrcodeContainer = document.getElementById('qrcode');
-                const qrContent = document.getElementById('qr-content');
-                const sizeSelect = document.getElementById('size-select');
-                const colorSelect = document.getElementById('color-select');
-                const downloadPdfBtn = document.getElementById('download-pdf-btn');
-
-                let qrCode = null;
-
-                // Generate QR Code
-                generateBtn.addEventListener('click', function() {
-                    const text = urlInput.value.trim();
-
-                    if (!text) {
-                        alert('Please enter a URL ');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlInput = document.getElementById('url-input');
+            const generateBtn = document.getElementById('generate-btn');
+            const previewSection = document.getElementById('preview-section');
+            const emptyState = document.getElementById('empty-state');
+            const qrcodeContainer = document.getElementById('qrcode');
+            const qrContent = document.getElementById('qr-content');
+            const downloadPdfBtn = document.getElementById('download-pdf-btn');
+            const downloadImgBtn = document.getElementById('download-img-btn');
+    
+            let qrCode = null;
+            const fixedSize = 300;
+            const fixedColor = "#000000";
+    
+            generateBtn.addEventListener('click', async function () {
+                const text = urlInput.value.trim();
+    
+                if (!text) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'URL is required!',
+                        text: 'Please enter a valid URL.',
+                    });
+                    return;
+                }
+    
+                try {
+                    const response = await fetch('/save-qr', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ url: text })
+                    });
+    
+                    if (response.status === 401) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Login Required!',
+                            text: 'Please login to save your QR code.',
+                            confirmButtonText: 'Register',
+                            showCancelButton: true,
+                            cancelButtonText: 'Cancel',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/register';
+                            }
+                        });
                         return;
                     }
-
-                    // Clear previous QR code
+    
+                    const data = await response.json();
+    
                     if (qrCode) {
                         qrCode.clear();
                         qrcodeContainer.innerHTML = '';
                     }
-
-                    // Generate new QR code
-                    const size = parseInt(sizeSelect.value);
-                    const color = colorSelect.value;
-
+    
                     qrCode = new QRCode(qrcodeContainer, {
                         text: text,
-                        width: size,
-                        height: size,
-                        colorDark: color,
+                        width: fixedSize,
+                        height: fixedSize,
+                        colorDark: fixedColor,
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
-
-                    // Update content display
+    
                     qrContent.textContent = text;
-
-                    // Show preview and hide empty state
                     previewSection.classList.remove('hidden');
                     emptyState.classList.add('hidden');
-                });
-
-                // Update QR code when size or color changes
-                [sizeSelect, colorSelect].forEach(select => {
-                    select.addEventListener('change', function() {
-                        if (qrCode && urlInput.value.trim()) {
-                            generateBtn.click(); // Regenerate with new settings
-                        }
+    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'QR Code Generated!',
+                        text: 'Your QR code has been saved successfully.',
+                        timer: 2000,
+                        showConfirmButton: false,
                     });
-                });
-
-                // Download as PDF
-                downloadPdfBtn.addEventListener('click', function() {
-                    if (!qrCode) {
-                        alert('Please generate a QR code first');
-                        return;
-                    }
-
-                    const {
-                        jsPDF
-                    } = window.jspdf;
-                    const doc = new jsPDF();
-                    const text = urlInput.value.trim();
-                    const size = parseInt(sizeSelect.value);
-                    const color = colorSelect.value;
-
-                    // Get QR code as image data
-                    const canvas = qrcodeContainer.querySelector('canvas');
-                    const imgData = canvas.toDataURL('image/png');
-
-                    // Calculate positioning for PDF (centered)
-                    const pageWidth = doc.internal.pageSize.getWidth();
-                    const pageHeight = doc.internal.pageSize.getHeight();
-                    const qrWidth = size / 2; // Scale down for PDF
-                    const qrHeight = size / 2;
-
-                    // Add QR code to PDF
-                    doc.addImage(imgData, 'PNG', (pageWidth - qrWidth) / 2, (pageHeight - qrHeight) / 2 - 20,
-                        qrWidth, qrHeight);
-
-                    // Add text below QR code
-                    const textLines = doc.splitTextToSize(text, pageWidth - 40);
-                    doc.setFontSize(10);
-                    doc.setTextColor(100); // Dark gray
-                    doc.text(textLines, pageWidth / 2, (pageHeight - qrHeight) / 2 + qrHeight + 10, {
-                        align: 'center'
+    
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Something went wrong!',
+                        text: 'Could not save the QR. Please try again or login.',
                     });
-
-                    // Add watermark
-                    doc.setFontSize(8);
-                    doc.setTextColor(200); // Light gray
-                    doc.text('Generated with QR Code Generator', pageWidth / 2, pageHeight - 10, {
-                        align: 'center'
-                    });
-
-                    // Save PDF
-                    doc.save('qr-code.pdf');
-                });
-
-                // Focus input on page load
-                urlInput.focus();
+                }
             });
-        </script>
-    </div>
+    
+            downloadPdfBtn.addEventListener('click', function () {
+                if (!qrCode) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No QR Code Found!',
+                        text: 'Please generate a QR code first.',
+                    });
+                    return;
+                }
+    
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                const text = urlInput.value.trim();
+                const canvas = qrcodeContainer.querySelector('canvas');
+                const imgData = canvas.toDataURL('image/png');
+    
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const qrWidth = fixedSize / 2;
+                const qrHeight = fixedSize / 2;
+    
+                doc.addImage(imgData, 'PNG', (pageWidth - qrWidth) / 2, (pageHeight - qrHeight) / 2 - 20,
+                    qrWidth, qrHeight);
+                const textLines = doc.splitTextToSize(text, pageWidth - 40);
+                doc.setFontSize(10);
+                doc.setTextColor(100);
+                doc.text(textLines, pageWidth / 2, (pageHeight - qrHeight) / 2 + qrHeight + 10, {
+                    align: 'center'
+                });
+                doc.setFontSize(8);
+                doc.setTextColor(200);
+                doc.text('Generated with QR Code Generator', pageWidth / 2, pageHeight - 10, {
+                    align: 'center'
+                });
+    
+                doc.save('qr-code.pdf');
+            });
+    
+            downloadImgBtn.addEventListener('click', function () {
+                if (!qrCode) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No QR Code Found!',
+                        text: 'Please generate a QR code first.',
+                    });
+                    return;
+                }
+    
+                const canvas = qrcodeContainer.querySelector('canvas');
+                const imageData = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+    
+                const now = new Date().toISOString().replace(/[:.-]/g, '');
+                link.href = imageData;
+                link.download = `qr-code-${now}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+    
+                Swal.fire({
+                    icon: 'success',
+                    title: 'QR Code Image Downloaded!',
+                    text: 'You can now share or print the image.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            });
+    
+            urlInput.focus();
+        });
+    </script>
+    
+
 
 
 

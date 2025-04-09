@@ -11,27 +11,52 @@ class QrCodeController extends Controller
 
     public function index()
 {
-   
-    $qrcodes = QrCode::with('user')->latest()->get(); // eager load user if needed
+    if (auth()->user()->hasRole('Super Admin')) {
+        // 👑 Super Admin: show all QR codes
+        $qrcodes = QrCode::with('user')->latest()->get();
+    } else {
+        // 👤 Regular User: show only own QR codes
+        $qrcodes = QrCode::with('user')
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->get();
+    }
 
     return view('qrcodes.index', compact('qrcodes'));
 }
     public function store(Request $request)
+    {
+        $request->validate([
+            'url' => 'required|url|max:2048'
+        ]);
+
+        $qr = QrCode::create([
+            'user_id' => Auth::id(),
+            'url' => $request->input('url')
+        ]);
+
+        return response()->json(['success' => true, 'qr' => $qr]);
+    }
+
+    // public function destroy($id)
+    // {
+    //     $qr = QrCode::findOrFail($id);
+    //     $qr->delete();
+
+    //     return response()->json(['success' => true]);
+    // }
+
+    public function destroy($id)
 {
-    $request->validate([
-        'url' => 'required|url|max:2048'
-    ]);
+    $user = auth()->user();
 
-    $qr = QrCode::create([
-        'user_id' => Auth::id(),
-        'url' => $request->input('url')
-    ]);
+    if (!$user->hasRole('Super Admin')) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Unauthorized'
+        ], 403); // Forbidden
+    }
 
-    return response()->json(['success' => true, 'qr' => $qr]);
-}
-
-public function destroy($id)
-{
     $qr = QrCode::findOrFail($id);
     $qr->delete();
 

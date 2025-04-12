@@ -15,7 +15,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-    
+
             <!-- ✅ Success Alert -->
             @if (session('success'))
                 <div class="flex items-center bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-6 shadow-md">
@@ -27,11 +27,11 @@
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
-    
+
             <!-- ✅ User Table -->
             <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">👥 User Management</h2>
-    
+
                 <div class="overflow-x-auto rounded-lg border border-gray-200">
                     <table class="w-full text-sm text-left text-gray-800">
                         <thead class="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 uppercase font-semibold text-xs">
@@ -42,10 +42,11 @@
                                 <th class="px-6 py-4 border-b">PhoneNumber</th>
                                 <th class="px-6 py-4 border-b">Roles</th>
                                 <th class="px-6 py-4 border-b">Permissions</th>
+                                <th class="px-6 py-4 border-b">Date & Time</th>
                                 <th class="px-6 py-4 border-b text-center">Actions</th>
                             </tr>
                         </thead>
-    
+
                         <tbody class="bg-white divide-y divide-gray-100">
                             @forelse ($userData as $user)
                                 <tr class="hover:bg-gray-50 transition">
@@ -67,6 +68,10 @@
                                             <span class="text-gray-400 italic">No Permissions</span>
                                         @endif
                                     </td>
+
+                                    <td class="px-6 py-4">
+                                       {{$user->created_at->format('d-M-Y h:i')}}
+                                    </td>
                                     <td class="px-6 py-4 text-center">
                                         <div class="flex justify-center flex-wrap gap-2">
                                             @can('edit users')
@@ -75,14 +80,14 @@
                                                     ✏️ Edit
                                                 </a>
                                             @endcan
-    
+
                                             @can('delete users')
                                                 <a href="{{ route('user.delete', $user->id) }}"
                                                    class="bg-red-500 hover:bg-red-600 text-white text-xs px-4 py-2 rounded-md shadow transition">
                                                     🗑️ Delete
                                                 </a>
                                             @endcan
-    
+
                                             @can('assign permissions user')
                                                 <a href="{{ route('user.permission.form', $user->id) }}"
                                                    class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded-md shadow transition">
@@ -103,5 +108,5 @@
             </div>
         </div>
     </div>
-    
+
 </x-app-layout>

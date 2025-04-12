@@ -33,6 +33,7 @@ class BusinessRequest extends FormRequest
         'watsapp_url' => 'nullable',
         'twiter_url' => 'nullable|url',
         'review_url' => 'nullable|url',
+        'email' => 'nullable',
         'custum_url' => [
             'nullable',
             'string',
@@ -44,6 +45,7 @@ class BusinessRequest extends FormRequest
         'rating' => 'nullable|numeric|min:0|max:5',
         'logo_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'user_id' => 'nullable|exists:users,id',
+
     ];
 }
 public function messages(): array
@@ -55,5 +57,5 @@ public function messages(): array
 }
 
 
-    
+
 }

@@ -30,7 +30,7 @@ class BusinessController extends Controller implements HasMiddleware
         ];
     }
 
- 
+
 
     public function showRating($id)
 {
@@ -41,7 +41,7 @@ class BusinessController extends Controller implements HasMiddleware
     public function submitReview(Request $request, $id)
     {
         $business = Business::findOrFail($id);
-    
+
         // Validate input
         $request->validate([
             'name' => 'required|string|max:255',
@@ -50,12 +50,12 @@ class BusinessController extends Controller implements HasMiddleware
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string',
         ]);
-    
+
         // If rating is 2 or 5, redirect to review_url
         // if ($request->rating == 2 || $request->rating == 5) {
         //     return redirect()->to($business->review_url);
         // }
-    
+
         // Save review in database
         $review = Review::create([
             'business_id' => $id,
@@ -68,19 +68,24 @@ class BusinessController extends Controller implements HasMiddleware
 
         Mail::to($review->email)->send(new ThankYouMail($review));
 
+
          // ✅ Send email to Business User
-    if ($business->user && $business->user->email) {
-        Mail::to($business->user->email)->send(new BusinessReviewNotification($review, $business));
-    }
-    
+        if ($business->user && $business->user->email) {
+            Mail::to($business->user->email)->send(new BusinessReviewNotification($review, $business));
+        }
+
+        if($business->email){
+            Mail::to($business->email)->send(new BusinessReviewNotification($review, $business));
+        }
+
         // Send Notification email to Super Admin
         Mail::to('realvictorygroups@gmail.com')->send(new AdminReviewNotification($review, $business));
         return redirect()->back()->with('success', 'Review submitted successfully!');
-    
+
         // return redirect()->route('business.qr', $id)->with('success', 'Review submitted successfully!');
     }
 
-    
+
 
     public function showQRPage($identifier)
     {
@@ -91,12 +96,12 @@ class BusinessController extends Controller implements HasMiddleware
         $business->increment('qr_scan_count');
         return view('business.qr_page', compact('business'));
     }
-    
 
 
 
-  
-    
+
+
+
 
     public function trackSocialClick(Request $request, $id)
 {
@@ -116,17 +121,17 @@ class BusinessController extends Controller implements HasMiddleware
 }
 
 
-    
+
     public function index() {
         if (auth()->user()->hasRole('Super Admin')) {
             $businesses = Business::all(); // Show all businesses for Super Admin
         } else {
             $businesses = Business::where('user_id', auth()->id())->get(); // Show only the user's businesses
         }
-    
+
         return view('business.index', compact('businesses'));
     }
-    
+
 
 
     public function create() {
@@ -137,7 +142,7 @@ class BusinessController extends Controller implements HasMiddleware
         }
         return view('business.create', compact('users'));
     }
-    
+
     public function edit(Business $business) {
         if (auth()->user()->hasRole('Super Admin')) {
             $users = User::all(); // Super Admin sees all users
@@ -146,33 +151,34 @@ class BusinessController extends Controller implements HasMiddleware
         }
         return view('business.create', compact('business', 'users'));
     }
-    
-    
+
+
 
 
     public function store(BusinessRequest $request) {
         $data = $request->validated();
-        
+
         // Assign user (selected user or logged-in user)
         $data['user_id'] = $request->user_id ?? auth()->id();
-        
+
         // Handle Logo Upload
         if ($request->hasFile('logo_img')) {
             $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
         }
-    
+
         Business::create($data);
-    
+
         return redirect()->route('business.index')->with('success', 'Business created successfully.');
     }
-    
+
     public function update(BusinessRequest $request, Business $business) {
         if (!Auth::user()->hasRole('Super Admin') && $business->user_id !== Auth::id()) {
             return redirect()->route('business.index')->with('error', 'Unauthorized action.');
         }
-    
+
         $data = $request->validated();
-    
+
+
         // Handle Logo Update
         if ($request->hasFile('logo_img')) {
             if ($business->logo_img) {
@@ -180,34 +186,34 @@ class BusinessController extends Controller implements HasMiddleware
             }
             $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
         }
-    
+
         $business->update($data);
-    
+
         return redirect()->route('business.index')->with('success', 'Business updated successfully.');
     }
-    
 
 
 
-    
-    
-    
+
+
+
+
     public function delete(Business $business) {
         // Allow Super Admin to delete any business, but regular users can only delete their own
         if (!Auth::user()->hasRole('Super Admin') && $business->user_id !== Auth::id()) {
             return redirect()->route('business.index')->with('error', 'Unauthorized action.');
         }
-    
+
         // Delete logo if exists
         if ($business->logo_img) {
             Storage::disk('public')->delete($business->logo_img);
         }
-    
+
         $business->delete();
-    
+
         return redirect()->route('business.index')->with('success', 'Business deleted successfully.');
     }
-    
+
 
     public function dashboard()
 {

@@ -135,7 +135,7 @@
                                         class="px-3 py-1 text-white bg-gradient-to-r from-red-500 to-blue-500 hover:from-blue-600 hover:to-red-600 rounded w-full text-xs">
                                         Download QR Image
                                     </button>
-                                    
+
 
                                 </td>
 

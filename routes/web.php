@@ -5,11 +5,22 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ShortUrlController;
 use App\Http\Controllers\UserController;
 use App\Models\Business;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+
+Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');
+Route::get('/shorturls/create', [ShortUrlController::class, 'create'])->name('shorturls.create');
+Route::post('/shorturls', [ShortUrlController::class, 'store'])->name('shorturls.store');
+Route::get('/shorturls/{shorturl}/edit', [ShortUrlController::class, 'edit'])->name('shorturls.edit');
+Route::put('/shorturls/{shorturl}', [ShortUrlController::class, 'update'])->name('shorturls.update');
+Route::get('/shorturls/{shorturl}', [ShortUrlController::class, 'destroy'])->name('shorturls.delete');
+
+Route::get('/s/{code}', [ShortUrlController::class, 'redirect'])->name('shorturls.redirect');
 
 Route::get('/', function () {
     return view('front.index');
@@ -17,7 +28,7 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('front.contact');
 });
-// routes/web.php
+
 Route::post('/save-qr', [QrCodeController::class, 'store'])->middleware('auth');
 Route::get('/my-qr-codes', [QrCodeController::class, 'index'])->middleware('auth')->name('qrcodes.index');
 Route::delete('/qrcodes/{id}', [QrCodeController::class, 'destroy'])->name('qrcodes.destroy');

@@ -46,6 +46,11 @@
                         <i class="fas fa-building mr-1"></i> QrCode
                     </x-nav-link>
                     @endcan
+                    @can('view qrcodes')
+                    <x-nav-link :href="route('shorturls.index')" :active="request()->routeIs('shorturls.index')">
+                        <i class="fas fa-building mr-1"></i> ShortUrl
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

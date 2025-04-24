@@ -66,9 +66,9 @@
                                     <td class="px-6 py-4 text-center">
                                         <div class="flex justify-center gap-3">
                                             @can('edit shorturl')
-                                                <a href="{{ route('shorturls.show', $url->id) }}"
+                                                <a href="{{ route('shorturls.edit', $url->id) }}"
                                                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-semibold transition shadow">
-                                                   👁️ View
+                                                   👁️ Edit
                                                 </a>
                                                 
                                             @endcan

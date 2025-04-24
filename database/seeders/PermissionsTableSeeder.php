@@ -33,7 +33,13 @@ class PermissionsTableSeeder extends Seeder
             'rating business',
             'show qr',
             'assign permissions user',
-            'view qrcodes'
+            'view qrcodes',
+            'view shorturls',
+            'create shorturls ',
+            'edit shorturls',
+            'delete shorturls', 
+        
+
         ];
 
         foreach ($permissions as $permission) {

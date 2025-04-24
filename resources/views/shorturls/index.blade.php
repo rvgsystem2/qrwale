@@ -4,10 +4,19 @@
             <h2 class="font-bold text-2xl text-gray-800">
                 {{ __('Short URL Management') }}
             </h2>
-            <a href="{{ route('shorturls.create') }}" 
+            @can('create shorturl')
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('shorturls.create') }}" 
+                       class="px-4 py-2 bg-gradient-to-r from-[#c21108] to-[#000308] text-white font-semibold rounded-lg shadow-md hover:from-[#000308] hover:to-[#c21108] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c21108] transition duration-300 ease-in-out">
+                        + Create Short URL
+                    </a>
+                </div>
+                
+            @endcan
+            {{-- <a href="{{ route('shorturls.create') }}" 
                class="px-5 py-2 bg-gradient-to-r from-[#c21108] to-[#000308] text-white font-semibold rounded-lg shadow-md hover:from-[#000308] hover:to-[#c21108] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c21108] transition duration-300 ease-in-out">
                 + Create Short URL
-            </a>
+            </a> --}}
         </div>
     </x-slot>
 
@@ -56,14 +65,20 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <div class="flex justify-center gap-3">
-                                            <a href="{{ route('shorturls.edit', $url->id) }}"
-                                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-semibold transition shadow">
-                                               ✏️ Edit
-                                            </a>
-                                            <a href="{{ route('shorturls.delete', $url->id) }}"
-                                               class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold transition shadow">
-                                               🗑️ Delete
-                                            </a>
+                                            @can('edit shorturl')
+                                                <a href="{{ route('shorturls.show', $url->id) }}"
+                                                   class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-semibold transition shadow">
+                                                   👁️ View
+                                                </a>
+                                                
+                                            @endcan
+                                         @can('delete shorturl')
+                                         <a href="{{ route('shorturls.delete', $url->id) }}"
+                                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold transition shadow">
+                                            🗑️ Delete
+                                         </a>   
+                                         @endcan
+                                          
                                         </div>
                                     </td>
                                 </tr>

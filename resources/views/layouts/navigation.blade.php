@@ -51,6 +51,12 @@
                         <i class="fas fa-building mr-1"></i> ShortUrl
                     </x-nav-link>
                     @endcan
+
+                    @can('view shorturls')
+                    <x-nav-link :href="route('sitemap.index')" :active="request()->routeIs('sitemap.index')">
+                        <i class="fas fa-building mr-1"></i> Sitemap
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

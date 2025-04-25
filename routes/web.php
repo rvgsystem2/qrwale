@@ -6,14 +6,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShortUrlController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
 use App\Models\Business;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-
-Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');
+Route::get('/sitemap-generator', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::post('/sitemap-generator', [SitemapController::class, 'generate'])->name('sitemap.generate');Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');
 Route::get('/shorturls/create', [ShortUrlController::class, 'create'])->name('shorturls.create');
 Route::post('/shorturls', [ShortUrlController::class, 'store'])->name('shorturls.store');
 Route::get('/shorturls/{shorturl}/edit', [ShortUrlController::class, 'edit'])->name('shorturls.edit');

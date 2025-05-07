@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\PdfEditorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
@@ -20,7 +21,9 @@ Route::post('/shorturls', [ShortUrlController::class, 'store'])->name('shorturls
 Route::get('/shorturls/{shorturl}/edit', [ShortUrlController::class, 'edit'])->name('shorturls.edit');
 Route::put('/shorturls/{shorturl}', [ShortUrlController::class, 'update'])->name('shorturls.update');
 Route::get('/shorturls/{shorturl}', [ShortUrlController::class, 'destroy'])->name('shorturls.delete');
-
+Route::get('/pdf', [PdfEditorController::class, 'index'])->name('pdf.index');
+Route::post('/upload', [PdfEditorController::class, 'upload'])->name('pdf.upload');
+Route::get('/editor', [PdfEditorController::class, 'editor'])->name('pdf.editor');
 Route::get('/s/{code}', [ShortUrlController::class, 'redirect'])->name('shorturls.redirect');
 
 Route::get('/', function () {

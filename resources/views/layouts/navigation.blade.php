@@ -3,62 +3,64 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 bg-white">
         <div class="flex justify-between h-16">
             <!-- Left: Logo & Main Nav -->
-            <div class="flex">
+            <div class="flex overflow-x-auto max-w-full">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="h-9 w-auto text-gray-800" />
                     </a>
                 </div>
-
-                <!-- Desktop Nav -->
-                <div class="hidden sm:flex sm:items-center sm:ms-10 space-x-6 text-sm font-medium text-gray-700">
+            
+                <!-- Desktop Nav with horizontal scroll -->
+                <div class="hidden sm:flex sm:items-center sm:ms-10 space-x-6 text-sm font-medium text-gray-700 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
                     </x-nav-link>
-
+            
                     @can('view permission')
                     <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
                         <i class="fas fa-key mr-1"></i> Permissions
                     </x-nav-link>
                     @endcan
-
+            
                     @can('view roles')
                     <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
                         <i class="fas fa-user-shield mr-1"></i> Roles
                     </x-nav-link>
                     @endcan
-
+            
                     @can('view users')
                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
                         <i class="fas fa-users mr-1"></i> Users
                     </x-nav-link>
                     @endcan
-
+            
                     @can('view business')
                     <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
                         <i class="fas fa-building mr-1"></i> Businesses
                     </x-nav-link>
                     @endcan
-
+            
                     @can('view qrcodes')
                     <x-nav-link :href="route('qrcodes.index')" :active="request()->routeIs('qrcodes.index')">
-                        <i class="fas fa-building mr-1"></i> QrCode
+                        <i class="fas fa-qrcode mr-1"></i> QrCode
                     </x-nav-link>
                     @endcan
+            
                     @can('view shorturls')
                     <x-nav-link :href="route('shorturls.index')" :active="request()->routeIs('shorturls.index')">
-                        <i class="fas fa-building mr-1"></i> ShortUrl
+                        <i class="fas fa-link mr-1"></i> ShortUrl
                     </x-nav-link>
                     @endcan
-
-                    @can('view shorturls')
+            
+                    @can('view sitmap')
                     <x-nav-link :href="route('sitemap.index')" :active="request()->routeIs('sitemap.index')">
-                        <i class="fas fa-building mr-1"></i> Sitemap
+                        <i class="fas fa-sitemap mr-1"></i> Sitemap
                     </x-nav-link>
                     @endcan
                 </div>
             </div>
+            
 
             <!-- Right: Settings -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">

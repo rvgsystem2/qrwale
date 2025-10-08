@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -55,7 +54,7 @@
 </head>
 
 <body class="bg-white text-gray-900">
-  {{-- nav --}}
+
   @include('front.header')
 
   <!-- Hero Section -->

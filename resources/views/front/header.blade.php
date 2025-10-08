@@ -1,4 +1,3 @@
-   {{-- NAVBAR --}}
 <!DOCTYPE html>
 <html lang="en">
 

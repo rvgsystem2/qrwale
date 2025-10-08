@@ -27,7 +27,7 @@ Route::get('/editor', [PdfEditorController::class, 'editor'])->name('pdf.editor'
 Route::get('/s/{code}', [ShortUrlController::class, 'redirect'])->name('shorturls.redirect');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.index');
 })->name('home');
 
 Route::get('/contact', function () {

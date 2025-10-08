@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -35,7 +36,7 @@
 </head>
 <body class="bg-white text-gray-900">
 
-  <!-- Header (NO Blade conditionals) -->
+  <!-- Header -->
   <nav x-data="navMenu()" class="bg-white border-b border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-24">
@@ -45,18 +46,18 @@
           </a>
         </div>
 
-      @if (Route::has('login'))
-  <div class="hidden md:flex items-center gap-4">
-    @auth
-      <a href="{{ url('/dashboard') }}" class="inline-block px-5 py-1.5 border text-sm rounded-sm hover:bg-gray-50">Dashboard</a>
-    @else
-      <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 bg-[#CA0300] text-white rounded-sm text-sm hover:opacity-90">Log in</a>
-      @if (Route::has('register'))
-        <a href="{{ route('register') }}" class="inline-block px-5 py-1.5 border rounded-sm text-sm hover:bg-[#CA0300] hover:text-white">Register</a>
-      @endif
-    @endauth
-  </div>
-@endif
+        @if (Route::has('login'))
+          <div class="hidden md:flex items-center gap-4">
+            @auth
+              <a href="{{ url('/dashboard') }}" class="inline-block px-5 py-1.5 border text-sm rounded-sm hover:bg-gray-50">Dashboard</a>
+            @else
+              <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 bg-[#CA0300] text-white rounded-sm text-sm hover:opacity-90">Log in</a>
+              @if (Route::has('register'))
+                <a href="{{ route('register') }}" class="inline-block px-5 py-1.5 border rounded-sm text-sm hover:bg-[#CA0300] hover:text-white">Register</a>
+              @endif
+            @endauth
+          </div>
+        @endif
 
         <div class="md:hidden">
           <button @click="toggleMenu" class="p-2 text-gray-600 focus:outline-none" aria-label="Toggle menu">
@@ -85,10 +86,10 @@
       </div>
     </div>
   </nav>
+
   <script>
   function navMenu(){return{open:false,toggleMenu(){this.open=!this.open;document.body.style.overflow=this.open?"hidden":"auto"},closeMenu(){this.open=false;document.body.style.overflow="auto"}}}
   </script>
-
   <!-- Hero Section -->
   <section class="w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">

@@ -1,4 +1,4 @@
-<!-- Header/Nav partial — no <html>, <head>, or extra script tags -->
+<!-- resources/views/front/header.blade.php -->
 <nav x-data="navMenu()" class="bg-white border-b border-gray-200 shadow-md">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-24">
@@ -9,27 +9,11 @@
         </a>
       </div>
 
-      @if (Route::has('login'))
-      <div class="flex items-center justify-end gap-4 hidden md:flex">
-        @auth
-          <a href="{{ url('/dashboard') }}"
-             class="inline-block px-5 py-1.5 border text-sm rounded-sm hover:bg-gray-50">
-            Dashboard
-          </a>
-        @else
-          <a href="{{ route('login') }}"
-             class="inline-block px-5 py-1.5 bg-[#CA0300] text-white rounded-sm text-sm hover:opacity-90">
-            Log in
-          </a>
-          @if (Route::has('register'))
-            <a href="{{ route('register') }}"
-               class="inline-block px-5 py-1.5 border rounded-sm text-sm hover:bg-[#CA0300] hover:text-white">
-              Register
-            </a>
-          @endif
-        @endauth
+      <!-- Right links (no Blade conditionals for now) -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 bg-[#CA0300] text-white rounded-sm text-sm hover:opacity-90">Log in</a>
+        <a href="{{ route('register') }}" class="inline-block px-5 py-1.5 border rounded-sm text-sm hover:bg-[#CA0300] hover:text-white">Register</a>
       </div>
-      @endif
 
       <!-- Mobile toggle -->
       <div class="md:hidden">
@@ -55,12 +39,8 @@
     </button>
 
     <div class="py-4 border-t border-gray-200 space-y-2 w-full my-4">
-      <a href="{{ route('login') }}" class="block px-4 py-2 bg-rose-600 text-white rounded-md text-center hover:bg-rose-700 transition">
-        Login
-      </a>
-      <a href="{{ route('register') }}" class="block px-4 py-2 border border-rose-600 text-rose-600 rounded-md text-center hover:bg-rose-600 hover:text-white transition">
-        Register
-      </a>
+      <a href="{{ route('login') }}" class="block px-4 py-2 bg-rose-600 text-white rounded-md text-center hover:bg-rose-700 transition">Login</a>
+      <a href="{{ route('register') }}" class="block px-4 py-2 border border-rose-600 text-rose-600 rounded-md text-center hover:bg-rose-600 hover:text-white transition">Register</a>
     </div>
   </div>
 </nav>

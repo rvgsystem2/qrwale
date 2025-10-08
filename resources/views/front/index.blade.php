@@ -1,5 +1,5 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,57 +7,80 @@
   <title>QRwale – Free & Custom QR Code Generator for Business, Events & Products</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <meta name="description"
-        content="Generate stylish, scannable QR codes for business, events, products & more. Free & secure QR code generator with tracking & logo options.">
-  <meta name="keywords"
-        content="QR code generator, free QR code, custom QR, business QR code, trackable QR codes, QR with logo, qrwale, qr wale">
+  <meta name="description" content="Generate stylish, scannable QR codes for business, events, products & more. Free & secure QR code generator with tracking & logo options.">
+  <meta name="keywords" content="QR code generator, free QR code, custom QR, business QR code, trackable QR codes, QR with logo, qrwale, qr wale">
   <meta name="author" content="QRwale Team">
   <meta name="robots" content="index, follow">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://qrwale.com/">
   <meta property="og:title" content="QRwale – Free & Stylish QR Code Generator">
-  <meta property="og:description"
-        content="Create free, custom QR codes for your business, product, or event. Add logos, colors, and track performance.">
+  <meta property="og:description" content="Create free, custom QR codes for your business, product, or event. Add logos, colors, and track performance.">
   <meta property="og:image" content="https://qrwale.com/logo.png">
-
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://qrwale.com/">
   <meta name="twitter:title" content="QRwale – Free QR Code Generator with Tracking & Customization">
-  <meta name="twitter:description"
-        content="Make your own free QR codes in seconds. Customize with logo, colors, and more. Ideal for business & marketing.">
+  <meta name="twitter:description" content="Make your own free QR codes in seconds. Customize with logo, colors, and more. Ideal for business & marketing.">
   <meta name="twitter:image" content="https://qrwale.com/logo.png">
-
-  <!-- Canonical -->
   <link rel="canonical" href="https://qrwale.com/">
 
-  <!-- CSS / JS libs -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!-- Structured Data -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "QRwale",
-    "url": "https://qrwale.com/",
-    "description": "Free & custom QR code generator with logo, colors, and tracking for business, events, and more.",
-    "publisher": { "@type": "Organization", "name": "QRwale" }
-  }
+  {"@context":"https://schema.org","@type":"WebSite","name":"QRwale","url":"https://qrwale.com/","description":"Free & custom QR code generator with logo, colors, and tracking for business, events, and more.","publisher":{"@type":"Organization","name":"QRwale"}}
   </script>
 </head>
-
 <body class="bg-white text-gray-900">
 
-  <!-- resources/views/front/header.blade.php -->
+  <!-- Header (NO Blade conditionals) -->
+  <nav x-data="navMenu()" class="bg-white border-b border-gray-200 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-24">
+        <div class="flex items-center">
+          <a href="{{ url('/') }}" class="shrink-0" aria-label="QRwale Home">
+            <img src="{{ asset('asset/img/logo-w.png') }}" alt="QRwale Logo" class="h-16 md:h-20 object-contain" />
+          </a>
+        </div>
 
+        <div class="hidden md:flex items-center gap-4">
+          <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 bg-[#CA0300] text-white rounded-sm text-sm hover:opacity-90">Log in</a>
+          <a href="{{ route('register') }}" class="inline-block px-5 py-1.5 border rounded-sm text-sm hover:bg-[#CA0300] hover:text-white">Register</a>
+        </div>
 
+        <div class="md:hidden">
+          <button @click="toggleMenu" class="p-2 text-gray-600 focus:outline-none" aria-label="Toggle menu">
+            <svg class="h-7 w-7 transition-transform duration-300" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                :d="open ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div x-show="open" x-cloak x-transition.opacity.scale.90
+         @click.away="closeMenu" @keydown.escape.window="closeMenu"
+         class="md:hidden bg-white border-t border-gray-200 fixed inset-0 z-50 overflow-y-auto flex flex-col items-center p-6">
+
+      <button @click="closeMenu" class="absolute top-4 right-4 p-2 text-gray-600" aria-label="Close menu">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="py-4 border-t border-gray-200 space-y-2 w-full my-4">
+        <a href="{{ route('login') }}" class="block px-4 py-2 bg-rose-600 text-white rounded-md text-center hover:bg-rose-700 transition">Login</a>
+        <a href="{{ route('register') }}" class="block px-4 py-2 border border-rose-600 text-rose-600 rounded-md text-center hover:bg-rose-600 hover:text-white transition">Register</a>
+      </div>
+    </div>
+  </nav>
+  <script>
+  function navMenu(){return{open:false,toggleMenu(){this.open=!this.open;document.body.style.overflow=this.open?"hidden":"auto"},closeMenu(){this.open=false;document.body.style.overflow="auto"}}}
+  </script>
 
   <!-- Hero Section -->
   <section class="w-full">

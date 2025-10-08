@@ -28,7 +28,8 @@ Route::get('/s/{code}', [ShortUrlController::class, 'redirect'])->name('shorturl
 
 Route::get('/', function () {
     return view('front.index');
-});
+})->name('home');
+
 Route::get('/contact', function () {
     return view('front.contact');
 });
@@ -45,30 +46,22 @@ Route::get('/imagick-check', function () {
 });
 
 
-// Route::get('/business/{identifier}/qr/download', [BusinessController::class, 'downloadQr'])
-//     ->name('business.qr_download');
-
-
-    // Route::get('/business/{identifier}/qr', [BusinessController::class, 'showQr'])
-    // ->name('business.qr');
 
 
     Route::post('/business/{id}/track-click', [BusinessController::class, 'trackSocialClick'])
     ->name('business.trackClick');
 
 
-// Public routes (accessible without login)
+
 Route::get('/business/{identifier}/qr', [BusinessController::class, 'showQRPage'])
     ->where('identifier', '[A-Za-z0-9-_]+') // Accepts only alphanumeric, dashes, and underscores
     ->name('business.qr');
 
-// Route::get('/business/{id}/qr', [BusinessController::class, 'showQRPage'])->name('business.qr');
+
 Route::get('/business/{id}/rating', [BusinessController::class, 'showRating'])->name('business.rating');
 Route::post('/business/{id}/review', [BusinessController::class, 'submitReview'])->name('business.review');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/dashboard', [BusinessController::class, 'dashboard'])->middleware(['auth','verified'])->name('dashboard');
 
 

@@ -30,15 +30,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"QRwale","url":"https://qrwale.com/","description":"Free & custom QR code generator with logo, colors, and tracking for business, events, and more.","publisher":{"@type":"Organization","name":"QRwale"}}
-  </script>
+ @verbatim
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "name":"QRwale",
+  "url":"https://qrwale.com/",
+  "description":"Free & custom QR code generator with logo, colors, and tracking for business, events, and more.",
+  "publisher":{"@type":"Organization","name":"QRwale"}
+}
+</script>
+@endverbatim
 </head>
 <body class="bg-white text-gray-900">
 
-
-    {{-- @include('front.header') --}}
-
+    @include('front.header')
   <!-- Hero Section -->
   <section class="w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">

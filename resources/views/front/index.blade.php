@@ -46,10 +46,18 @@
           </a>
         </div>
 
-        <div class="hidden md:flex items-center gap-4">
-          <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 bg-[#CA0300] text-white rounded-sm text-sm hover:opacity-90">Log in</a>
-          <a href="{{ route('register') }}" class="inline-block px-5 py-1.5 border rounded-sm text-sm hover:bg-[#CA0300] hover:text-white">Register</a>
-        </div>
+      @if (Route::has('login'))
+  <div class="hidden md:flex items-center gap-4">
+    @auth
+      <a href="{{ url('/dashboard') }}" class="inline-block px-5 py-1.5 border text-sm rounded-sm hover:bg-gray-50">Dashboard</a>
+    @else
+      <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 bg-[#CA0300] text-white rounded-sm text-sm hover:opacity-90">Log in</a>
+      @if (Route::has('register'))
+        <a href="{{ route('register') }}" class="inline-block px-5 py-1.5 border rounded-sm text-sm hover:bg-[#CA0300] hover:text-white">Register</a>
+      @endif
+    @endauth
+  </div>
+@endif
 
         <div class="md:hidden">
           <button @click="toggleMenu" class="p-2 text-gray-600 focus:outline-none" aria-label="Toggle menu">

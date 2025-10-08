@@ -66,7 +66,7 @@
 <body class="bg-white">
 
     {{-- nav --}}
-    @include('front.header')
+    {{-- @include('front.header') --}}
 
 
 

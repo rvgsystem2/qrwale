@@ -28,24 +28,8 @@
                     </a>
                 </div>
     
-                <!-- Desktop Navigation -->
-                {{-- <div class="hidden md:flex space-x-6">
-                    <a href="#" class="text-gray-700 hover:text-rose-600 font-medium transition">Dashboard</a>
-                    <a href="#" class="text-gray-700 hover:text-rose-600 font-medium transition">Features</a>
-                    <a href="#" class="text-gray-700 hover:text-rose-600 font-medium transition">Pricing</a>
-                    <a href="#" class="text-gray-700 hover:text-rose-600 font-medium transition">About</a>
-                </div> --}}
-    
-                <!-- Auth Buttons (Desktop) -->
-                {{-- <div class="hidden md:flex space-x-4">
-                    <a href="{{ route('login') }}" class="px-5 py-2 bg-rose-600 text-white rounded-lg shadow-md hover:bg-rose-700 transition">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}" class="px-5 py-2 border border-rose-600 text-rose-600 rounded-lg shadow-md hover:bg-rose-600 hover:text-white transition">
-                        Register
-                    </a>
-                </div>
-     --}}@if (Route::has('login'))
+               
+    @if (Route::has('login'))
         <nav class="flex items-center justify-end gap-4 hidden md:block">
             @auth
                 <a
@@ -99,12 +83,7 @@
                 </svg>
             </button>
     
-            {{-- <div class="py-4 space-y-4 text-center w-full">
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Dashboard</a>
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Features</a>
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Pricing</a>
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">About</a>
-            </div> --}}
+          
             <div class="py-4 border-t border-gray-200 space-y-2 w-full my-4">
                 <a href="{{ route('login') }}" class="block px-4 py-2 bg-rose-600 text-white rounded-md text-center hover:bg-rose-700 transition">
                     Login

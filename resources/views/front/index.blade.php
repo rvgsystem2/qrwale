@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="{{ asset('logo.png') }}" type="image/png" />
-  <title>QRwale – Free & Custom QR Code Generator for Business, Events & Products</title>
+  <title>QRwale – Free & Custom QR Code Generator</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <meta name="description" content="Generate stylish, scannable QR codes for business, events, products & more. Free & secure QR code generator with tracking & logo options.">
@@ -17,11 +17,13 @@
   <meta property="og:title" content="QRwale – Free & Stylish QR Code Generator">
   <meta property="og:description" content="Create free, custom QR codes for your business, product, or event. Add logos, colors, and track performance.">
   <meta property="og:image" content="https://qrwale.com/logo.png">
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://qrwale.com/">
   <meta name="twitter:title" content="QRwale – Free QR Code Generator with Tracking & Customization">
   <meta name="twitter:description" content="Make your own free QR codes in seconds. Customize with logo, colors, and more. Ideal for business & marketing.">
   <meta name="twitter:image" content="https://qrwale.com/logo.png">
+
   <link rel="canonical" href="https://qrwale.com/">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -30,273 +32,355 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JVE3BRSYQ0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-JVE3BRSYQ0');
-</script>
-
- @verbatim
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"WebSite",
-  "name":"QRwale",
-  "url":"https://qrwale.com/",
-  "description":"Free & custom QR code generator with logo, colors, and tracking for business, events, and more.",
-  "publisher":{"@type":"Organization","name":"QRwale"}
-}
-</script>
-@endverbatim
+  <style>
+    /* myvictory-style background */
+    .bg-hero {
+      background:
+        radial-gradient(1200px 650px at 70% 55%, rgba(16,185,129,.22), transparent 60%),
+        radial-gradient(900px 520px at 35% 60%, rgba(59,130,246,.12), transparent 55%),
+        radial-gradient(600px 420px at 30% 20%, rgba(99,102,241,.10), transparent 55%),
+        linear-gradient(to bottom, #040714 0%, #070a16 40%, #050815 100%);
+    }
+    .glass {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+    }
+    .soft-border { border: 1px solid rgba(255,255,255,.10); }
+  </style>
 </head>
-<body class="bg-white text-gray-900">
 
-    @include('front.header')
-  <!-- Hero Section -->
-  <section class="w-full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">
-      <!-- Image -->
-      <div class="md:order-2 md:w-1/2">
-        <img src="{{ asset('asset/img/hero.gif') }}" alt="QR visual" class="w-full" />
+<body class="text-white bg-hero min-h-screen">
+
+  <!-- ================= NAVBAR (myvictory style) ================= -->
+  <header x-data="{open:false}" class="sticky top-0 z-50 border-b border-white/10 bg-black/25 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <!-- Brand -->
+      <a href="/" class="flex items-center gap-3">
+        <img src="{{ asset('logo.png') }}" class="h-10 w-10 rounded-xl bg-white p-1" alt="QRwale Logo">
+        <div class="leading-tight">
+          <div class="font-extrabold tracking-tight">QRwale</div>
+          <div class="text-xs text-white/60 -mt-0.5">By Real Victory Groups</div>
+        </div>
+      </a>
+
+      <!-- Desktop menu -->
+      <nav class="hidden lg:flex items-center gap-7 text-sm text-white/80">
+        <a href="#features" class="hover:text-white transition">Features</a>
+        <a href="#pricing" class="hover:text-white transition">Pricing</a>
+        <a href="#how" class="hover:text-white transition">How it works</a>
+        <a href="#faq" class="hover:text-white transition">FAQ</a>
+        <a href="#contact" class="hover:text-white transition">Contact</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="hidden lg:flex items-center gap-3">
+        <a href="/login" class="px-4 py-2 rounded-xl soft-border bg-white/5 hover:bg-white/10 transition text-sm font-semibold">
+          Login (Admin)
+        </a>
+        <a href="#generator" class="px-4 py-2 rounded-xl soft-border bg-white/5 hover:bg-white/10 transition text-sm font-semibold">
+          Generate QR
+        </a>
+        <a href="/register" class="px-4 py-2 rounded-xl border border-emerald-400/40 text-emerald-200 bg-emerald-500/10 hover:bg-emerald-500/20 transition text-sm font-semibold">
+          Register
+        </a>
+        <a href="tel:+917753800444" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 transition text-sm font-extrabold text-black">
+          Book Demo
+        </a>
       </div>
 
-      <!-- Text -->
-      <div class="md:order-1 md:w-1/2">
-        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight">
-          <span class="text-gray-700">QR Wale for</span><br />
-          <span id="changing-text" class="text-[#CA0300]">Ordering</span>
-        </h1>
-        <h2 class="mt-6 text-2xl font-semibold">
-          Engage & Grow with <span class="underline decoration-[#CA0300]">QR Wale</span>
-        </h2>
-        <p class="mt-4 text-gray-600 text-lg leading-relaxed">
-          Transform your business with our intelligent QR solutions. Drive more sales, track leads,
-          automate tasks, enhance service, boost efficiency, and manage links — all in one platform.
-        </p>
-        <div class="mt-8">
-          <a href="tel:+917753800444"
-             class="inline-flex items-center px-6 py-3 rounded-full bg-[#CA0300] text-white font-semibold shadow hover:bg-[#b00200] transition duration-300">
-            Connect With Us →
-          </a>
+      <!-- Mobile button -->
+      <button @click="open=!open" class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl soft-border bg-white/5 hover:bg-white/10">
+        <span class="text-lg">☰</span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div x-show="open" x-transition class="lg:hidden border-t border-white/10 bg-black/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-3 text-white/80 text-sm">
+        <a href="#features" class="block hover:text-white">Features</a>
+        <a href="#pricing" class="block hover:text-white">Pricing</a>
+        <a href="#how" class="block hover:text-white">How it works</a>
+        <a href="#faq" class="block hover:text-white">FAQ</a>
+        <a href="#contact" class="block hover:text-white">Contact</a>
+        <div class="pt-3 grid grid-cols-2 gap-3">
+          <a href="/login" class="px-4 py-2 rounded-xl soft-border bg-white/5 text-center font-semibold">Login</a>
+          <a href="/register" class="px-4 py-2 rounded-xl bg-emerald-500 text-black text-center font-extrabold">Register</a>
+          <a href="#generator" class="col-span-2 px-4 py-2 rounded-xl soft-border bg-white/5 text-center font-semibold">Generate QR</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO (like myvictory) ================= -->
+  <section class="relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+
+        <!-- LEFT CONTENT -->
+        <div class="lg:col-span-6">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full soft-border bg-white/5 text-xs sm:text-sm text-emerald-100">
+            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+            Specially crafted for Business • Events • Products
+          </div>
+
+          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+            Smart QR Generator for<br>
+            <span class="text-emerald-300">Modern Businesses</span>
+          </h1>
+
+          <p class="mt-5 text-white/75 text-base sm:text-lg leading-relaxed max-w-xl">
+            Create QR codes for <span class="text-emerald-200 font-semibold">Links, Ordering, Reviews, Feedback</span>
+            and share instantly. Download as PNG/PDF. Clean, fast & mobile responsive.
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a href="#generator" class="px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 transition text-black font-extrabold text-center">
+              Get Free Demo
+            </a>
+            <a href="#features" class="px-6 py-3 rounded-2xl soft-border bg-white/5 hover:bg-white/10 transition font-semibold text-center">
+              View Features →
+            </a>
+          </div>
+
+          <!-- bullets row (like myvictory) -->
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 text-sm text-white/75">
+            <div class="flex items-center gap-2">
+              <span class="h-9 w-9 rounded-2xl bg-emerald-500/15 border border-emerald-400/20 flex items-center justify-center">✓</span>
+              <span>No installation — runs in browser</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="h-9 w-9 rounded-2xl bg-emerald-500/15 border border-emerald-400/20 flex items-center justify-center">⚡</span>
+              <span>Fast generation & downloads</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Social Media Links -->
-        <div class="flex items-center space-x-4 mt-8 mb-8">
-          <a href="mailto:realvictorygroups@gmail.com" class="group p-3 rounded-full bg-white shadow-md hover:bg-[#CA0300] transition" aria-label="Email">
-            <svg class="w-6 h-6 text-[#CA0300] group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <!-- RIGHT PREVIEW CARD (Live Preview style) -->
+        <div class="lg:col-span-6">
+          <div class="glass rounded-3xl p-5 sm:p-6">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-sm text-white/60">QRwale Live Preview</div>
+                <div class="text-xl font-extrabold mt-1">Generate & Download QR</div>
+                <div class="text-sm text-white/60 mt-1">Auto preview • PNG/PDF export</div>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-200 border border-emerald-400/20">
+                LIVE PREVIEW
+              </span>
+            </div>
+
+            <!-- Generator inside card -->
+            <div id="generator" class="mt-5 rounded-2xl soft-border bg-black/25 p-4 sm:p-5">
+              <label class="text-sm font-semibold text-white/80">Enter URL</label>
+              <div class="mt-2 flex flex-col sm:flex-row gap-2">
+                <input
+                  id="url-input"
+                  type="text"
+                  placeholder="https://example.com"
+                  class="w-full flex-1 px-4 py-3 rounded-2xl bg-black/30 border border-white/10 text-white placeholder:text-white/35 focus:border-emerald-400/40 focus:ring-4 focus:ring-emerald-500/10 transition"
+                />
+                <button
+                  id="generate-btn"
+                  class="px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 transition text-black font-extrabold disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
+                >
+                  <span id="btn-text">Generate</span>
+                  <span id="btn-spinner" class="hidden h-4 w-4 rounded-full border-2 border-black/40 border-t-transparent animate-spin"></span>
+                </button>
+              </div>
+
+              <div class="mt-3 flex flex-wrap gap-2">
+                <button id="copy-link-btn" class="hidden px-4 py-2 rounded-xl soft-border bg-white/5 hover:bg-white/10 transition text-sm font-semibold">
+                  Copy URL
+                </button>
+                <button id="reset-btn" class="hidden px-4 py-2 rounded-xl soft-border bg-white/5 hover:bg-white/10 transition text-sm font-semibold">
+                  Reset
+                </button>
+              </div>
+
+              <!-- Preview area -->
+              <div class="mt-5 grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div class="md:col-span-7 rounded-2xl soft-border bg-black/25 p-4">
+                  <div class="flex items-center justify-between">
+                    <div class="font-bold">QR Preview</div>
+                    <span class="text-xs text-white/60">Level: H</span>
+                  </div>
+                  <div class="mt-4 rounded-2xl bg-white p-3 flex items-center justify-center">
+                    <div id="qrcode" class="flex justify-center"></div>
+                  </div>
+                  <p id="qr-content" class="mt-3 text-xs text-white/60 break-all"></p>
+                </div>
+
+                <div class="md:col-span-5 rounded-2xl soft-border bg-black/25 p-4">
+                  <div class="font-bold">Downloads</div>
+                  <p class="text-xs text-white/60 mt-1">Get QR as PDF or PNG</p>
+
+                  <div class="mt-4 space-y-2">
+                    <button id="download-pdf-btn" class="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 soft-border transition font-bold">
+                      Download PDF
+                    </button>
+                    <button id="download-img-btn" class="w-full py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 transition font-extrabold text-black">
+                      Download PNG
+                    </button>
+                  </div>
+
+                  <div class="mt-4 text-xs text-white/60">
+                    One-click share • Print ready
+                  </div>
+                </div>
+              </div>
+
+              <!-- small footer row like myvictory -->
+              <div class="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-xs text-white/60">
+                <div class="flex items-center gap-2">
+                  <span class="h-8 w-8 rounded-2xl bg-emerald-500/15 border border-emerald-400/20 flex items-center justify-center">⤴</span>
+                  One-click QR download
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="h-8 w-8 rounded-2xl bg-emerald-500/15 border border-emerald-400/20 flex items-center justify-center">☁</span>
+                  Secure save on login
+                </div>
+              </div>
+            </div>
+
+            <p class="mt-4 text-sm text-white/60">
+              QRwale helps you create QR codes for ordering links, Google reviews, WhatsApp chats, feedback forms and more — all in one place.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURES STRIP ================= -->
+  <section id="features" class="border-t border-white/10 bg-black/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="glass rounded-3xl p-5">
+          <div class="text-2xl">⚡</div>
+          <div class="mt-2 font-extrabold">Fast</div>
+          <div class="text-sm text-white/60 mt-1">Generate in seconds</div>
+        </div>
+        <div class="glass rounded-3xl p-5">
+          <div class="text-2xl">📱</div>
+          <div class="mt-2 font-extrabold">Responsive</div>
+          <div class="text-sm text-white/60 mt-1">Perfect on mobile</div>
+        </div>
+        <div class="glass rounded-3xl p-5">
+          <div class="text-2xl">🧾</div>
+          <div class="mt-2 font-extrabold">PDF Export</div>
+          <div class="text-sm text-white/60 mt-1">Print-ready QR</div>
+        </div>
+        <div class="glass rounded-3xl p-5">
+          <div class="text-2xl">🔒</div>
+          <div class="mt-2 font-extrabold">Secure Save</div>
+          <div class="text-sm text-white/60 mt-1">Login required to store</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div>
+          <div class="text-sm text-white/60">Need custom QR solutions?</div>
+          <div class="text-2xl font-extrabold mt-1">Real Victory Groups</div>
+          <div class="text-sm text-white/70 mt-2">
+            73 Basement, Ekta Enclave Society, Lakhanpur, Khyora, Kanpur, Uttar Pradesh 208024
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+          <a href="mailto:realvictorygroups@gmail.com" class="px-6 py-3 rounded-2xl soft-border bg-white/5 hover:bg-white/10 transition text-center font-semibold">
+            Email Us
           </a>
-          <a href="https://www.facebook.com/realvictorygroups/" class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-600 transition" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg class="w-6 h-6 text-blue-600 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12.07C22 6.49 17.52 2 12 2S2 6.49 2 12.07c0 5.02 3.66 9.18 8.44 9.88v-6.99H7.9v-2.89h2.54V9.79c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.62.77-1.62 1.56v1.87h2.76l-.44 2.89h-2.32v6.99C18.34 21.25 22 17.09 22 12.07z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/realvictorygroups/" class="group p-3 rounded-full bg-white shadow-md hover:bg-pink-500 transition" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg class="w-6 h-6 text-pink-500 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all" class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-700 transition" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg class="w-6 h-6 text-blue-700 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 5 2.12 5 3.5zM0 8h5v16H0V8zm7.5 0h4.7v2.2h.07c.66-1.25 2.28-2.57 4.7-2.57C20.2 7.63 22 9.52 22 13.14V24h-5v-9.6c0-2.3-.82-3.87-2.9-3.87-1.58 0-2.52 1.06-2.94 2.08-.15.36-.2.87-.2 1.37V24h-5V8z"/></svg>
+          <a href="tel:+917753800444" class="px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 transition text-black text-center font-extrabold">
+            Call: +91 77538 00444
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Generator -->
-  <div class="container mx-auto px-4 py-12">
-    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-xl overflow-hidden">
-      <!-- Header -->
-      <div class="bg-gradient-to-r from-red-600 to-gray-700 p-6">
-        <h1 class="text-2xl font-bold text-white text-center">QR Code Generator</h1>
-        <p class="text-blue-100 mt-1 text-center">Create, preview, and download QR codes in PDF or Image format</p>
-      </div>
-
-      <!-- Main Content -->
-      <div class="p-6">
-        <!-- Input -->
-        <div class="mb-8">
-          <label for="url-input" class="block text-sm font-medium text-gray-700 mb-2">Enter URL</label>
-          <div class="w-full max-w-2xl mx-auto px-0">
-            <div class="flex flex-col sm:flex-row gap-2">
-              <input type="text" id="url-input" name="url-input" placeholder="https://example.com"
-                     class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition w-full">
-              <button id="generate-btn"
-                      class="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition w-full sm:w-auto">
-                Generate
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Preview -->
-        <div id="preview-section" class="hidden mb-8">
-          <div class="flex flex-col md:flex-row gap-8">
-            <!-- QR -->
-            <div class="flex-1">
-              <div class="border border-gray-200 rounded-lg p-4 bg-white">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">QR Code Preview</h2>
-                <div id="qrcode" class="flex justify-center p-4 bg-white rounded"></div>
-                <div class="mt-4 text-center">
-                  <p id="qr-content" class="text-sm text-gray-600 break-all"></p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Downloads -->
-            <div class="flex-1">
-              <div class="border border-gray-200 rounded-lg p-4 bg-white">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Download Options</h2>
-                <div class="space-y-4">
-                  <button id="download-pdf-btn"
-                          class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-gray-600 hover:bg-red-600 transition">
-                    Download as PDF
-                  </button>
-                  <button id="download-img-btn"
-                          class="w-full py-2 px-4 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition">
-                    Download as Image
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Empty -->
-        <div id="empty-state" class="text-center py-12">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4" />
-          </svg>
-          <h3 class="mt-4 text-lg font-medium text-gray-900">No QR Code Generated</h3>
-          <p class="mt-1 text-sm text-gray-500">Enter a URL and click "Generate" to create your QR code.</p>
-        </div>
-
-        <!-- Progress (added; was missing) -->
-        <div class="mt-6">
-          <div class="w-full bg-gray-200 rounded-full h-2.5">
-            <div id="progress-bar" class="h-2.5 bg-[#CA0300] rounded-full" style="width:0%"></div>
-          </div>
-          <p class="text-xs text-gray-500 mt-2">Processed: <span id="progress-text">0</span></p>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-        <p class="text-xs text-gray-500 text-center">
-          QR codes can be scanned with any smartphone camera or QR reader app.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  {{-- footer --}}
-  <footer class="bg-gray-100 py-12 text-gray-800">
-    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-      <!-- Branding -->
-      <div>
-        <h3 class="text-2xl font-extrabold text-red-600 mb-4">QR Wale</h3>
-        <img src="{{ asset('logo.png') }}" alt="QR Wale Logo" class="w-32">
-      </div>
-
-      <!-- Connect -->
-      <div>
-        <h4 class="text-sm font-semibold uppercase text-red-600 mb-4">Connect</h4>
-        <ul class="space-y-2 text-base">
-          <li><a href="mailto:realvictorygroups@gmail.com" class="hover:text-red-600 transition">Email</a></li>
-          <li><a href="https://www.facebook.com/realvictorygroups/" target="_blank" rel="noopener" class="hover:text-red-600 transition">Facebook</a></li>
-          <li><a href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all" target="_blank" rel="noopener" class="hover:text-red-600 transition">LinkedIn</a></li>
-          <li><a href="https://www.instagram.com/realvictorygroups/" target="_blank" rel="noopener" class="hover:text-red-600 transition">Instagram</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div>
-        <h4 class="text-sm font-semibold uppercase text-red-600 mb-4">Contact Us</h4>
-        <ul class="space-y-2 text-base">
-          <li>73 Basement, Ekta Enclave Society, Lakhanpur, Khyora, Kanpur, Uttar Pradesh 208024</li>
-          <li><a href="mailto:realvictorygroups@gmail.com" class="hover:text-red-600 transition">realvictorygroups@gmail.com</a></li>
-          <li><a href="tel:+917753800444" class="hover:text-red-600 transition">+91 77538 00444</a></li>
-        </ul>
-      </div>
-
-      <!-- Map (pure Tailwind 16:9) -->
-      <div>
-        <h4 class="text-sm font-semibold uppercase text-red-600 mb-4">Our Location</h4>
-        <div class="relative w-full overflow-hidden rounded-lg shadow-md" style="padding-top:56.25%;">
-          <iframe
-            class="absolute inset-0 w-full h-full border-0"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3570.795247124584!2d80.27712277488058!3d26.494536677937603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c3826d4ebf859%3A0xe9e2ed37cc371552!2sReal%20Victory%20Groups!5e0!3m2!1sen!2sin!4v1743753208287!5m2!1sen!2sin"
-            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-    </div>
-
-    <!-- bottom social -->
-    <div class="bg-gray-100 pt-2">
-      <div class="flex px-3 m-auto border-t text-gray-800 text-sm flex-col max-w-screen-lg items-center">
-        <div class="flex items-center space-x-4 mt-8">
-          <!-- Email -->
-          <a href="mailto:realvictorygroups@gmail.com" class="group p-3 rounded-full bg-white shadow-md hover:bg-[#CA0300] transition duration-300" aria-label="Email">
-            <svg class="w-6 h-6 text-[#CA0300] group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          </a>
-          <!-- Facebook -->
-          <a href="https://www.facebook.com/realvictorygroups/" class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-600 transition duration-300" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg class="w-6 h-6 text-blue-600 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12.07C22 6.49 17.52 2 12 2S2 6.49 2 12.07c0 5.02 3.66 9.18 8.44 9.88v-6.99H7.9v-2.89h2.54V9.79c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.62.77-1.62 1.56v1.87h2.76l-.44 2.89h-2.32v6.99C18.34 21.25 22 17.09 22 12.07z"/></svg>
-          </a>
-          <!-- Instagram -->
-          <a href="https://www.instagram.com/realvictorygroups/" class="group p-3 rounded-full bg-white shadow-md hover:bg-pink-500 transition duration-300" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg class="w-6 h-6 text-pink-500 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/></svg>
-          </a>
-          <!-- LinkedIn -->
-          <a href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all" class="group p-3 rounded-full bg-white shadow-md hover:bg-blue-700 transition duration-300" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg class="w-6 h-6 text-blue-700 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 5 2.12 5 3.5zM0 8h5v16H0V8zm7.5 0h4.7v2.2h.07c.66-1.25 2.28-2.57 4.7-2.57C20.2 7.63 22 9.52 22 13.14V24h-5v-9.6c0-2.3-.82-3.87-2.9-3.87-1.58 0-2.52 1.06-2.94 2.08-.15.36-.2.87-.2 1.37V24h-5V8z"/></svg>
-          </a>
-        </div>
-        <div class="my-5">© Real <span class="text-[#CA0300]">Victory</span> Groups 2025. All Rights Reserved.</div>
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-white/10 py-8 bg-black/25">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-white/60">
+      <div>© Real <span class="text-emerald-300 font-semibold">Victory</span> Groups 2025. All Rights Reserved.</div>
+      <div class="flex items-center gap-4">
+        <a class="hover:text-white" href="https://www.facebook.com/realvictorygroups/" target="_blank" rel="noopener">Facebook</a>
+        <a class="hover:text-white" href="https://www.instagram.com/realvictorygroups/" target="_blank" rel="noopener">Instagram</a>
+        <a class="hover:text-white" href="https://www.linkedin.com/company/realvictorygroups/posts/?feedView=all" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
   </footer>
 
-  <!-- Page JS -->
+  <!-- ================= JS (QR Logic) ================= -->
   <script>
-    // progress demo
-    document.addEventListener("DOMContentLoaded", function () {
-      const progress = 8000, total = 11024;
-      const percentage = (progress / total) * 100;
-      document.getElementById("progress-bar").style.width = percentage + "%";
-      document.getElementById("progress-text").innerText = progress;
-    });
-
-    // Hero changing word
-    const words = ["Ordering", "Links", "Reviews", "Feedbacks"];
-    let index = 0;
-    const changingText = document.getElementById("changing-text");
-    setInterval(() => {
-      changingText.textContent = words[index];
-      index = (index + 1) % words.length;
-    }, 2000);
-
-    // QR logic
     const urlInput = document.getElementById('url-input');
     const generateBtn = document.getElementById('generate-btn');
-    const previewSection = document.getElementById('preview-section');
-    const emptyState = document.getElementById('empty-state');
+    const btnText = document.getElementById('btn-text');
+    const btnSpinner = document.getElementById('btn-spinner');
+
     const qrcodeContainer = document.getElementById('qrcode');
     const qrContent = document.getElementById('qr-content');
+
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
     const downloadImgBtn = document.getElementById('download-img-btn');
+    const copyLinkBtn = document.getElementById('copy-link-btn');
+    const resetBtn = document.getElementById('reset-btn');
 
     let qrCode = null;
     const fixedSize = 300;
     const fixedColor = "#000000";
 
-    generateBtn.addEventListener('click', async function () {
-      const text = urlInput.value.trim();
+    function setLoading(state) {
+      generateBtn.disabled = state;
+      btnSpinner.classList.toggle('hidden', !state);
+      btnText.textContent = state ? 'Generating...' : 'Generate';
+    }
+
+    function isValidUrl(str) {
+      try {
+        const u = new URL(str);
+        return u.protocol === "http:" || u.protocol === "https:";
+      } catch (e) { return false; }
+    }
+
+    function renderQr(text) {
+      if (qrCode) { qrCode.clear(); qrcodeContainer.innerHTML = ''; }
+
+      qrCode = new QRCode(qrcodeContainer, {
+        text,
+        width: fixedSize,
+        height: fixedSize,
+        colorDark: fixedColor,
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      qrContent.textContent = text;
+
+      copyLinkBtn.classList.remove('hidden');
+      resetBtn.classList.remove('hidden');
+    }
+
+    async function handleGenerate() {
+      const text = (urlInput.value || '').trim();
 
       if (!text) {
         Swal.fire({ icon: 'warning', title: 'URL is required!', text: 'Please enter a valid URL.' });
         return;
       }
+
+      if (!isValidUrl(text)) {
+        Swal.fire({ icon: 'warning', title: 'Invalid URL!', text: 'Please enter a URL like https://example.com' });
+        return;
+      }
+
+      setLoading(true);
 
       try {
         const response = await fetch('/save-qr', {
@@ -320,56 +404,100 @@
           return;
         }
 
-        // clear & render
-        if (qrCode) { qrCode.clear(); qrcodeContainer.innerHTML = ''; }
-        qrCode = new QRCode(qrcodeContainer, {
-          text, width: fixedSize, height: fixedSize, colorDark: fixedColor, colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
+        renderQr(text);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'QR Code Generated!',
+          text: 'Your QR is ready. (Saved if you are logged in)',
+          timer: 1600,
+          showConfirmButton: false
         });
 
-        qrContent.textContent = text;
-        previewSection.classList.remove('hidden');
-        emptyState.classList.add('hidden');
-
-        Swal.fire({ icon: 'success', title: 'QR Code Generated!', text: 'Your QR code has been saved successfully.', timer: 2000, showConfirmButton: false });
       } catch (e) {
         console.error(e);
-        Swal.fire({ icon: 'error', title: 'Something went wrong!', text: 'Could not save the QR. Please try again or login.' });
+        Swal.fire({ icon: 'error', title: 'Something went wrong!', text: 'Could not save the QR. Please try again.' });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    generateBtn.addEventListener('click', handleGenerate);
+    urlInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); handleGenerate(); }
+    });
+
+    copyLinkBtn.addEventListener('click', async () => {
+      const text = (urlInput.value || '').trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        Swal.fire({ icon: 'success', title: 'Copied!', text: 'URL copied to clipboard.', timer: 1100, showConfirmButton: false });
+      } catch {
+        Swal.fire({ icon: 'info', title: 'Copy not supported', text: 'Please copy manually.' });
       }
     });
 
-    downloadPdfBtn.addEventListener('click', function () {
-      if (!qrCode) { Swal.fire({ icon: 'info', title: 'No QR Code Found!', text: 'Please generate a QR code first.' }); return; }
+    resetBtn.addEventListener('click', () => {
+      urlInput.value = '';
+      urlInput.focus();
+      if (qrCode) { qrCode.clear(); qrcodeContainer.innerHTML = ''; qrCode = null; }
+      qrContent.textContent = '';
+      copyLinkBtn.classList.add('hidden');
+      resetBtn.classList.add('hidden');
+    });
+
+    downloadPdfBtn.addEventListener('click', () => {
+      if (!qrCode) { Swal.fire({ icon: 'info', title: 'No QR Found!', text: 'Please generate first.' }); return; }
+
+      const canvas = qrcodeContainer.querySelector('canvas');
+      if (!canvas) { Swal.fire({ icon: 'error', title: 'QR not ready', text: 'Please generate again.' }); return; }
+
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      const text = urlInput.value.trim();
-      const canvas = qrcodeContainer.querySelector('canvas');
+      const text = (urlInput.value || '').trim();
       const imgData = canvas.toDataURL('image/png');
 
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
-      const qrWidth = fixedSize / 2, qrHeight = fixedSize / 2;
 
-      doc.addImage(imgData, 'PNG', (pageWidth - qrWidth) / 2, (pageHeight - qrHeight) / 2 - 20, qrWidth, qrHeight);
-      const textLines = doc.splitTextToSize(text, pageWidth - 40);
-      doc.setFontSize(10); doc.setTextColor(100);
-      doc.text(textLines, pageWidth / 2, (pageHeight - qrHeight) / 2 + qrHeight + 10, { align: 'center' });
-      doc.setFontSize(8); doc.setTextColor(200);
-      doc.text('Generated with QR Code Generator', pageWidth / 2, pageHeight - 10, { align: 'center' });
+      const qrW = 90, qrH = 90;
+      const x = (pageWidth - qrW) / 2;
+      const y = (pageHeight - qrH) / 2 - 18;
+
+      doc.addImage(imgData, 'PNG', x, y, qrW, qrH);
+
+      doc.setFontSize(10);
+      doc.setTextColor(80);
+      const lines = doc.splitTextToSize(text, pageWidth - 30);
+      doc.text(lines, pageWidth / 2, y + qrH + 12, { align: 'center' });
+
+      doc.setFontSize(8);
+      doc.setTextColor(160);
+      doc.text('Generated with QRwale', pageWidth / 2, pageHeight - 10, { align: 'center' });
+
       doc.save('qr-code.pdf');
     });
 
-    downloadImgBtn.addEventListener('click', function () {
-      if (!qrCode) { Swal.fire({ icon: 'info', title: 'No QR Code Found!', text: 'Please generate a QR code first.' }); return; }
+    downloadImgBtn.addEventListener('click', () => {
+      if (!qrCode) { Swal.fire({ icon: 'info', title: 'No QR Found!', text: 'Please generate first.' }); return; }
+
       const canvas = qrcodeContainer.querySelector('canvas');
+      if (!canvas) { Swal.fire({ icon: 'error', title: 'QR not ready', text: 'Please generate again.' }); return; }
+
       const imageData = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       const now = new Date().toISOString().replace(/[:.-]/g, '');
-      link.href = imageData; link.download = `qr-code-${now}.png`;
-      document.body.appendChild(link); link.click(); document.body.removeChild(link);
-      Swal.fire({ icon: 'success', title: 'QR Code Image Downloaded!', text: 'You can now share or print the image.', timer: 2000, showConfirmButton: false });
+      link.href = imageData;
+      link.download = `qr-code-${now}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      Swal.fire({ icon: 'success', title: 'Downloaded!', text: 'QR PNG downloaded.', timer: 1200, showConfirmButton: false });
     });
 
+    // default focus
     urlInput.focus();
   </script>
 </body>

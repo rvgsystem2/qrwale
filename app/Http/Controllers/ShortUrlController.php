@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ShortUrl;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShortUrlController extends Controller
 {
@@ -19,20 +20,50 @@ class ShortUrlController extends Controller
         return view('shorturls.create');
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
     {
         $request->validate([
-            'original_url' => 'required|url',
+            'original_url' => ['required', 'url', 'max:2048'],
         ]);
 
-        $shortCode = Str::random(6);
+        $original = trim($request->original_url);
 
-        ShortUrl::create([
-            'original_url' => $request->original_url,
-            'short_code' => $shortCode,
+        // unique short code
+        do {
+            $code = Str::lower(Str::random(6));
+        } while (ShortUrl::where('short_code', $code)->exists());
+
+        $row = ShortUrl::create([
+            'original_url' => $original,
+            'short_code'   => $code,
+
+            // optional guest fields (if columns exist)
+            'user_id'      => Auth::check() ? Auth::id() : null,
+            'session_id'   => $request->session()->getId(),
+            'ip_address'   => $request->ip(),
+            'user_agent'   => substr((string)$request->userAgent(), 0, 255),
         ]);
+
+        $shortUrl = url('/s/' . $row->short_code);
+
+        // ✅ If request expects JSON (hero tool) return JSON else redirect
+        if ($request->expectsJson() || $request->wantsJson()) {
+            return response()->json([
+                'success'   => true,
+                'id'        => $row->id,
+                'short_code'=> $row->short_code,
+                'short_url' => $shortUrl,
+                'original'  => $row->original_url,
+            ]);
+        }
 
         return redirect()->route('shorturls.index')->with('success', 'Short URL created successfully.');
+    }
+
+    public function redirect(string $code)
+    {
+        $item = ShortUrl::where('short_code', $code)->firstOrFail();
+        return redirect()->away($item->original_url);
     }
 
     public function edit(ShortUrl $shorturl)
@@ -53,11 +84,11 @@ class ShortUrlController extends Controller
         return redirect()->route('shorturls.index')->with('success', 'Short URL updated.');
     }
 
-    public function redirect($code)
-    {
-        $url = ShortUrl::where('short_code', $code)->firstOrFail();
-        return redirect()->away($url->original_url);
-    }
+    // public function redirect($code)
+    // {
+    //     $url = ShortUrl::where('short_code', $code)->firstOrFail();
+    //     return redirect()->away($url->original_url);
+    // }
 
     public function destroy(ShortUrl $shorturl)
 {

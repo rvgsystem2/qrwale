@@ -24,28 +24,32 @@ class QrCodeController extends Controller
 
     return view('qrcodes.index', compact('qrcodes'));
 }
-    public function store(Request $request)
-    {
-        $request->validate([
-            'url' => 'required|url|max:2048'
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'url' => ['required','url','max:2048'],
+    ]);
 
-        $qr = QrCode::create([
-            'user_id' => Auth::id(),
-            'url' => $request->input('url')
-        ]);
+    $sessionId = $request->session()->getId();
+    $userId    = Auth::check() ? Auth::id() : null;
 
-        return response()->json(['success' => true, 'qr' => $qr]);
-    }
+    $qr = QrCode::updateOrCreate(
+        [
+            'url'        => $request->input('url'),
+            'session_id' => $sessionId,
+        ],
+        [
+            'user_id'    => $userId, // ✅ yaha bhi do
+            'ip_address' => $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 255),
+        ]
+    );
 
-    // public function destroy($id)
-    // {
-    //     $qr = QrCode::findOrFail($id);
-    //     $qr->delete();
+    return response()->json(['success' => true, 'qr' => $qr]);
+}
 
-    //     return response()->json(['success' => true]);
-    // }
 
+ 
     public function destroy($id)
 {
     $user = auth()->user();

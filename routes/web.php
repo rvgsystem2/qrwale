@@ -15,15 +15,17 @@ use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('/sitemap-generator', [SitemapController::class, 'index'])->name('sitemap.index');
-Route::post('/sitemap-generator', [SitemapController::class, 'generate'])->name('sitemap.generate');Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');
+Route::post('/sitemap-generator', [SitemapController::class, 'generate'])->name('sitemap.generate');
+
+
+Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');
 Route::get('/shorturls/create', [ShortUrlController::class, 'create'])->name('shorturls.create');
 Route::post('/shorturls', [ShortUrlController::class, 'store'])->name('shorturls.store');
 Route::get('/shorturls/{shorturl}/edit', [ShortUrlController::class, 'edit'])->name('shorturls.edit');
 Route::put('/shorturls/{shorturl}', [ShortUrlController::class, 'update'])->name('shorturls.update');
 Route::get('/shorturls/{shorturl}', [ShortUrlController::class, 'destroy'])->name('shorturls.delete');
-Route::get('/pdf', [PdfEditorController::class, 'index'])->name('pdf.index');
-Route::post('/upload', [PdfEditorController::class, 'upload'])->name('pdf.upload');
-Route::get('/editor', [PdfEditorController::class, 'editor'])->name('pdf.editor');
+
+
 Route::get('/s/{code}', [ShortUrlController::class, 'redirect'])->name('shorturls.redirect');
 
 Route::get('/', function () {
@@ -34,16 +36,11 @@ Route::get('/contact', function () {
     return view('front.contact');
 });
 
-Route::post('/save-qr', [QrCodeController::class, 'store'])->middleware('auth');
+Route::post('/save-qr', [QrCodeController::class, 'store']);
+
 Route::get('/my-qr-codes', [QrCodeController::class, 'index'])->middleware('auth')->name('qrcodes.index');
 Route::delete('/qrcodes/{id}', [QrCodeController::class, 'destroy'])->name('qrcodes.destroy');
-Route::get('/imagick-check', function () {
-    if (extension_loaded('imagick')) {
-        return 'Imagick is working in Laravel!';
-    } else {
-        return 'Imagick is NOT loaded in Laravel.';
-    }
-});
+
 
 
 

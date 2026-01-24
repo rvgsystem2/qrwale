@@ -11,6 +11,20 @@
                 </a>
             @endcan
 
+              @can('pulic business create')
+                <a href="{{ route('public.business.create') }}"
+                    class="px-5 py-2 bg-gradient-to-r from-[#c21108] to-[#000308] text-white font-semibold rounded-lg shadow-md hover:from-[#000308] hover:to-[#c21108] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c21108] transition duration-300 ease-in-out">
+                    + public link
+                </a>
+            @endcan
+
+               @can('pulic business request')
+                <a href="{{ route('admin.business_requests.index') }}"
+                    class="px-5 py-2 bg-gradient-to-r from-[#c21108] to-[#000308] text-white font-semibold rounded-lg shadow-md hover:from-[#000308] hover:to-[#c21108] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c21108] transition duration-300 ease-in-out">
+                    + Requests bussinenss
+                </a>
+            @endcan
+
         </div>
     </x-slot>
 

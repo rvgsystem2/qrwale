@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\BusinessApprovalController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\PdfEditorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicBusinessController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShortUrlController;
@@ -16,6 +18,18 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('/sitemap-generator', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::post('/sitemap-generator', [SitemapController::class, 'generate'])->name('sitemap.generate');
+Route::get('/apply-business',[PublicBusinessController::class,'create'])->name('public.business.create');
+Route::post('/apply-business',[PublicBusinessController::class,'store'])->name('public.business.store');
+Route::get('/admin/business-requests',[BusinessApprovalController::class,'index'])->name('admin.business_requests.index');
+Route::post('/admin/business-requests/{requestRow}/approve',[BusinessApprovalController::class,'approve'])->name('admin.business_requests.approve');
+Route::post('/admin/business-requests/{requestRow}/reject',[BusinessApprovalController::class,'reject'])->name('admin.business_requests.reject');
+Route::get('/apply-business/thanks', function () {
+    return view('public.thankyou');
+})->name('business.thanks');
+
+Route::delete('/admin/business-requests/{requestRow}',
+    [BusinessApprovalController::class,'destroy']
+)->name('admin.business_requests.destroy');
 
 
 Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');

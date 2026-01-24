@@ -51,10 +51,7 @@ class BusinessController extends Controller implements HasMiddleware
             'review' => 'nullable|string',
         ]);
 
-        // If rating is 2 or 5, redirect to review_url
-        // if ($request->rating == 2 || $request->rating == 5) {
-        //     return redirect()->to($business->review_url);
-        // }
+        
 
         // Save review in database
         $review = Review::create([

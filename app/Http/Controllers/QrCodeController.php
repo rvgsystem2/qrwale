@@ -24,6 +24,7 @@ class QrCodeController extends Controller
 
     return view('qrcodes.index', compact('qrcodes'));
 }
+
 public function store(Request $request)
 {
     $request->validate([

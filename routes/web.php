@@ -34,6 +34,7 @@ Route::delete('/admin/business-requests/{requestRow}',
 
 Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');
 Route::get('/shorturls/create', [ShortUrlController::class, 'create'])->name('shorturls.create');
+
 Route::post('/shorturls', [ShortUrlController::class, 'store'])->name('shorturls.store');
 Route::get('/shorturls/{shorturl}/edit', [ShortUrlController::class, 'edit'])->name('shorturls.edit');
 Route::put('/shorturls/{shorturl}', [ShortUrlController::class, 'update'])->name('shorturls.update');

@@ -25,7 +25,35 @@ class QrCodeController extends Controller
     return view('qrcodes.index', compact('qrcodes'));
 }
 
+
+
 public function store(Request $request)
+{
+    $data = $request->validate([
+        'url' => ['required', 'string', 'max:2048'], // ✅ url rule hata diya
+    ]);
+
+    $text      = trim($data['url']);
+    $sessionId = $request->session()->getId();
+    $userId    = Auth::check() ? Auth::id() : null;
+
+    $qr = QrCode::updateOrCreate(
+        [
+            'url'        => $text,
+            'session_id' => $sessionId,
+        ],
+        [
+            'user_id'    => $userId,
+            'ip_address' => $request->ip(),
+            'user_agent' => substr((string)$request->userAgent(), 0, 255),
+        ]
+    );
+
+    return response()->json(['success' => true, 'qr' => $qr]);
+}
+
+
+public function storeOdl(Request $request)
 {
     $request->validate([
         'url' => ['required','url','max:2048'],

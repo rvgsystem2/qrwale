@@ -437,8 +437,9 @@
                     <label class="text-sm font-semibold text-black">Enter Original URL</label>
 
                     <div class="mt-2 flex flex-col sm:flex-row gap-2">
-                        <input id="short-original-input" type="url" placeholder="https://example.com/page"
-                            class="w-full flex-1 px-4 py-3 rounded-2xl bg-black/10 border border-white/10 text-black placeholder:text-black/35 focus:border-red-400/40 focus:ring-4 focus:ring-red-500/10 transition" />
+                        <input id="short-original-input" type="text" placeholder="Enter anything (example.com / 27.0.0.1:8000 / hello)"
+  class="w-full flex-1 px-4 py-3 rounded-2xl bg-black/10 border border-white/10 text-black placeholder:text-black/35 focus:border-red-400/40 focus:ring-4 focus:ring-red-500/10 transition" />
+
 
                         <button id="short-generate-btn"
                             class="px-5 py-3 rounded-2xl bg-red-500 hover:bg-red-400 transition text-white font-extrabold disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2">
@@ -1783,14 +1784,16 @@
                 return;
             }
 
-            if (!isValidUrl(text)) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Invalid URL!',
-                    text: 'Please enter a URL like https://example.com'
-                });
-                return;
-            }
+
+
+            // if (!isValidUrl(text)) {
+            //     Swal.fire({
+            //         icon: 'warning',
+            //         title: 'Invalid URL!',
+            //         text: 'Please enter a URL like https://example.com'
+            //     });
+            //     return;
+            // }
 
             setLoading(true);
 
@@ -2040,135 +2043,110 @@
 
     {{-- sort ulr --}}
 
+<script>
+  const shortInput = document.getElementById('short-original-input');
+  const shortBtn = document.getElementById('short-generate-btn');
+  const shortBtnText = document.getElementById('short-btn-text');
+  const shortSpinner = document.getElementById('short-btn-spinner');
 
-    <script>
-        const shortInput = document.getElementById('short-original-input');
-        const shortBtn = document.getElementById('short-generate-btn');
-        const shortBtnText = document.getElementById('short-btn-text');
-        const shortSpinner = document.getElementById('short-btn-spinner');
+  const shortResultWrap = document.getElementById('short-result-wrap');
+  const shortResult = document.getElementById('short-result');
+  const shortCopyBtn = document.getElementById('short-copy-btn');
+  const shortOpenBtn = document.getElementById('short-open-btn');
 
-        const shortResultWrap = document.getElementById('short-result-wrap');
-        const shortResult = document.getElementById('short-result');
-        const shortCopyBtn = document.getElementById('short-copy-btn');
-        const shortOpenBtn = document.getElementById('short-open-btn');
+  function shortLoading(state) {
+    shortBtn.disabled = state;
+    shortSpinner.classList.toggle('hidden', !state);
+    shortBtnText.textContent = state ? 'Generating...' : 'Generate';
+  }
 
-        function shortLoading(state) {
-            shortBtn.disabled = state;
-            shortSpinner.classList.toggle('hidden', !state);
-            shortBtnText.textContent = state ? 'Generating...' : 'Generate';
-        }
+  // optional: auto add scheme for domain/ip; otherwise keep text as-is
+  function smartUrl(raw) {
+    let t = (raw || '').trim();
+    if (!t) return t;
 
-        function isValidUrl(str) {
-            try {
-                const u = new URL(str);
-                return u.protocol === "http:" || u.protocol === "https:";
-            } catch (e) {
-                return false;
-            }
-        }
+    if (/^https?:\/\//i.test(t)) return t;
 
-        async function generateShort() {
-            const url = (shortInput.value || '').trim();
+    // IP like 27.0.0.1:8000
+    if (/^(\d{1,3}\.){3}\d{1,3}(:\d+)?(\/.*)?$/i.test(t)) return 'http://' + t;
 
-            if (!url) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'URL required',
-                    text: 'Please enter a valid URL.'
-                });
-                return;
-            }
-            if (!isValidUrl(url)) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Invalid URL',
-                    text: 'Please enter a URL like https://example.com'
-                });
-                return;
-            }
+    // domain like example.com
+    if (/^[\w.-]+\.[a-z]{2,}(:\d+)?(\/.*)?$/i.test(t)) return 'https://' + t;
 
-            shortLoading(true);
+    return t; // keep as-is (hello, whatsapp:..., etc.)
+  }
 
-            try {
-                const res = await fetch('{{ route('shorturls.store') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
-                    },
-                    body: JSON.stringify({
-                        original_url: url
-                    })
-                });
+  async function generateShort() {
+    // ✅ only required: something typed
+    const originalText = (shortInput.value || '').trim();
+    if (!originalText) {
+      Swal.fire({ icon: 'warning', title: 'Required', text: 'Please enter something.' });
+      return;
+    }
 
-                const data = await res.json().catch(() => null);
+    // ✅ store value (smartUrl optional)
+    const payloadValue = smartUrl(originalText);
 
-                if (!res.ok || !data || !data.success) {
-                    const msg = (data && (data.message || data.error)) ? (data.message || data.error) :
-                        'Please try again.';
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed',
-                        text: msg
-                    });
-                    return;
-                }
+    shortLoading(true);
 
-                shortResult.value = data.short_url;
-                shortOpenBtn.href = data.short_url;
-                shortResultWrap.classList.remove('hidden');
+    try {
+      const res = await fetch("{{ route('shorturls.store') }}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+        },
+        body: JSON.stringify({ original_url: payloadValue }),
+      });
 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Short URL Ready!',
-                    text: 'Copied/Share your link now.',
-                    timer: 1200,
-                    showConfirmButton: false
-                });
+      const data = await res.json().catch(() => null);
 
-            } catch (e) {
-                console.error(e);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Something went wrong!',
-                    text: 'Could not create short URL.'
-                });
-            } finally {
-                shortLoading(false);
-            }
-        }
+      if (!res.ok || !data || !data.success) {
+        const msg = (data && (data.message || data.error)) ? (data.message || data.error) : "Please try again.";
+        Swal.fire({ icon: "error", title: "Failed", text: msg });
+        return;
+      }
 
-        shortBtn.addEventListener('click', generateShort);
-        shortInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                generateShort();
-            }
-        });
+      shortResult.value = data.short_url;
+      shortOpenBtn.href = data.short_url;
+      shortResultWrap.classList.remove("hidden");
 
-        shortCopyBtn.addEventListener('click', async () => {
-            const text = (shortResult.value || '').trim();
-            if (!text) return;
-            try {
-                await navigator.clipboard.writeText(text);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Copied!',
-                    text: 'Short URL copied.',
-                    timer: 900,
-                    showConfirmButton: false
-                });
-            } catch {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Copy not supported',
-                    text: 'Please copy manually.'
-                });
-            }
-        });
-    </script>
+      Swal.fire({
+        icon: "success",
+        title: "Short URL Ready!",
+        text: "Copied/Share your link now.",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    } catch (e) {
+      console.error(e);
+      Swal.fire({ icon: "error", title: "Something went wrong!", text: "Could not create short URL." });
+    } finally {
+      shortLoading(false);
+    }
+  }
+
+  shortBtn.addEventListener("click", generateShort);
+
+  shortInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      generateShort();
+    }
+  });
+
+  shortCopyBtn.addEventListener("click", async () => {
+    const text = (shortResult.value || '').trim();
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      Swal.fire({ icon: "success", title: "Copied!", text: "Short URL copied.", timer: 900, showConfirmButton: false });
+    } catch {
+      Swal.fire({ icon: "info", title: "Copy not supported", text: "Please copy manually." });
+    }
+  });
+</script>
 
 
 

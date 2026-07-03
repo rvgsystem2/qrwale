@@ -72,10 +72,10 @@
 <body class="text-black bg-hero min-h-screen">
 
     <!-- ================= NAVBAR ================= -->
-    <header x-data="{ open: false }" class="sticky top-0 z-50 border-b border-white/10 bg-[#2f4858]/20 backdrop-blur">
+    {{-- <header x-data="{ open: false }" class="sticky top-0 z-50 border-b border-white/10 bg-[#2f4858]/20 backdrop-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
             <a href="/" class="flex items-center gap-3">
-                <img src="{{ asset('logo.png') }}" class="h-10 w-10 rounded-xl bg-white p-1" alt="QRwale Logo">
+                <img src="{{ asset('asset/img/QR WALE LOGO.png') }}" class="rounded-xl bg-white p-1" alt="QRwale Logo">
                 <div class="leading-tight">
                     <div class="font-extrabold tracking-tight">QRwale</div>
                     <div class="text-xs text-black/60 -mt-0.5">By Real Victory Groups</div>
@@ -133,7 +133,98 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header> --}}
+
+
+    <!-- ================= NAVBAR ================= -->
+<header x-data="{ open: false }"
+    class="sticky top-0 z-50 border-b border-white/10 bg-white/80 backdrop-blur">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[76px] flex items-center justify-between gap-4">
+
+        <!-- LOGO -->
+        <a href="/" class="flex items-center shrink-0 min-w-0">
+            <img
+                src="{{ asset('asset/img/QR WALE LOGO.png') }}"
+                alt="QRwale Logo"
+                class="block h-11 sm:h-12 lg:h-14 w-auto max-w-[180px] sm:max-w-[230px] lg:max-w-[260px] object-contain rounded-xl bg-white p-1"
+            >
+        </a>
+
+        <!-- DESKTOP NAV + BUTTONS -->
+        <div class="hidden lg:flex items-center justify-end flex-1 min-w-0 gap-5">
+
+            <nav class="flex items-center gap-5 text-sm text-black/80 whitespace-nowrap">
+                <a href="#features" class="hover:text-black transition">Features</a>
+                <a href="#pricing" class="hover:text-black transition">Pricing</a>
+                <a href="#how" class="hover:text-black transition">How it works</a>
+                <a href="#faq" class="hover:text-black transition">FAQ</a>
+                <a href="#contact" class="hover:text-black transition">Contact</a>
+            </nav>
+
+            <div class="flex items-center gap-2 shrink-0 whitespace-nowrap">
+                <a href="/login"
+                    class="px-4 py-2 rounded-xl soft-border bg-white/5 hover:bg-white/10 transition text-sm font-semibold">
+                    Login
+                </a>
+
+                <a href="#generator"
+                    class="px-4 py-2 rounded-xl soft-border bg-white/5 hover:bg-white/10 transition text-sm font-semibold">
+                    Generate QR
+                </a>
+
+                <a href="/register"
+                    class="px-4 py-2 rounded-xl border border-red-400/40 text-red-900 bg-red-500/20 hover:bg-red-600/20 transition text-sm font-semibold">
+                    Register
+                </a>
+
+                <a href="tel:+917753800444"
+                    class="px-4 py-2 rounded-xl bg-red-500 hover:bg-red-400 transition text-sm font-extrabold text-white">
+                    Book Demo
+                </a>
+            </div>
+        </div>
+
+        <!-- MOBILE BUTTON -->
+        <button @click="open=!open"
+            class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl soft-border bg-white/5 hover:bg-white/10 shrink-0">
+            <span class="text-lg">☰</span>
+        </button>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div x-show="open" x-transition class="lg:hidden border-t border-white/10 bg-white/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-3 text-black/80 text-sm">
+            <a href="#features" class="block hover:text-black">Features</a>
+            <a href="#pricing" class="block hover:text-black">Pricing</a>
+            <a href="#how" class="block hover:text-black">How it works</a>
+            <a href="#faq" class="block hover:text-black">FAQ</a>
+            <a href="#contact" class="block hover:text-black">Contact</a>
+
+            <div class="pt-3 grid grid-cols-2 gap-3">
+                <a href="/login"
+                    class="px-4 py-2 rounded-xl soft-border bg-white/5 text-center font-semibold">
+                    Login
+                </a>
+
+                <a href="/register"
+                    class="px-4 py-2 rounded-xl bg-red-500 text-white text-center font-extrabold">
+                    Register
+                </a>
+
+                <a href="#generator"
+                    class="col-span-2 px-4 py-2 rounded-xl soft-border bg-white/5 text-center font-semibold">
+                    Generate QR
+                </a>
+
+                <a href="tel:+917753800444"
+                    class="col-span-2 px-4 py-2 rounded-xl bg-red-500 text-white text-center font-extrabold">
+                    Book Demo
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
 
     <!-- ================= HERO ================= -->
     {{-- <section class="relative">

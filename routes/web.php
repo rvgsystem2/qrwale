@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
+
+
 Route::get('/sitemap-generator', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::post('/sitemap-generator', [SitemapController::class, 'generate'])->name('sitemap.generate');
 Route::get('/apply-business',[PublicBusinessController::class,'create'])->name('public.business.create');
@@ -30,6 +32,11 @@ Route::get('/apply-business/thanks', function () {
 Route::delete('/admin/business-requests/{requestRow}',
     [BusinessApprovalController::class,'destroy']
 )->name('admin.business_requests.destroy');
+
+
+Route::get('/choudhary_traders', function () {
+    return view('business.choudhary_traders');
+})->name('choudhary');
 
 
 Route::get('/shorturls/index', [ShortUrlController::class, 'index'])->name('shorturls.index');
@@ -116,10 +123,10 @@ Route::middleware('auth')->group(function () {
     Route::get('businesses/edit/{business}',[BusinessController::class,'edit'])->name('business.edit');
     Route::post('businesses/update/{business}',[BusinessController::class,'update'])->name('business.update');
     Route::get('businesses/delete/{business}',[BusinessController::class,'delete'])->name('business.delete');
-   
 
 
-    
+
+
 });
 
 require __DIR__.'/auth.php';

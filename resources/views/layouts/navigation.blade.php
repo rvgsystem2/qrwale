@@ -40,6 +40,12 @@
                         <i class="fas fa-building mr-1"></i> Businesses
                     </x-nav-link>
                     @endcan
+
+                    @role('Super Admin')
+                    <x-nav-link :href="route('business-templates.index')" :active="request()->routeIs('business-templates.*')">
+                        <i class="fas fa-palette mr-1"></i> Templates
+                    </x-nav-link>
+                    @endrole
             
                     @can('view qrcodes')
                     <x-nav-link :href="route('qrcodes.index')" :active="request()->routeIs('qrcodes.index')">
@@ -144,6 +150,12 @@
                 <i class="fas fa-building mr-1"></i> Businesses
             </x-responsive-nav-link>
             @endcan
+
+            @role('Super Admin')
+            <x-responsive-nav-link :href="route('business-templates.index')" :active="request()->routeIs('business-templates.*')">
+                <i class="fas fa-palette mr-1"></i> Templates
+            </x-responsive-nav-link>
+            @endrole
         </div>
 
         <!-- Mobile Profile Section -->

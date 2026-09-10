@@ -7,6 +7,7 @@ use App\Mail\AdminReviewNotification;
 use App\Mail\BusinessReviewNotification;
 use App\Mail\ThankYouMail;
 use App\Models\Business;
+use App\Models\BusinessTemplate;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Validation\Rule;
 
 class BusinessController extends Controller implements HasMiddleware
 {
@@ -24,9 +25,9 @@ class BusinessController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('permission:view business', only:['index']),
-            new Middleware('permission:edit business', only:['edit']),
+            new Middleware('permission:edit business', only:['edit','update']),
             new Middleware('permission:delete business', only:['delete']),
-            new Middleware('permission:create business', only:['create']),
+            new Middleware('permission:create business', only:['create','store']),
         ];
     }
 
@@ -51,7 +52,7 @@ class BusinessController extends Controller implements HasMiddleware
             'review' => 'nullable|string',
         ]);
 
-        
+
 
         // Save review in database
         $review = Review::create([
@@ -84,18 +85,89 @@ class BusinessController extends Controller implements HasMiddleware
 
 
 
-    public function showQRPage($identifier)
+    public function showQRPageOld($identifier)
     {
         $business = Business::where('custum_url', $identifier)
             ->orWhere('id', $identifier)
             ->firstOrFail();
         // Increment scan count
         $business->increment('qr_scan_count');
+        $business->loadMissing('template');
+        if (!$business->template || !$business->template->is_active) {
+            $business->setRelation('template', BusinessTemplate::where('is_default', true)->first() ?? BusinessTemplate::where('is_active', true)->first());
+        }
         return view('business.qr_page', compact('business'));
     }
 
 
 
+
+    public function showQRPage($identifier)
+{
+    $business = Business::query()
+        ->with([
+            'template',
+
+            'products' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->orderByDesc('id');
+            },
+        ])
+        ->where(function ($query) use ($identifier) {
+            $query->where(
+                'custum_url',
+                $identifier
+            );
+
+            if (ctype_digit((string) $identifier)) {
+                $query->orWhere(
+                    'id',
+                    (int) $identifier
+                );
+            }
+        })
+        ->firstOrFail();
+
+    $business->increment('qr_scan_count');
+
+    if (
+        !$business->template ||
+        !$business->template->is_active
+    ) {
+        $defaultTemplate = BusinessTemplate::query()
+            ->where('is_active', true)
+            ->orderByDesc('is_default')
+            ->first();
+
+        $business->setRelation(
+            'template',
+            $defaultTemplate
+        );
+    }
+
+    $viewName = 'business.qr_page';
+
+    if (filled($business->template?->view_key)) {
+        $configuredView = config(
+            'business_templates.views.'
+                . $business->template->view_key
+                . '.view'
+        );
+
+        if (
+            $configuredView &&
+            view()->exists($configuredView)
+        ) {
+            $viewName = $configuredView;
+        }
+    }
+
+    return view(
+        $viewName,
+        compact('business')
+    );
+}
 
 
 
@@ -103,16 +175,14 @@ class BusinessController extends Controller implements HasMiddleware
     public function trackSocialClick(Request $request, $id)
 {
     $business = Business::findOrFail($id);
-    $platform = $request->platform; // Get platform name (fb_url, insta_url, etc.)
-
-    // Get existing click data
-    $clicks = $business->social_clicks ? json_decode($business->social_clicks, true) : [];
+    $platform = $request->validate(['platform'=>['required',Rule::in(['call','whatsapp','website','google','facebook','instagram','linkedin','twitter','youtube','review'])]])['platform'];
+    $clicks = $business->social_clicks ?? [];
 
     // Increment the count for the selected platform
     $clicks[$platform] = isset($clicks[$platform]) ? $clicks[$platform] + 1 : 1;
 
     // Update the database
-    $business->update(['social_clicks' => json_encode($clicks)]);
+    $business->update(['social_clicks' => $clicks]);
 
     return response()->json(['success' => true, 'clicks' => $clicks]);
 }
@@ -121,9 +191,9 @@ class BusinessController extends Controller implements HasMiddleware
 
     public function index() {
         if (auth()->user()->hasRole('Super Admin')) {
-            $businesses = Business::all(); // Show all businesses for Super Admin
+            $businesses = Business::with(['user','template'])->latest()->get();
         } else {
-            $businesses = Business::where('user_id', auth()->id())->get(); // Show only the user's businesses
+            $businesses = Business::with(['user','template'])->where('user_id', auth()->id())->latest()->get();
         }
 
         return view('business.index', compact('businesses'));
@@ -137,17 +207,47 @@ class BusinessController extends Controller implements HasMiddleware
         } else {
             $users = User::where('id', auth()->id())->get(); // Normal users only see themselves
         }
-        return view('business.create', compact('users'));
+        $templates = BusinessTemplate::where('is_active', true)->orderByDesc('is_default')->orderBy('name')->get();
+        return view('business.create', compact('users','templates'));
     }
 
-    public function edit(Business $business) {
-        if (auth()->user()->hasRole('Super Admin')) {
-            $users = User::all(); // Super Admin sees all users
-        } else {
-            $users = User::where('id', auth()->id())->get(); // Normal users only see themselves
-        }
-        return view('business.create', compact('business', 'users'));
+    public function edit(Business $business)
+{
+    if (
+        !auth()->user()->hasRole('Super Admin') &&
+        (int) $business->user_id !== (int) auth()->id()
+    ) {
+        abort(403, 'Unauthorized action.');
     }
+
+    if (auth()->user()->hasRole('Super Admin')) {
+        $users = User::orderBy('name')->get();
+    } else {
+        $users = User::where('id', auth()->id())->get();
+    }
+
+    $templates = BusinessTemplate::query()
+        ->where(function ($query) use ($business) {
+            $query->where('is_active', true);
+
+            // Inactive selected template bhi edit ke samay visible rahega
+            if ($business->business_template_id) {
+                $query->orWhere(
+                    'id',
+                    $business->business_template_id
+                );
+            }
+        })
+        ->orderByDesc('is_default')
+        ->orderBy('name')
+        ->get();
+
+    return view('business.create', compact(
+        'business',
+        'users',
+        'templates'
+    ));
+}
 
 
 
@@ -156,16 +256,15 @@ class BusinessController extends Controller implements HasMiddleware
         $data = $request->validated();
 
         // Assign user (selected user or logged-in user)
-        $data['user_id'] = $request->user_id ?? auth()->id();
+        $data['user_id'] = auth()->user()->hasRole('Super Admin') ? ($request->user_id ?? auth()->id()) : auth()->id();
 
         // Handle Logo Upload
         if ($request->hasFile('logo_img')) {
             $data['logo_img'] = $request->file('logo_img')->store('logos', 'public');
         }
 
-        Business::create($data);
-
-        return redirect()->route('business.index')->with('success', 'Business created successfully.');
+        $business = Business::create($data);
+        return redirect()->route('business.index')->with('success', 'Business created and logo QR generated successfully.');
     }
 
     public function update(BusinessRequest $request, Business $business) {
@@ -174,6 +273,7 @@ class BusinessController extends Controller implements HasMiddleware
         }
 
         $data = $request->validated();
+        if (!Auth::user()->hasRole('Super Admin')) $data['user_id'] = Auth::id();
 
 
         // Handle Logo Update
@@ -215,9 +315,9 @@ class BusinessController extends Controller implements HasMiddleware
     public function dashboard()
 {
     if (auth()->user()->hasRole('Super Admin')) {
-        $businesses = Business::all();
+        $businesses = Business::with('template')->get();
     } else {
-        $businesses = Business::where('user_id', auth()->id())->get();
+        $businesses = Business::with('template')->where('user_id', auth()->id())->get();
     }
 
     $totalBusinesses = $businesses->count();
@@ -227,7 +327,7 @@ class BusinessController extends Controller implements HasMiddleware
     // Sum all social clicks
     $totalSocialClicks = 0;
     foreach ($businesses as $business) {
-        $clicks = json_decode($business->social_clicks, true);
+        $clicks = $business->social_clicks;
         if (is_array($clicks)) {
             $totalSocialClicks += array_sum($clicks);
         }

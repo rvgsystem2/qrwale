@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BusinessApprovalController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\BusinessQrController;
+use App\Http\Controllers\BusinessTemplateController;
 use App\Http\Controllers\PdfEditorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
@@ -15,6 +17,7 @@ use App\Models\Business;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Http\Controllers\BusinessProductController;
 
 
 
@@ -28,6 +31,10 @@ Route::post('/admin/business-requests/{requestRow}/reject',[BusinessApprovalCont
 Route::get('/apply-business/thanks', function () {
     return view('public.thankyou');
 })->name('business.thanks');
+
+
+
+
 
 Route::delete('/admin/business-requests/{requestRow}',
     [BusinessApprovalController::class,'destroy']
@@ -66,8 +73,7 @@ Route::delete('/qrcodes/{id}', [QrCodeController::class, 'destroy'])->name('qrco
 
 
 
-
-    Route::post('/business/{id}/track-click', [BusinessController::class, 'trackSocialClick'])
+Route::post('/business/{id}/track-click', [BusinessController::class, 'trackSocialClick'])
     ->name('business.trackClick');
 
 
@@ -84,8 +90,60 @@ Route::post('/business/{id}/review', [BusinessController::class, 'submitReview']
 Route::get('/dashboard', [BusinessController::class, 'dashboard'])->middleware(['auth','verified'])->name('dashboard');
 
 
+
+
+
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get(
+        '/businesses/{business}/products',
+        [BusinessProductController::class, 'index']
+    )->name('business-products.index');
+
+    Route::get(
+        '/businesses/{business}/products/create',
+        [BusinessProductController::class, 'create']
+    )->name('business-products.create');
+
+    Route::post(
+        '/businesses/{business}/products',
+        [BusinessProductController::class, 'store']
+    )->name('business-products.store');
+
+    Route::get(
+        '/businesses/{business}/products/{product}/edit',
+        [BusinessProductController::class, 'edit']
+    )->name('business-products.edit');
+
+    Route::put(
+        '/businesses/{business}/products/{product}',
+        [BusinessProductController::class, 'update']
+    )->name('business-products.update');
+
+    Route::delete(
+        '/businesses/{business}/products/{product}',
+        [BusinessProductController::class, 'destroy']
+    )->name('business-products.destroy');
+});
+
+
+
+
 // Routes that require authentication
 Route::middleware('auth')->group(function () {
+    Route::get('businesses/{business}/qr/image', [BusinessQrController::class, 'image'])->name('business.qr.image');
+    Route::get('businesses/{business}/qr/download', [BusinessQrController::class, 'download'])->name('business.qr.download');
+
+    Route::get(
+    '/business-templates/preview-design/{viewKey}',
+    [BusinessTemplateController::class, 'previewDesign']
+)
+->where('viewKey', '[a-z0-9-]+')
+->name('business-templates.preview-design');
+    Route::resource('business-templates', BusinessTemplateController::class)->parameters(['business-templates'=>'businessTemplate'])->except(['show']);
+    Route::get('business-templates/{businessTemplate}/preview', [BusinessTemplateController::class, 'preview'])->name('business-templates.preview');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -122,7 +180,7 @@ Route::middleware('auth')->group(function () {
     Route::post('businesses/store',[BusinessController::class,'store'])->name('business.store');
     Route::get('businesses/edit/{business}',[BusinessController::class,'edit'])->name('business.edit');
     Route::post('businesses/update/{business}',[BusinessController::class,'update'])->name('business.update');
-    Route::get('businesses/delete/{business}',[BusinessController::class,'delete'])->name('business.delete');
+    Route::delete('businesses/delete/{business}',[BusinessController::class,'delete'])->name('business.delete');
 
 
 

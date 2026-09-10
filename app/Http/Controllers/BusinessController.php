@@ -102,7 +102,7 @@ class BusinessController extends Controller implements HasMiddleware
 
 
 
-    public function showQRPage($identifier)
+public function showQRPage($identifier)
 {
     $business = Business::query()
         ->with([
@@ -115,10 +115,7 @@ class BusinessController extends Controller implements HasMiddleware
             },
         ])
         ->where(function ($query) use ($identifier) {
-            $query->where(
-                'custum_url',
-                $identifier
-            );
+            $query->where('custum_url', $identifier);
 
             if (ctype_digit((string) $identifier)) {
                 $query->orWhere(
@@ -146,20 +143,27 @@ class BusinessController extends Controller implements HasMiddleware
         );
     }
 
+    /*
+     * यही आपका पुराना dynamic template है।
+     */
     $viewName = 'business.qr_page';
 
+    /*
+     * केवल HTML Design select होने पर
+     * Solar/Jewellery जैसे दूसरे Blade खुलेंगे।
+     */
     if (filled($business->template?->view_key)) {
-        $configuredView = config(
+        $selectedView = config(
             'business_templates.views.'
                 . $business->template->view_key
                 . '.view'
         );
 
         if (
-            $configuredView &&
-            view()->exists($configuredView)
+            filled($selectedView) &&
+            view()->exists($selectedView)
         ) {
-            $viewName = $configuredView;
+            $viewName = $selectedView;
         }
     }
 

@@ -318,7 +318,62 @@ private function validPreviewColor(
         )->with('previewMode', true);
     }
 
+
     private function data(
+    BusinessTemplateRequest $request
+): array {
+    $data = $request->validated();
+
+    $data['slug'] = Str::slug(
+        $data['slug']
+    );
+
+    $data['view_key'] = filled(
+        $request->input('view_key')
+    )
+        ? $request->input('view_key')
+        : null;
+
+    $data['is_active'] = $request->boolean(
+        'is_active'
+    );
+
+    $data['is_default'] = $request->boolean(
+        'is_default'
+    );
+
+    return $data;
+}
+
+
+
+private function resolveTemplateView(
+    BusinessTemplate $template
+): string {
+    /*
+     * Empty view_key = आपका पुराना qr_page template.
+     */
+    if (blank($template->view_key)) {
+        return 'business.qr_page';
+    }
+
+    $viewName = config(
+        'business_templates.views.'
+            . $template->view_key
+            . '.view'
+    );
+
+    if (
+        blank($viewName) ||
+        !view()->exists($viewName)
+    ) {
+        return 'business.qr_page';
+    }
+
+    return $viewName;
+}
+
+    private function dataOdls(
         BusinessTemplateRequest $request
     ): array {
         $data = $request->validated();
@@ -348,7 +403,7 @@ private function validPreviewColor(
         return $data;
     }
 
-    private function resolveTemplateView(
+    private function resolveTemplateViewOld(
         BusinessTemplate $template
     ): string {
         /*

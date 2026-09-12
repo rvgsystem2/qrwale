@@ -180,6 +180,7 @@
     </style>
 </head>
 
+
 {{-- <body class="solar-page-bg min-h-screen text-slate-800"> --}}
 
     <body

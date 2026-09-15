@@ -26,5 +26,10 @@ return [
             'name' => 'Solar Green',
             'view' => 'business.templates.solar',
         ],
+
+          'first' => [
+            'name' => 'First Template',
+            'view' => 'business.templates.first',
+        ],
     ],
 ];
